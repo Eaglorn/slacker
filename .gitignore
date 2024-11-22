@@ -4,3 +4,6 @@ out
 .DS_Store
 *.log*
 yarn.lock
+*.db
+*.db-journal
+git-sizer.exe
