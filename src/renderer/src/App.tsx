@@ -69,7 +69,7 @@ function App(): JSX.Element {
       </div>
       <Versions></Versions>
     </>
-  )
+
 }
 
 export default App
