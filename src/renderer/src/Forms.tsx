@@ -1,15 +1,40 @@
 import { ChangeEvent, useState } from 'react'
+import MySelect from './components/MySelect'
 
 function Forms(): JSX.Element {
-  const [name, setName] = useState<string>('')
+  const [inv, setInv] = useState<string>('')
+  const selectOptions = [
+    { id: 0, name: 'Тип 1' },
+    { id: 1, name: 'Тип 2' },
+    { id: 2, name: 'Тип 3' },
+    { id: 3, name: 'Не тип 1' },
+    { id: 4, name: 'Тест' }
+  ]
 
-  const onChangeInputName = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value)
+  const onChangeInputInv = (event: ChangeEvent<HTMLInputElement>) => {
+    setInv(event.target.value)
   }
 
+  const buttonClick = () => {}
+
   return (
-    <div className="container mx-auto bg-red-700 w-96 h-52">
-      <input type="text" value={name} onChange={onChangeInputName} className="text-black" />
+    <div className="flex h-screen items-center justify-center">
+      <div className="rounded-xl border-2 border-indigo-500 p-3">
+        <div className="container flex h-32 w-48 flex-col justify-between">
+          <div>
+            <input
+              type="text"
+              value={inv}
+              onChange={onChangeInputInv}
+              className="mt-2 w-full rounded-none border-2 border-teal-950"
+            />
+            <MySelect options={selectOptions} />
+          </div>
+        </div>
+        <button onClick={buttonClick} className="w-full rounded-xl border-2 border-teal-950">
+          Создать шаблон
+        </button>
+      </div>
     </div>
   )
 }

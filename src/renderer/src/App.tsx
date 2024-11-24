@@ -1,4 +1,4 @@
-import Versions from './components/Versions'
+import Versions from './components/MySelect'
 import electronLogo from './assets/electron.svg'
 import { types, getSnapshot } from 'mobx-state-tree'
 //import { observer } from 'mobx-react-lite'
