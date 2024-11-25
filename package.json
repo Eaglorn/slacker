@@ -20,12 +20,13 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
+    "docx-templates": "^4.13.0",
     "luxon": "^3.5.0",
     "mobx": "^6.13.5",
     "mobx-react-lite": "^4.0.7",
     "mobx-state-tree": "^7.0.0",
     "radash": "^12.1.0",
-    "react-router-dom": "^6.28.0",
+    "react-router-dom": "^7.0.1",
     "sass": "^1.81.0",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
@@ -35,7 +36,7 @@
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",
     "@electron-toolkit/eslint-config-ts": "^2.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
-    "@types/node": "^22.9.1",
+    "@types/node": "^22.9.3",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
@@ -47,10 +48,11 @@
     "eslint-plugin-react": "^7.37.2",
     "postcss": "^8.4.49",
     "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.15",
-    "typescript": "^5.6.3",
+    "typescript": "^5.7.2",
     "vite": "^5.4.11"
   }
 }

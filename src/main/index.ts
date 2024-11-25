@@ -4,12 +4,13 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 const sqlite3 = require('sqlite3').verbose()
 import { open } from 'sqlite'
+import fs from 'fs'
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 450,
+    height: 680,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -51,7 +52,21 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
+  ipcMain.on('do-a-thing', async (event, ...args) => {
+    const template = fs.readFileSync('myTemplate.docx')
+
+    const buffer = await require('docx-templates').createReport({
+      template,
+      data: {
+        inv: args[0],
+        inputValue: args[1]
+      },
+      cmdDelimiter: ['{', '}']
+    })
+
+    fs.writeFileSync('report.docx', buffer)
+  })
+
   ipcMain.on('ping', async () => {
     try {
       const db = await open({

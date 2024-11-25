@@ -2,13 +2,13 @@ import './assets/main.scss'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
+import Forms from './Forms'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 
 const router = createHashRouter([
   {
     path: '/',
-    element: <App />,
+    element: <Forms />,
     children: []
   }
 ])

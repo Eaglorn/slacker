@@ -9,5 +9,11 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "files.eol": "\r\n"
+  "files.eol": "\r\n",
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "files.associations": {
+    "*.scss": "tailwindcss"
+  }
 }
