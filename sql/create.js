@@ -6,7 +6,15 @@ const request = async function () {
     filename: './database.db',
     driver: sqlite3.Database
   })
-  await db.exec('CREATE TABLE types (id INTEGER, name TEXT, PRIMARY KEY(id))')
+  await db.exec('CREATE TABLE managers (id INTEGER, name TEXT, PRIMARY KEY(id))')
+  await db.exec(
+    'CREATE TABLE types (' +
+      'id INTEGER,' +
+      'name TEXT,' +
+      'harwares_id Integer,' +
+      'FOREIGN KEY (hardwares_id) REFERENCES hardwares(id),' +
+      'PRIMARY KEY(id))'
+  )
   await db.exec('CREATE TABLE suppliers (id INTEGER, name TEXT, PRIMARY KEY(id))')
   await db.exec(
     'CREATE TABLE equipments (' +
@@ -39,6 +47,15 @@ const request = async function () {
       'PRIMARY KEY(id)' +
       ')'
   )
+  await db.exec(
+    'CREATE TABLE faults (' +
+      'id INTEGER,' +
+      'name TEXT,' +
+      'harwares_id Integer,' +
+      'FOREIGN KEY (hardwares_id) REFERENCES hardwares(id),' +
+      'PRIMARY KEY(id))'
+  )
+  await db.exec('CREATE TABLE hardwares (id INTEGER, name TEXT, PRIMARY KEY(id))')
   db.close()
 }
 

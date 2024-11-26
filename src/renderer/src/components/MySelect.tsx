@@ -17,6 +17,7 @@ function MySelect(props: Readonly<SelectProps>): JSX.Element {
   const [inputValue, setInputValue] = useState<string>('')
   const [filteredList, setFilteredList] = useState<Option[]>([])
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1)
   const dropdownRef = useRef<HTMLUListElement | null>(null)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +57,21 @@ function MySelect(props: Readonly<SelectProps>): JSX.Element {
     }
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'ArrowDown') {
+      setSelectedIndex((prevIndex) => Math.min(prevIndex + 1, options.length - 1))
+    } else if (event.key === 'ArrowUp') {
+      setSelectedIndex((prevIndex) => Math.max(prevIndex - 1, 0))
+    } else if (event.key === 'Enter') {
+      if (selectedIndex >= 0) {
+        setInputValue(options[selectedIndex].name)
+        setIsDropdownOpen(false)
+      }
+    } else if (event.key === 'Escape') {
+      setIsDropdownOpen(false)
+    }
+  }
+
   return (
     <>
       <input
@@ -65,6 +81,7 @@ function MySelect(props: Readonly<SelectProps>): JSX.Element {
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
       />
       {isDropdownOpen && filteredList.length > 0 && (
         <ul
@@ -73,7 +90,11 @@ function MySelect(props: Readonly<SelectProps>): JSX.Element {
         >
           {filteredList.map((option) => (
             <li key={option.id} className="mt-1 cursor-pointer hover:bg-gray-200">
-              <button onClick={() => handleSelect(option)} className="w-full text-left">
+              <button
+                onClick={() => handleSelect(option)}
+                onMouseEnter={() => setSelectedIndex(option.id)}
+                className={`w-full cursor-pointer p-2 text-left ${selectedIndex === option.id ? 'bg-blue-500 text-white' : ''}`}
+              >
                 {option.name}
               </button>
             </li>
