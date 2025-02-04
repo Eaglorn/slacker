@@ -70,7 +70,7 @@
                         </Tab>
                     </tabs>
                   </TabPane>
-                  <Button fx:id="butt" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="25.0" prefWidth="47.0" text="Button" />
+                  <Button fx:id="butt" contentDisplay="RIGHT" layoutX="777.0" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="25.0" prefWidth="120.0" text="Создать таблицу" />
                </children>
             </AnchorPane>
          </content>

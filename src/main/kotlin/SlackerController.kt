@@ -12,11 +12,11 @@ import org.controlsfx.control.tableview2.TableView2
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class SlackerController {
+class SlackerController() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML
-    private var maker: TableView2<MakerTable>? = null
+    private lateinit var maker: TableView2<MakerTable>
     private var data: ObservableList<MakerTable>? = null
 
     @FXML
@@ -32,10 +32,11 @@ class SlackerController {
         columnName.prefWidth = 100.0
         columnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
 
-        maker?.columns?.add(columnId)
-        maker?.columns?.add(columnName)
+        maker.columns?.add(columnId)
+        maker.columns?.add(columnName)
         data = generateData(1000)
-        maker?.items = data
+        maker.items = data
+        SqliteDatabase().connect()
     }
 
     private fun generateData(value: Int): ObservableList<MakerTable> {
