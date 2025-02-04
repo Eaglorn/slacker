@@ -9,6 +9,10 @@ import javafx.fxml.FXML
 import javafx.scene.control.Button
 import org.controlsfx.control.tableview2.TableColumn2
 import org.controlsfx.control.tableview2.TableView2
+import org.ktorm.dsl.*
+import org.ktorm.entity.find
+import org.ktorm.entity.forEach
+import org.ktorm.entity.sequenceOf
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -36,7 +40,41 @@ class SlackerController() {
         maker.columns?.add(columnName)
         data = generateData(1000)
         maker.items = data
-        SqliteDatabase().connect()
+        val database = SqliteDatabase().connect()
+        database.useConnection { conn ->
+            val tableExists = conn.createStatement().executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='maker'").next()
+
+            if (!tableExists) {
+                conn.createStatement().executeUpdate(
+                    """
+                CREATE TABLE maker (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL
+                )
+                """.trimIndent()
+                )
+                println("Table 'maker' create.")
+            } else {
+                println("Table 'maker' have.")
+            }
+        }
+
+        database.insert(Makers) {
+            set(Makers.name, "HP")
+        }
+        database.insert(Makers) {
+            set(Makers.name, "Xerox")
+        }
+        database.insert(Makers) {
+            set(Makers.name, "Phantum")
+        }
+
+        val query = database.from(Makers).select()
+
+        query
+            .where { Makers.name eq "HP" }
+            .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+            .forEach { println(it) }
     }
 
     private fun generateData(value: Int): ObservableList<MakerTable> {

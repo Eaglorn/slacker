@@ -7,7 +7,7 @@ import org.slf4j.Logger
 import org.ktorm.schema.int
 import org.ktorm.schema.varchar
 
-data class Maker(val id: Int, val name: String)
+data class Maker(val id: Int?, val name: String?)
 
 object Makers : BaseTable<Maker>("maker") {
     val id = int("id").primaryKey()
@@ -21,7 +21,6 @@ object Makers : BaseTable<Maker>("maker") {
 
 class SqliteDatabase {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-
 
     fun connect(): Database {
         return Database.connect(
