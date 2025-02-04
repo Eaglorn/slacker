@@ -1,15 +1,15 @@
 import com.deepoove.poi.XWPFTemplate
-import javafx.beans.Observable
+import db.Maker
+import db.Makers
 import javafx.beans.property.IntegerProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.property.StringProperty
-import javafx.collections.FXCollections
-import javafx.collections.ObservableList
 import javafx.event.Event
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.TextField
+import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import javafx.stage.Window
 import org.controlsfx.control.tableview2.TableColumn2
@@ -22,19 +22,14 @@ import org.slf4j.LoggerFactory
 class SlackerController() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML
-    private lateinit var buttonLoadDatabase: Button
-    @FXML
-    private lateinit var fieldLoadDatabase: TextField
 
-    @FXML
-    private lateinit var maker: TableView2<MakerTable>
-    @FXML
-    private lateinit var makerColumnId: TableColumn2<MakerTable, String>
-    @FXML
-    private lateinit var makerColumnName: TableColumn2<MakerTable, String>
+    @FXML private lateinit var buttonLoadDatabase: Button
+    @FXML private lateinit var fieldLoadDatabase: TextField
 
-    private var data: ObservableList<MakerTable>? = null
+
+    @FXML private lateinit var maker: TableView2<MakerTable>
+    @FXML private lateinit var makerColumnId: TableColumn2<MakerTable, String>
+    @FXML private lateinit var makerColumnName: TableColumn2<MakerTable, String>
 
     @FXML
     private fun onButtonClickLoadSetting(e: Event) {
@@ -42,17 +37,13 @@ class SlackerController() {
     }
 
     private fun openFileChooser(stage: Window) {
-        val fileChooser = FileChooser()
-        fileChooser.title = "Выберите файл"
-        fileChooser.extensionFilters.addAll(
-            //FileChooser.ExtensionFilter("DB", "*.db"),
-            FileChooser.ExtensionFilter("DOCX", "*.docx"),
-        )
+        val directoryChooser = DirectoryChooser()
+        directoryChooser.title = "Каталог с базой и шаблонами"
 
-        val selectedFile = fileChooser.showOpenDialog(stage)
-        if (selectedFile != null) {
-            fieldLoadDatabase.text = selectedFile.absolutePath
-            XWPFTemplate.compile(selectedFile.absolutePath).render(object : HashMap<String?, Any?>() {
+        val selectedDirectory = directoryChooser.showDialog(stage)
+        if (selectedDirectory != null) {
+            fieldLoadDatabase.text = selectedDirectory.absolutePath
+            XWPFTemplate.compile(selectedDirectory.absolutePath + "\\template.docx").render(object : HashMap<String?, Any?>() {
                 init {
                     put("id", "Идентификатор")
                     put("name", "Имя")
@@ -65,28 +56,12 @@ class SlackerController() {
     private fun onButtonClick() {
         makerColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
         makerColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
-        data = generateData(1000)
-        maker.items = data
         val database = SqliteDatabase().connect()
         database.useConnection { conn ->
-            val tableExists = conn.createStatement().executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='maker'").next()
-
-            if (!tableExists) {
-                conn.createStatement().executeUpdate(
-                    """
-                CREATE TABLE maker (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL
-                )
-                """.trimIndent()
-                )
-                println("Table 'maker' create.")
-            } else {
-                println("Table 'maker' have.")
-            }
+            Maker.createDatabase(conn)
         }
 
-        database.insert(Makers) {
+        /*database.insert(Makers) {
             set(Makers.name, "HP")
         }
         database.insert(Makers) {
@@ -94,35 +69,13 @@ class SlackerController() {
         }
         database.insert(Makers) {
             set(Makers.name, "Phantum")
-        }
+        }*/
 
         val query = database.from(Makers).select()
 
         query
-            .where { Makers.name eq "HP" }
             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
             .forEach { println(it) }
-    }
-
-    private fun generateData(value: Int): ObservableList<MakerTable> {
-        val persons: ObservableList<MakerTable> =
-            FXCollections.observableArrayList { e: MakerTable ->
-                arrayOf<Observable>(
-                    e.idProperty(),
-                    e.nameProperty()
-                )
-            }
-
-        for (i in 0..<value) {
-            persons.add(
-                    MakerTable(
-                        i,
-                        (i * 145).toString()
-                    )
-            )
-        }
-
-        return persons
     }
 }
 
