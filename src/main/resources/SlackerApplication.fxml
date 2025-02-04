@@ -1,15 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import org.controlsfx.control.tableview2.TableView2?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SlackerApplication">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-
-    <Label fx:id="welcomeText" />
-    <Button onAction="#onHelloButtonClick" text="Hello!" />
-</VBox>
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="694.0" prefWidth="914.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SlackerController">
+  <tabs>
+    <Tab text="Главная">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+    </Tab>
+    <Tab text="Списание">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+    </Tab>
+      <Tab text="Экспертиза">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+         </content>
+      </Tab>
+      <Tab text="База Данных">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TabPane prefHeight="665.0" prefWidth="914.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Производитель">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView2 fx:id="maker" prefHeight="637.0" prefWidth="914.0" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab text="Тип оборудования">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
+                        </content>
+                      </Tab>
+                        <Tab text="Модель">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
+                           </content>
+                        </Tab>
+                        <Tab text="Тип запроса">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
+                           </content>
+                        </Tab>
+                        <Tab text="Адрес">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
+                           </content>
+                        </Tab>
+                        <Tab text="Руководитель">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
+                           </content>
+                        </Tab>
+                        <Tab text="Составитель">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+                  <Button fx:id="butt" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="25.0" prefWidth="47.0" text="Button" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>

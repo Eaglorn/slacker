@@ -1,9 +1,11 @@
 val kotlin_version = "2.1.10"
 val kotlinx_coroutines_version = "1.10.1"
 val ktorm_version = "4.1.1"
-val sqlite_jdbc = "3.48.0.0"
-val controls_fx = "11.2.1"
-val tiles_fx = "21.0.9"
+val sqlite_jdbc_version = "3.48.0.0"
+val controls_fx_version = "11.2.1"
+val tiles_fx_version = "21.0.9"
+val log4j_version = "2.24.3"
+val disruptor_version = "4.0.0"
 
 plugins {
     id("java")
@@ -32,11 +34,15 @@ kotlin {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinx_coroutines_version}")
-    implementation("org.controlsfx:controlsfx:${controls_fx}")
-    implementation("eu.hansolo:tilesfx:${tiles_fx}")
+    implementation("org.controlsfx:controlsfx:${controls_fx_version}")
+    implementation("eu.hansolo:tilesfx:${tiles_fx_version}")
     implementation("org.ktorm:ktorm-core:${ktorm_version}")
     implementation("org.ktorm:ktorm-support-sqlite:${ktorm_version}")
-    implementation("org.xerial:sqlite-jdbc:${sqlite_jdbc}")
+    implementation("org.xerial:sqlite-jdbc:${sqlite_jdbc_version}")
+    implementation("org.apache.logging.log4j:log4j-api:${log4j_version}")
+    implementation("org.apache.logging.log4j:log4j-core:${log4j_version}")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}")
+    implementation("com.lmax:disruptor:${disruptor_version}")
 }
 
 javafx {
