@@ -4,15 +4,21 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import org.controlsfx.control.tableview2.TableColumn2?>
 <?import org.controlsfx.control.tableview2.TableView2?>
+<?import org.controlsfx.control.textfield.CustomTextField?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="694.0" prefWidth="914.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SlackerController">
   <tabs>
-    <Tab text="Главная">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </Tab>
+      <Tab text="Настройки">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="buttonLoadDatabase" layoutX="500.0" layoutY="14.0" mnemonicParsing="false" onAction="#onButtonClickLoadSetting" text="Выбрать базу данных" />
+                  <CustomTextField fx:id="fieldLoadDatabase" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="470.0" />
+               </children></AnchorPane>
+         </content>
+      </Tab>
     <Tab text="Списание">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
@@ -33,7 +39,11 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TableView2 fx:id="maker" prefHeight="637.0" prefWidth="914.0" />
+                                    <TableView2 fx:id="maker" prefHeight="637.0" prefWidth="914.0">
+                                       <columns>
+                                          <TableColumn2 fx:id="makerColumnId" prefWidth="75.0" text="id" />
+                                          <TableColumn2 fx:id="makerColumnName" prefWidth="75.0" text="name" />
+                                       </columns></TableView2>
                                  </children>
                               </AnchorPane>
                         </content>
@@ -70,7 +80,7 @@
                         </Tab>
                     </tabs>
                   </TabPane>
-                  <Button fx:id="butt" contentDisplay="RIGHT" layoutX="777.0" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="25.0" prefWidth="120.0" text="Создать таблицу" />
+                  <Button contentDisplay="RIGHT" layoutX="777.0" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="25.0" prefWidth="120.0" text="Создать таблицу" />
                </children>
             </AnchorPane>
          </content>

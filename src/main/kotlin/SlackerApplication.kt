@@ -24,10 +24,6 @@ class SlackerApplication : Application() {
             }
         }
     }
-
-    fun onHelloButtonClick(actionEvent: ActionEvent) {
-
-    }
 }
 
 fun main() {

@@ -1,3 +1,4 @@
+import com.deepoove.poi.XWPFTemplate
 import javafx.beans.Observable
 import javafx.beans.property.IntegerProperty
 import javafx.beans.property.SimpleIntegerProperty
@@ -5,39 +6,65 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.beans.property.StringProperty
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
+import javafx.event.Event
 import javafx.fxml.FXML
 import javafx.scene.control.Button
+import javafx.scene.control.TextField
+import javafx.stage.FileChooser
+import javafx.stage.Window
 import org.controlsfx.control.tableview2.TableColumn2
 import org.controlsfx.control.tableview2.TableView2
 import org.ktorm.dsl.*
-import org.ktorm.entity.find
-import org.ktorm.entity.forEach
-import org.ktorm.entity.sequenceOf
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
 
 class SlackerController() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML
+    private lateinit var buttonLoadDatabase: Button
+    @FXML
+    private lateinit var fieldLoadDatabase: TextField
+
+    @FXML
     private lateinit var maker: TableView2<MakerTable>
+    @FXML
+    private lateinit var makerColumnId: TableColumn2<MakerTable, String>
+    @FXML
+    private lateinit var makerColumnName: TableColumn2<MakerTable, String>
+
     private var data: ObservableList<MakerTable>? = null
 
     @FXML
-    private lateinit var butt: Button
+    private fun onButtonClickLoadSetting(e: Event) {
+        openFileChooser(buttonLoadDatabase.scene.window)
+    }
+
+    private fun openFileChooser(stage: Window) {
+        val fileChooser = FileChooser()
+        fileChooser.title = "Выберите файл"
+        fileChooser.extensionFilters.addAll(
+            //FileChooser.ExtensionFilter("DB", "*.db"),
+            FileChooser.ExtensionFilter("DOCX", "*.docx"),
+        )
+
+        val selectedFile = fileChooser.showOpenDialog(stage)
+        if (selectedFile != null) {
+            fieldLoadDatabase.text = selectedFile.absolutePath
+            XWPFTemplate.compile(selectedFile.absolutePath).render(object : HashMap<String?, Any?>() {
+                init {
+                    put("id", "Идентификатор")
+                    put("name", "Имя")
+                }
+            }).writeToFile("out_template.docx")
+        }
+    }
 
     @FXML
     private fun onButtonClick() {
-        val columnId: TableColumn2<MakerTable, String> = TableColumn2("id")
-        columnId.prefWidth = 100.0
-        columnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
-
-        val columnName: TableColumn2<MakerTable, String> = TableColumn2("name")
-        columnName.prefWidth = 100.0
-        columnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
-
-        maker.columns?.add(columnId)
-        maker.columns?.add(columnName)
+        makerColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
+        makerColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
         data = generateData(1000)
         maker.items = data
         val database = SqliteDatabase().connect()
