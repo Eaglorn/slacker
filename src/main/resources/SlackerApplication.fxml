@@ -14,8 +14,10 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="buttonLoadDatabase" layoutX="500.0" layoutY="14.0" mnemonicParsing="false" onAction="#onButtonClickLoadSetting" text="Выбрать базу данных" />
                   <CustomTextField fx:id="fieldLoadDatabase" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="470.0" />
+                  <Button fx:id="buttonLoadDatabase" layoutX="500.0" layoutY="14.0" mnemonicParsing="false" onAction="#onButtonClickLoadDataBase" text="Выбрать базу данных" />
+                  <CustomTextField fx:id="fieldLoadTemplates" editable="false" layoutX="14.0" layoutY="50.0" prefHeight="25.0" prefWidth="470.0" />
+                  <Button fx:id="buttonLoadTemplates" layoutX="500.0" layoutY="50.0" mnemonicParsing="false" onAction="#onButtonClickLoadTemplates" text="Выбрать каталог с шаблонами" />
                </children></AnchorPane>
          </content>
       </Tab>
@@ -39,10 +41,10 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TableView2 fx:id="maker" prefHeight="637.0" prefWidth="914.0">
+                                    <TableView2 fx:id="tableMaker" prefHeight="637.0" prefWidth="914.0">
                                        <columns>
-                                          <TableColumn2 fx:id="makerColumnId" prefWidth="75.0" text="id" />
-                                          <TableColumn2 fx:id="makerColumnName" prefWidth="75.0" text="name" />
+                                          <TableColumn2 fx:id="tableMakerColumnId" prefWidth="75.0" text="id" />
+                                          <TableColumn2 fx:id="tableMakerColumnName" prefWidth="75.0" text="name" />
                                        </columns></TableView2>
                                  </children>
                               </AnchorPane>

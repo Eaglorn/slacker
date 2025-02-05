@@ -1,10 +1,8 @@
 import com.deepoove.poi.XWPFTemplate
 import db.Maker
+import db.MakerTable
 import db.Makers
-import javafx.beans.property.IntegerProperty
-import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.beans.property.StringProperty
 import javafx.event.Event
 import javafx.fxml.FXML
 import javafx.scene.control.Button
@@ -18,96 +16,56 @@ import org.ktorm.dsl.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-
 class SlackerController() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-
-    @FXML private lateinit var buttonLoadDatabase: Button
     @FXML private lateinit var fieldLoadDatabase: TextField
+    @FXML private lateinit var buttonLoadDatabase: Button
 
+    @FXML private lateinit var fieldLoadTemplates: TextField
+    @FXML private lateinit var buttonLoadTemplates: Button
 
-    @FXML private lateinit var maker: TableView2<MakerTable>
-    @FXML private lateinit var makerColumnId: TableColumn2<MakerTable, String>
-    @FXML private lateinit var makerColumnName: TableColumn2<MakerTable, String>
+    @FXML private lateinit var tableMaker: TableView2<MakerTable>
+    @FXML private lateinit var tableMakerColumnId: TableColumn2<MakerTable, String>
+    @FXML private lateinit var tableMakerColumnName: TableColumn2<MakerTable, String>
 
     @FXML
-    private fun onButtonClickLoadSetting(e: Event) {
-        openFileChooser(buttonLoadDatabase.scene.window)
+    private fun onButtonClickLoadDataBase(e: Event) {
+        val fileChooser = FileChooser()
+        fileChooser.title = "Файл базы данных"
+
+        val selectedFile = fileChooser.showOpenDialog(buttonLoadDatabase.scene.window)
+        if (selectedFile != null) {
+            fieldLoadDatabase.text = selectedFile.absolutePath
+        }
     }
 
-    private fun openFileChooser(stage: Window) {
+    @FXML
+    private fun onButtonClickLoadTemplates(e: Event) {
         val directoryChooser = DirectoryChooser()
-        directoryChooser.title = "Каталог с базой и шаблонами"
+        directoryChooser.title = "Каталог c шаблонами"
 
-        val selectedDirectory = directoryChooser.showDialog(stage)
+        val selectedDirectory = directoryChooser.showDialog(buttonLoadDatabase.scene.window)
         if (selectedDirectory != null) {
-            fieldLoadDatabase.text = selectedDirectory.absolutePath
-            XWPFTemplate.compile(selectedDirectory.absolutePath + "\\template.docx").render(object : HashMap<String?, Any?>() {
-                init {
-                    put("id", "Идентификатор")
-                    put("name", "Имя")
-                }
-            }).writeToFile("out_template.docx")
+            fieldLoadTemplates.text = selectedDirectory.absolutePath
         }
     }
 
     @FXML
     private fun onButtonClick() {
-        makerColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
-        makerColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
+        tableMakerColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
+        tableMakerColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
         val database = SqliteDatabase().connect()
         database.useConnection { conn ->
             Maker.createDatabase(conn)
         }
 
-        /*database.insert(Makers) {
-            set(Makers.name, "HP")
-        }
-        database.insert(Makers) {
-            set(Makers.name, "Xerox")
-        }
-        database.insert(Makers) {
-            set(Makers.name, "Phantum")
-        }*/
-
         val query = database.from(Makers).select()
 
         query
             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-            .forEach { println(it) }
-    }
-}
-
-class MakerTable() {
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-
-    private var id: IntegerProperty? = null
-    fun setId(value: Int) {
-        idProperty().set(value)
-    }
-    fun getId(): Int {
-        return idProperty().get()
-    }
-    fun idProperty(): IntegerProperty {
-        if (id == null) id = SimpleIntegerProperty(this, "0")
-        return id as IntegerProperty
-    }
-
-    private var name: StringProperty? = null
-    fun setName(value: String) {
-        nameProperty().set(value)
-    }
-    fun getName(): String {
-        return nameProperty().get()
-    }
-    fun nameProperty(): StringProperty {
-        if (name == null) name = SimpleStringProperty(this, "")
-        return name as StringProperty
-    }
-
-    constructor(id: Int, name: String) : this() {
-        this.setId(id)
-        this.setName(name)
+            .forEach {
+                tableMaker.items.add(MakerTable(it.id, it.name))
+            }
     }
 }

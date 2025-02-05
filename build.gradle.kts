@@ -7,6 +7,7 @@ val tiles_fx_version = "21.0.9"
 val log4j_version = "2.24.3"
 val disruptor_version = "4.0.0"
 val poi_tl_version = "1.12.2"
+val gson_vesrion = "2.11.1"
 
 plugins {
     id("java")
@@ -45,6 +46,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}")
     implementation("com.lmax:disruptor:${disruptor_version}")
     implementation("com.deepoove:poi-tl:${poi_tl_version}")
+    implementation("com.google.code.gson:gson:${gson_vesrion}")
 }
 
 javafx {
