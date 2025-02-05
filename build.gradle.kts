@@ -7,7 +7,7 @@ val tiles_fx_version = "21.0.9"
 val log4j_version = "2.24.3"
 val disruptor_version = "4.0.0"
 val poi_tl_version = "1.12.2"
-val gson_vesrion = "2.11.1"
+val gson_vesrion = "2.12.1"
 
 plugins {
     id("java")

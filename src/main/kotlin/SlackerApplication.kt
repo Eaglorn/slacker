@@ -17,7 +17,7 @@ class SlackerApplication : Application() {
             launch {
                 val fxmlLoader = FXMLLoader(SlackerApplication::class.java.getResource("SlackerApplication.fxml"))
                 val scene = Scene(fxmlLoader.load())
-                stage.title = "Slacker!"
+                stage.title = "Slacker"
                 stage.scene = scene
                 stage.show()
             }

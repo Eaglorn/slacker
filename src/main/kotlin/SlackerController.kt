@@ -1,4 +1,3 @@
-import com.deepoove.poi.XWPFTemplate
 import db.Maker
 import db.MakerTable
 import db.Makers
@@ -6,10 +5,10 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.event.Event
 import javafx.fxml.FXML
 import javafx.scene.control.Button
+import javafx.scene.control.Tab
 import javafx.scene.control.TextField
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
-import javafx.stage.Window
 import org.controlsfx.control.tableview2.TableColumn2
 import org.controlsfx.control.tableview2.TableView2
 import org.ktorm.dsl.*
@@ -18,6 +17,10 @@ import org.slf4j.LoggerFactory
 
 class SlackerController() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
+    @FXML private lateinit var tabWriteOff: Tab
+    @FXML private lateinit var tabExpertise: Tab
+    @FXML private lateinit var tabDataBase: Tab
 
     @FXML private lateinit var fieldLoadDatabase: TextField
     @FXML private lateinit var buttonLoadDatabase: Button
@@ -33,6 +36,9 @@ class SlackerController() {
     private fun onButtonClickLoadDataBase(e: Event) {
         val fileChooser = FileChooser()
         fileChooser.title = "Файл базы данных"
+        fileChooser.extensionFilters.addAll(
+            FileChooser.ExtensionFilter("DataBase", "*.db"),
+        )
 
         val selectedFile = fileChooser.showOpenDialog(buttonLoadDatabase.scene.window)
         if (selectedFile != null) {
@@ -45,10 +51,17 @@ class SlackerController() {
         val directoryChooser = DirectoryChooser()
         directoryChooser.title = "Каталог c шаблонами"
 
-        val selectedDirectory = directoryChooser.showDialog(buttonLoadDatabase.scene.window)
+        val selectedDirectory = directoryChooser.showDialog(buttonLoadTemplates.scene.window)
         if (selectedDirectory != null) {
             fieldLoadTemplates.text = selectedDirectory.absolutePath
         }
+    }
+
+    @FXML
+    private fun onButtonLoadApp() {
+        tabWriteOff.disableProperty().set(false)
+        tabExpertise.disableProperty().set(false)
+        tabDataBase.disableProperty().set(false)
     }
 
     @FXML
@@ -67,5 +80,6 @@ class SlackerController() {
             .forEach {
                 tableMaker.items.add(MakerTable(it.id, it.name))
             }
+        Config.load()
     }
 }
