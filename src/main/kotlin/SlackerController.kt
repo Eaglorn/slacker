@@ -18,19 +18,23 @@ import org.slf4j.LoggerFactory
 class SlackerController() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML private lateinit var tabWriteOff: Tab
-    @FXML private lateinit var tabExpertise: Tab
-    @FXML private lateinit var tabDataBase: Tab
+    @FXML lateinit var tabWriteOff: Tab
+    @FXML lateinit var tabExpertise: Tab
+    @FXML lateinit var tabDataBase: Tab
 
-    @FXML private lateinit var fieldLoadDatabase: TextField
-    @FXML private lateinit var buttonLoadDatabase: Button
+    @FXML lateinit var fieldLoadDatabase: TextField
+    @FXML lateinit var buttonLoadDatabase: Button
 
-    @FXML private lateinit var fieldLoadTemplates: TextField
-    @FXML private lateinit var buttonLoadTemplates: Button
+    @FXML lateinit var fieldLoadTemplates: TextField
+    @FXML lateinit var buttonLoadTemplates: Button
 
-    @FXML private lateinit var tableMaker: TableView2<MakerTable>
-    @FXML private lateinit var tableMakerColumnId: TableColumn2<MakerTable, String>
-    @FXML private lateinit var tableMakerColumnName: TableColumn2<MakerTable, String>
+    @FXML lateinit var tableMaker: TableView2<MakerTable>
+    @FXML lateinit var tableMakerColumnId: TableColumn2<MakerTable, String>
+    @FXML lateinit var tableMakerColumnName: TableColumn2<MakerTable, String>
+
+    init {
+        Data.companion.controller = this
+    }
 
     @FXML
     private fun onButtonClickLoadDataBase(e: Event) {

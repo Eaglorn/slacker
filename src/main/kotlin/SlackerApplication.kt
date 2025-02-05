@@ -6,11 +6,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
-val logger: Logger = LoggerFactory.getLogger("Main")
+import java.lang.Thread.sleep
 
 class SlackerApplication : Application() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
+    companion object {
+        lateinit var slacker: SlackerApplication
+    }
 
     override fun start(stage: Stage) {
         runBlocking {
@@ -21,9 +24,15 @@ class SlackerApplication : Application() {
                 stage.scene = scene
                 stage.show()
             }
+            launch {
+                sleep(3000)
+                Data.companion.config = Config.load()
+            }
         }
     }
 }
+
+val logger: Logger = LoggerFactory.getLogger("Main")
 
 fun main() {
     Application.launch(SlackerApplication::class.java)
