@@ -1,92 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.tableview2.TableColumn2?>
 <?import org.controlsfx.control.tableview2.TableView2?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
-
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="694.0" prefWidth="914.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SlackerController">
-  <tabs>
-      <Tab text="Настройки">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <CustomTextField fx:id="fieldLoadDatabase" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="470.0" />
-                  <Button fx:id="buttonLoadDatabase" layoutX="500.0" layoutY="14.0" mnemonicParsing="false" onAction="#onButtonClickLoadDataBase" text="Выбрать файл базы данных" />
-                  <CustomTextField fx:id="fieldLoadTemplates" editable="false" layoutX="14.0" layoutY="50.0" prefHeight="25.0" prefWidth="470.0" />
-                  <Button fx:id="buttonLoadTemplates" layoutX="500.0" layoutY="50.0" mnemonicParsing="false" onAction="#onButtonClickLoadTemplates" text="Выбрать каталог с шаблонами" />
-                  <Button layoutX="414.0" layoutY="279.0" mnemonicParsing="false" onAction="#onButtonLoadApp" text="Загрузить" />
-               </children></AnchorPane>
-         </content>
-      </Tab>
-    <Tab fx:id="tabWriteOff" disable="true" text="Списание">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </Tab>
-      <Tab fx:id="tabExpertise" disable="true" text="Экспертиза">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-         </content>
-      </Tab>
-      <Tab fx:id="tabDataBase" disable="true" text="База Данных">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <TabPane prefHeight="665.0" prefWidth="914.0" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                      <Tab text="Производитель">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <TableView2 fx:id="tableMaker" prefHeight="637.0" prefWidth="914.0">
-                                       <columns>
-                                          <TableColumn2 fx:id="tableMakerColumnId" prefWidth="75.0" text="id" />
-                                          <TableColumn2 fx:id="tableMakerColumnName" prefWidth="75.0" text="name" />
-                                       </columns></TableView2>
-                                 </children>
-                              </AnchorPane>
-                        </content>
-                      </Tab>
-                      <Tab text="Тип оборудования">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
-                        </content>
-                      </Tab>
-                        <Tab text="Модель">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
-                           </content>
-                        </Tab>
-                        <Tab text="Тип запроса">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
-                           </content>
-                        </Tab>
-                        <Tab text="Адрес">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
-                           </content>
-                        </Tab>
-                        <Tab text="Руководитель">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
-                           </content>
-                        </Tab>
-                        <Tab text="Составитель">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0" />
-                           </content>
-                        </Tab>
-                    </tabs>
-                  </TabPane>
-                  <Button contentDisplay="RIGHT" layoutX="777.0" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="25.0" prefWidth="120.0" text="Создать таблицу" />
-               </children>
-            </AnchorPane>
-         </content>
-      </Tab>
-  </tabs>
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="694.0"
+         prefWidth="914.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1"
+         xmlns:fx="http://javafx.com/fxml/1" fx:controller="SlackerController">
+    <tabs>
+        <Tab text="Настройки">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <CustomTextField fx:id="fieldLoadDatabase" editable="false" layoutX="14.0" layoutY="14.0"
+                                         prefHeight="25.0" prefWidth="470.0"/>
+                        <Button fx:id="buttonLoadDatabase" layoutX="500.0" layoutY="14.0" mnemonicParsing="false"
+                                onAction="#onButtonClickLoadDataBase" text="Выбрать файл базы данных"/>
+                        <CustomTextField fx:id="fieldLoadTemplates" editable="false" layoutX="14.0" layoutY="50.0"
+                                         prefHeight="25.0" prefWidth="470.0"/>
+                        <Button fx:id="buttonLoadTemplates" layoutX="500.0" layoutY="50.0" mnemonicParsing="false"
+                                onAction="#onButtonClickLoadTemplates" text="Выбрать каталог с шаблонами"/>
+                        <Button layoutX="414.0" layoutY="279.0" mnemonicParsing="false" onAction="#onButtonLoadApp"
+                                text="Загрузить"/>
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+        <Tab fx:id="tabWriteOff" disable="true" text="Списание">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+            </content>
+        </Tab>
+        <Tab fx:id="tabExpertise" disable="true" text="Экспертиза">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+            </content>
+        </Tab>
+        <Tab fx:id="tabDataBase" disable="true" text="База Данных">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <TabPane prefHeight="665.0" prefWidth="914.0" tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab text="Производитель">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            <children>
+                                                <TableView2 fx:id="tableMaker" prefHeight="637.0" prefWidth="914.0">
+                                                    <columns>
+                                                        <TableColumn2 fx:id="tableMakerColumnId" prefWidth="75.0"
+                                                                      text="id"/>
+                                                        <TableColumn2 fx:id="tableMakerColumnName" prefWidth="75.0"
+                                                                      text="name"/>
+                                                    </columns>
+                                                </TableView2>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                                <Tab text="Тип оборудования">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0"
+                                                    prefWidth="914.0"/>
+                                    </content>
+                                </Tab>
+                                <Tab text="Модель">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0"
+                                                    prefWidth="914.0"/>
+                                    </content>
+                                </Tab>
+                                <Tab text="Тип запроса">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0"
+                                                    prefWidth="914.0"/>
+                                    </content>
+                                </Tab>
+                                <Tab text="Адрес">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0"
+                                                    prefWidth="914.0"/>
+                                    </content>
+                                </Tab>
+                                <Tab text="Руководитель">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0"
+                                                    prefWidth="914.0"/>
+                                    </content>
+                                </Tab>
+                                <Tab text="Составитель">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0"
+                                                    prefWidth="914.0"/>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                        <Button contentDisplay="RIGHT" layoutX="777.0" mnemonicParsing="false" onAction="#onButtonClick"
+                                prefHeight="25.0" prefWidth="120.0" text="Создать таблицу"/>
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+    </tabs>
 </TabPane>

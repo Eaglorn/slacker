@@ -11,26 +11,38 @@ import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import org.controlsfx.control.tableview2.TableColumn2
 import org.controlsfx.control.tableview2.TableView2
-import org.ktorm.dsl.*
+import org.ktorm.dsl.from
+import org.ktorm.dsl.map
+import org.ktorm.dsl.select
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class SlackerController() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML lateinit var tabWriteOff: Tab
-    @FXML lateinit var tabExpertise: Tab
-    @FXML lateinit var tabDataBase: Tab
+    @FXML
+    lateinit var tabWriteOff: Tab
+    @FXML
+    lateinit var tabExpertise: Tab
+    @FXML
+    lateinit var tabDataBase: Tab
 
-    @FXML lateinit var fieldLoadDatabase: TextField
-    @FXML lateinit var buttonLoadDatabase: Button
+    @FXML
+    lateinit var fieldLoadDatabase: TextField
+    @FXML
+    lateinit var buttonLoadDatabase: Button
 
-    @FXML lateinit var fieldLoadTemplates: TextField
-    @FXML lateinit var buttonLoadTemplates: Button
+    @FXML
+    lateinit var fieldLoadTemplates: TextField
+    @FXML
+    lateinit var buttonLoadTemplates: Button
 
-    @FXML lateinit var tableMaker: TableView2<MakerTable>
-    @FXML lateinit var tableMakerColumnId: TableColumn2<MakerTable, String>
-    @FXML lateinit var tableMakerColumnName: TableColumn2<MakerTable, String>
+    @FXML
+    lateinit var tableMaker: TableView2<MakerTable>
+    @FXML
+    lateinit var tableMakerColumnId: TableColumn2<MakerTable, String>
+    @FXML
+    lateinit var tableMakerColumnName: TableColumn2<MakerTable, String>
 
     init {
         Data.companion.controller = this

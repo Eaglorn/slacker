@@ -11,14 +11,14 @@ import org.ktorm.schema.varchar
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.sql.Connection
-import kotlin.text.orEmpty
 
 data class Maker(val id: Int?, val name: String?) {
     companion object
 
     companion {
-         fun createDatabase (conn: Connection) {
-            val tableExists = conn.createStatement().executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='maker'").next()
+        fun createDatabase(conn: Connection) {
+            val tableExists = conn.createStatement()
+                .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='maker'").next()
 
             if (!tableExists) {
                 conn.createStatement().executeUpdate(
@@ -51,9 +51,11 @@ class MakerTable() {
     fun setId(value: Int) {
         idProperty().set(value)
     }
+
     fun getId(): Int {
         return idProperty().get()
     }
+
     fun idProperty(): IntegerProperty {
         if (id == null) id = SimpleIntegerProperty(this, "0")
         return id as IntegerProperty
@@ -63,9 +65,11 @@ class MakerTable() {
     fun setName(value: String) {
         nameProperty().set(value)
     }
+
     fun getName(): String {
         return nameProperty().get()
     }
+
     fun nameProperty(): StringProperty {
         if (name == null) name = SimpleStringProperty(this, "")
         return name as StringProperty

@@ -6,7 +6,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.lang.Thread.sleep
 
 class SlackerApplication : Application() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)

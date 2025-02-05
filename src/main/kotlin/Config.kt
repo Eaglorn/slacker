@@ -24,10 +24,13 @@ class Config {
     }
 
     companion object {
-        fun load() : Config {
+        fun load(): Config {
             val pathConfig = System.getenv("APPDATA") + "\\Local\\slacker\\config.json"
             return if (Files.exists(Paths.get(pathConfig))) {
-                val gson: Gson = GsonBuilder().create()
+                val gson: Gson = GsonBuilder().registerTypeAdapter(
+                    LocalDateTime::class.java,
+                    LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss")
+                ).create()
                 val configServer: Config =
                     gson.fromJson(JsonReader(FileReader(pathConfig)), Config::class.java)
                 configServer
