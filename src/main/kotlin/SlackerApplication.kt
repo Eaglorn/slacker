@@ -24,10 +24,6 @@ class SlackerApplication : Application() {
                 stage.scene = scene
                 stage.show()
             }
-            launch {
-                sleep(3000)
-                Data.companion.config = Config.load()
-            }
         }
     }
 }

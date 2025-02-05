@@ -34,6 +34,7 @@ class SlackerController() {
 
     init {
         Data.companion.controller = this
+        Data.companion.config = Config.load()
     }
 
     @FXML
