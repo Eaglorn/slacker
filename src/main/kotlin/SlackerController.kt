@@ -1,14 +1,13 @@
+import controllers.DBMakerController
+import controllers.SettingController
 import db.Maker
 import db.MakerTable
 import db.Makers
 import javafx.beans.property.SimpleStringProperty
-import javafx.event.Event
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.Tab
 import javafx.scene.control.TextField
-import javafx.stage.DirectoryChooser
-import javafx.stage.FileChooser
 import org.controlsfx.control.tableview2.TableColumn2
 import org.controlsfx.control.tableview2.TableView2
 import org.ktorm.dsl.from
@@ -17,61 +16,76 @@ import org.ktorm.dsl.select
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class SlackerController() {
+class SlackerController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
+    private lateinit var settingController: SettingController
+    private lateinit var dbMakerController: DBMakerController
 
     @FXML
     lateinit var tabWriteOff: Tab
+
     @FXML
     lateinit var tabExpertise: Tab
+
     @FXML
     lateinit var tabDataBase: Tab
 
     @FXML
     lateinit var fieldLoadDatabase: TextField
-    @FXML
-    lateinit var buttonLoadDatabase: Button
 
     @FXML
     lateinit var fieldLoadTemplates: TextField
-    @FXML
-    lateinit var buttonLoadTemplates: Button
 
     @FXML
     lateinit var tableMaker: TableView2<MakerTable>
+
     @FXML
     lateinit var tableMakerColumnId: TableColumn2<MakerTable, String>
+
     @FXML
     lateinit var tableMakerColumnName: TableColumn2<MakerTable, String>
+
+    @FXML
+    lateinit var buttonTableMakerEdit: Button
+
+    @FXML
+    lateinit var buttonTableMakerDelete: Button
 
     init {
         Data.companion.controller = this
         Data.companion.config = Config.load()
     }
 
-    @FXML
-    private fun onButtonClickLoadDataBase(e: Event) {
-        val fileChooser = FileChooser()
-        fileChooser.title = "Файл базы данных"
-        fileChooser.extensionFilters.addAll(
-            FileChooser.ExtensionFilter("DataBase", "*.db"),
-        )
-
-        val selectedFile = fileChooser.showOpenDialog(buttonLoadDatabase.scene.window)
-        if (selectedFile != null) {
-            fieldLoadDatabase.text = selectedFile.absolutePath
-        }
+    fun beforeShow() {
+        settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
+        dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
+        dbMakerController.onTableSelect()
     }
 
     @FXML
-    private fun onButtonClickLoadTemplates(e: Event) {
-        val directoryChooser = DirectoryChooser()
-        directoryChooser.title = "Каталог c шаблонами"
+    private fun onButtonClickLoadDataBase() {
+        settingController.onButtonClickLoadDataBase()
+    }
 
-        val selectedDirectory = directoryChooser.showDialog(buttonLoadTemplates.scene.window)
-        if (selectedDirectory != null) {
-            fieldLoadTemplates.text = selectedDirectory.absolutePath
-        }
+    @FXML
+    private fun onButtonClickLoadTemplates() {
+        settingController.onButtonClickLoadTemplates()
+    }
+
+    @FXML
+    private fun onButtonClickDBMakerAdd() {
+        dbMakerController.onButtonClickAdd()
+    }
+
+    @FXML
+    private fun onButtonClickDBMakerEdit() {
+        dbMakerController.onButtonClickEdit()
+    }
+
+    @FXML
+    private fun onButtonClickDBMakerDelete() {
+        dbMakerController.onButtonClickDelete()
     }
 
     @FXML

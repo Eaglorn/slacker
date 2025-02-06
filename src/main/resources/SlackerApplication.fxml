@@ -27,17 +27,17 @@
                 </AnchorPane>
             </content>
         </Tab>
-        <Tab fx:id="tabWriteOff" disable="true" text="Списание">
+        <Tab fx:id="tabWriteOff" text="Списание">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
             </content>
         </Tab>
-        <Tab fx:id="tabExpertise" disable="true" text="Экспертиза">
+        <Tab fx:id="tabExpertise" text="Экспертиза">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
             </content>
         </Tab>
-        <Tab fx:id="tabDataBase" disable="true" text="База Данных">
+        <Tab fx:id="tabDataBase" text="База Данных">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
@@ -47,7 +47,7 @@
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                             <children>
-                                                <TableView2 fx:id="tableMaker" prefHeight="637.0" prefWidth="914.0">
+                                                <TableView2 fx:id="tableMaker" prefHeight="585.0" prefWidth="914.0">
                                                     <columns>
                                                         <TableColumn2 fx:id="tableMakerColumnId" prefWidth="75.0"
                                                                       text="id"/>
@@ -55,6 +55,14 @@
                                                                       text="name"/>
                                                     </columns>
                                                 </TableView2>
+                                                <Button layoutX="14.0" layoutY="597.0" mnemonicParsing="false"
+                                                        onAction="#onButtonClickDBMakerAdd" text="Добавить"/>
+                                                <Button fx:id="buttonTableMakerEdit" layoutX="92.0" layoutY="597.0"
+                                                        mnemonicParsing="false" onAction="#onButtonClickDBMakerEdit"
+                                                        text="Изменить"/>
+                                                <Button fx:id="buttonTableMakerDelete" layoutX="171.0" layoutY="597.0"
+                                                        mnemonicParsing="false" onAction="#onButtonClickDBMakerDelete"
+                                                        text="Удалить"/>
                                             </children>
                                         </AnchorPane>
                                     </content>

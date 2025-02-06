@@ -10,8 +10,14 @@ import org.slf4j.LoggerFactory
 class SlackerApplication : Application() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    companion object {
-        lateinit var slacker: SlackerApplication
+    private lateinit var controller: SlackerController
+
+    private fun beforeShow() {
+        controller = Data.companion.controller
+        controller.tabWriteOff.disableProperty().set(true)
+        controller.tabExpertise.disableProperty().set(true)
+        controller.tabDataBase.disableProperty().set(true)
+        controller.beforeShow()
     }
 
     override fun start(stage: Stage) {
@@ -21,6 +27,8 @@ class SlackerApplication : Application() {
                 val scene = Scene(fxmlLoader.load())
                 stage.title = "Slacker"
                 stage.scene = scene
+                Data.companion.scene = scene
+                beforeShow()
                 stage.show()
             }
         }
