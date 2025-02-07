@@ -1,9 +1,13 @@
 import com.google.gson.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.lang.reflect.Type
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class LocalDateTimeAdapter(pattern: String) : JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
+    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
     private val formatter: DateTimeFormatter = pattern.let { DateTimeFormatter.ofPattern(it) }
 
     @Throws(JsonParseException::class)

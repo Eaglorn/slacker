@@ -1,6 +1,8 @@
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.stream.JsonReader
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.FileReader
 import java.io.FileWriter
 import java.nio.file.Files
@@ -8,6 +10,8 @@ import java.nio.file.Paths
 import java.time.LocalDateTime
 
 class Config {
+    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
     lateinit var pathDB: String
     lateinit var pathTemplates: String
     lateinit var dateTimeDB: LocalDateTime

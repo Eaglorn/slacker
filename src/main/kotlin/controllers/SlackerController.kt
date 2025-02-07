@@ -1,8 +1,8 @@
-import controllers.DBMakerController
-import controllers.SettingController
-import db.Maker
+package controllers
+
+import Config
+import Data
 import db.MakerTable
-import db.Makers
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.scene.control.Button
@@ -10,9 +10,6 @@ import javafx.scene.control.Tab
 import javafx.scene.control.TextField
 import org.controlsfx.control.tableview2.TableColumn2
 import org.controlsfx.control.tableview2.TableView2
-import org.ktorm.dsl.from
-import org.ktorm.dsl.map
-import org.ktorm.dsl.select
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -20,7 +17,7 @@ class SlackerController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     private lateinit var settingController: SettingController
-    private lateinit var dbMakerController: DBMakerController
+    lateinit var dbMakerController: DBMakerController
 
     @FXML
     lateinit var tabWriteOff: Tab
@@ -58,9 +55,13 @@ class SlackerController {
     }
 
     fun beforeShow() {
+        tableMakerColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
+        tableMakerColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
+
         settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
         dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
-        dbMakerController.onTableSelect()
+
+        dbMakerController.reloadTable()
     }
 
     @FXML
@@ -97,20 +98,6 @@ class SlackerController {
 
     @FXML
     private fun onButtonClick() {
-        tableMakerColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
-        tableMakerColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
-        val database = SqliteDatabase().connect()
-        database.useConnection { conn ->
-            Maker.createDatabase(conn)
-        }
-
-        val query = database.from(Makers).select()
-
-        query
-            .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-            .forEach {
-                tableMaker.items.add(MakerTable(it.id, it.name))
-            }
         Config.load()
     }
 }

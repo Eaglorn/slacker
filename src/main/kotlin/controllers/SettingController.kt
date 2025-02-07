@@ -4,8 +4,11 @@ import Data
 import javafx.scene.control.TextField
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-class SettingController(val fieldLoadDatabase: TextField, val fieldLoadTemplates: TextField) {
+class SettingController(private val fieldLoadDatabase: TextField, private val fieldLoadTemplates: TextField) {
+    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     fun onButtonClickLoadDataBase() {
         val fileChooser = FileChooser()
