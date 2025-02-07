@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN"
                name="XMLConfigTest" packages="org.apache.logging.log4j.test">
-    <Filter type="ThresholdFilter" level="trace"/>
-
     <Appenders>
         <Console name="STDOUT">
             <Layout type="PatternLayout" pattern="%m %n"/>

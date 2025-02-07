@@ -1,5 +1,7 @@
 package controllers
 
+import Data
+import SqliteDatabase
 import db.Maker
 import db.MakerTable
 import db.Makers
@@ -9,11 +11,11 @@ import javafx.scene.control.Button
 import javafx.stage.Modality
 import javafx.stage.Stage
 import org.controlsfx.control.tableview2.TableView2
-import org.ktorm.dsl.*
+import org.ktorm.dsl.from
+import org.ktorm.dsl.map
+import org.ktorm.dsl.select
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import Data
-import SqliteDatabase
 
 class DBMakerController(
     val tableMaker: TableView2<MakerTable>,
@@ -24,10 +26,12 @@ class DBMakerController(
 
     lateinit var formStage: Stage
 
-    fun onTableSelect() {
+    init {
         tableMaker.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
             newValue.let {
-                println("Selected Person: ${it.getId()} ${it.getName()}")
+                if (it != null) {
+                    println("Selected Maker: ${it.getId()} ${it.getName()}")
+                }
             }
         }
     }

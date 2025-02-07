@@ -47,11 +47,12 @@
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                             <children>
-                                                <TableView2 fx:id="tableMaker" prefHeight="585.0" prefWidth="914.0">
+                                                <TableView2 fx:id="tableMaker" layoutY="6.0" prefHeight="579.0"
+                                                            prefWidth="914.0">
                                                     <columns>
                                                         <TableColumn2 fx:id="tableMakerColumnId" prefWidth="75.0"
                                                                       text="id"/>
-                                                        <TableColumn2 fx:id="tableMakerColumnName" prefWidth="75.0"
+                                                        <TableColumn2 fx:id="tableMakerColumnName" prefWidth="350.0"
                                                                       text="name"/>
                                                     </columns>
                                                 </TableView2>

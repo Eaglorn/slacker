@@ -5,16 +5,18 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DBMakerFormAddController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0"
+      prefWidth="661.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.DBMakerFormAddController">
     <children>
-        <TextField fx:id="fieldName" layoutX="214.0" layoutY="14.0" prefHeight="25.0" prefWidth="433.0" />
-        <Button fx:id="buttonAdd" layoutX="260.0" layoutY="59.0" mnemonicParsing="false" onAction="#onButtonClickAdd" text="Создать" />
-        <Button layoutX="342.0" layoutY="59.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена" />
-      <Label layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="201.0" text="Название производителя">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
+        <TextField fx:id="fieldName" layoutX="214.0" layoutY="14.0" prefHeight="25.0" prefWidth="433.0"/>
+        <Button fx:id="buttonAdd" layoutX="260.0" layoutY="59.0" mnemonicParsing="false" onAction="#onButtonClickAdd"
+                text="Создать"/>
+        <Button layoutX="342.0" layoutY="59.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена"/>
+        <Label layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="201.0" text="Название производителя">
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </Label>
     </children>
 </Pane>
