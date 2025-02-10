@@ -11,9 +11,7 @@ import javafx.scene.control.Button
 import javafx.stage.Modality
 import javafx.stage.Stage
 import org.controlsfx.control.tableview2.TableView2
-import org.ktorm.dsl.from
-import org.ktorm.dsl.map
-import org.ktorm.dsl.select
+import org.ktorm.dsl.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -63,12 +61,12 @@ class DBTypeOfHardwareController(
 
         val query = database.from(TypeOfHardwares).select()
 
-        data.controller.tableTypeOfHardware.items.clear()
+        tableTypeOfHardware.items.clear()
 
         query
             .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
             .forEach {
-                data.controller.tableTypeOfHardware.items.add(TypeOfHardwareTable(it.id, it.name))
+                tableTypeOfHardware.items.add(TypeOfHardwareTable(it.id, it.name))
             }
     }
 
@@ -78,16 +76,49 @@ class DBTypeOfHardwareController(
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)
-        formStage.title = "Создание типа оборудование"
+        formStage.title = "Создание записи тип оборудования"
         formStage.scene = formScene
         formStage.showAndWait()
     }
 
     fun onButtonClickEdit() {
-
+        val fxmlLoader =
+            FXMLLoader(DBTypeOfHardwareController::class.java.getResource("/DBTypeOfHardwareFormEdit.fxml"))
+        val formScene = Scene(fxmlLoader.load())
+        formStage = Stage()
+        formStage.initModality(Modality.APPLICATION_MODAL)
+        formStage.title = "Редактирование записи тип оборудования"
+        formStage.scene = formScene
+        val database = SqliteDatabase().connect()
+        val query = database.from(TypeOfHardwares).select()
+        val result = query
+            .where { (TypeOfHardwares.id eq selectId) }
+            .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+            .firstOrNull()
+        if (result != null) {
+            formEditController.fieldName.text = result.name
+        }
+        formStage.showAndWait()
     }
 
     fun onButtonClickDelete() {
-
+        val fxmlLoader =
+            FXMLLoader(DBTypeOfHardwareController::class.java.getResource("/DBTypeOfHardwareFormDelete.fxml"))
+        val formScene = Scene(fxmlLoader.load())
+        formStage = Stage()
+        formStage.initModality(Modality.APPLICATION_MODAL)
+        formStage.title = "Удаление записи тип оборудования"
+        formStage.scene = formScene
+        val database = SqliteDatabase().connect()
+        val query = database.from(TypeOfHardwares).select()
+        val result = query
+            .where { (TypeOfHardwares.id eq selectId) }
+            .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+            .firstOrNull()
+        if (result != null) {
+            formDeleteController.fieldID.text = result.id.toString()
+            formDeleteController.fieldName.text = result.name
+        }
+        formStage.showAndWait()
     }
 }

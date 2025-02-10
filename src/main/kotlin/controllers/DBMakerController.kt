@@ -61,12 +61,12 @@ class DBMakerController(
 
         val query = database.from(Makers).select()
 
-        data.controller.tableMaker.items.clear()
+        tableMaker.items.clear()
 
         query
             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
             .forEach {
-                data.controller.tableMaker.items.add(MakerTable(it.id, it.name))
+                tableMaker.items.add(MakerTable(it.id, it.name))
             }
     }
 
@@ -75,7 +75,7 @@ class DBMakerController(
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)
-        formStage.title = "Создание производителя"
+        formStage.title = "Создание записи производитель"
         formStage.scene = formScene
         formStage.showAndWait()
     }
@@ -85,7 +85,7 @@ class DBMakerController(
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)
-        formStage.title = "Изменение производителя"
+        formStage.title = "Редактирование записи производитель"
         formStage.scene = formScene
         val database = SqliteDatabase().connect()
         val query = database.from(Makers).select()
@@ -104,7 +104,7 @@ class DBMakerController(
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)
-        formStage.title = "Удаление производителя"
+        formStage.title = "Удаление записи производитель"
         formStage.scene = formScene
         val database = SqliteDatabase().connect()
         val query = database.from(Makers).select()

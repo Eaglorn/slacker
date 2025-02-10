@@ -89,6 +89,7 @@ class SlackerController {
         )
 
         data.dbMakerController.reloadTable()
+        data.dbTypeOfHardwareController.reloadTable()
 
         fieldLoadDatabase.text = data.config.pathDB
         fieldLoadTemplates.text = data.config.pathTemplates
