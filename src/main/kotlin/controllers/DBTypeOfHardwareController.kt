@@ -2,8 +2,7 @@ package controllers
 
 import Data
 import SqliteDatabase
-import db.Maker
-import db.Makers
+import db.TypeOfHardware
 import db.TypeOfHardwareTable
 import db.TypeOfHardwares
 import javafx.fxml.FXMLLoader
@@ -30,9 +29,8 @@ class DBTypeOfHardwareController(
 
     var selectId: Int = -1
 
-    lateinit var formEditController: DBMakerFormEditController
-    //lateinit var formDeleteController: DBMakerFormDeleteController
-
+    lateinit var formEditController: DBTypeOfHardwareFormEditController
+    lateinit var formDeleteController: DBTypeOfHardwareFormDeleteController
 
     init {
         buttonTableTypeOfHardwareEdit.disableProperty().set(true)
@@ -68,7 +66,7 @@ class DBTypeOfHardwareController(
         data.controller.tableTypeOfHardware.items.clear()
 
         query
-            .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+            .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
             .forEach {
                 data.controller.tableTypeOfHardware.items.add(TypeOfHardwareTable(it.id, it.name))
             }

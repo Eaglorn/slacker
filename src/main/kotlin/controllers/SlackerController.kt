@@ -64,8 +64,8 @@ class SlackerController {
     lateinit var buttonTableTypeOfHardwareDelete: Button
 
     init {
-        Data.companion.controller = this
-        Data.companion.config = Config.load()
+        data.controller = this
+        data.config = Config.load()
     }
 
     fun beforeShow() {
@@ -81,6 +81,7 @@ class SlackerController {
 
         data.settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
         data.dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
+
         data.dbTypeOfHardwareController = DBTypeOfHardwareController(
             tableTypeOfHardware,
             buttonTableTypeOfHardwareEdit,
@@ -89,8 +90,8 @@ class SlackerController {
 
         data.dbMakerController.reloadTable()
 
-        fieldLoadDatabase.text = Data.companion.config.pathDB
-        fieldLoadTemplates.text = Data.companion.config.pathTemplates
+        fieldLoadDatabase.text = data.config.pathDB
+        fieldLoadTemplates.text = data.config.pathTemplates
     }
 
     @FXML
@@ -120,17 +121,17 @@ class SlackerController {
 
     @FXML
     private fun onButtonClickDBTypeOfHardwareAdd() {
-        data.dbMakerController.onButtonClickAdd()
+        data.dbTypeOfHardwareController.onButtonClickAdd()
     }
 
     @FXML
     private fun onButtonClickDBTypeOfHardwareEdit() {
-        data.dbMakerController.onButtonClickEdit()
+        data.dbTypeOfHardwareController.onButtonClickEdit()
     }
 
     @FXML
     private fun onButtonClickDBTypeOfHardwareDelete() {
-        data.dbMakerController.onButtonClickDelete()
+        data.dbTypeOfHardwareController.onButtonClickDelete()
     }
 
     @FXML

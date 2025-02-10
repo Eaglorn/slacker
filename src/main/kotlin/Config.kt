@@ -17,10 +17,10 @@ class Config {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @Expose
-    lateinit var pathDB: String
+    var pathDB: String = ""
 
     @Expose
-    lateinit var pathTemplates: String
+    var pathTemplates: String = ""
 
     @Expose
     lateinit var dateTimeDB: LocalDateTime

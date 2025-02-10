@@ -43,7 +43,7 @@ class DBMakerFormAddController {
                 } else {
                     Notifications.create()
                         .title("Предупреждение!")
-                        .text("Запись производитель с введённым названием уже существует.")
+                        .text("Запись с введённым наименованием уже существует.")
                         .showWarning()
                 }
             }

@@ -13,38 +13,51 @@ import org.ktorm.dsl.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class DBTypeOfHardwareFormAddController {
+class DBTypeOfHardwareFormDeleteController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
     private var data: Data.companion = Data.companion
 
     @FXML
-    private lateinit var fieldName: TextField
+    lateinit var fieldID: TextField
 
     @FXML
-    private fun onButtonClickAdd() {
+    lateinit var fieldName: TextField
+
+    init {
+        data.dbTypeOfHardwareController.formDeleteController = this
+    }
+
+    @FXML
+    private fun onButtonClickDelete() {
+        if (data.dbTypeOfHardwareController.selectId < 0) {
+            Notifications.create()
+                .title("Предупреждение!")
+                .text("Отсутсвует выбор записи в таблице.")
+                .showWarning()
+        }
         runBlocking {
             launch {
                 val database = SqliteDatabase().connect()
                 val query = database.from(TypeOfHardwares).select()
 
                 val result = query
-                    .where { (TypeOfHardwares.name eq fieldName.text) }
+                    .where { (TypeOfHardwares.id eq data.dbTypeOfHardwareController.selectId) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
 
                 if (result == null) {
-                    database.insert(TypeOfHardwares) {
-                        set(it.name, fieldName.text)
+                    Notifications.create()
+                        .title("Предупреждение!")
+                        .text("Запись с выбранным id в базе отсуствует.")
+                        .showWarning()
+                } else {
+                    database.delete(TypeOfHardwares) {
+                        it.id eq result.id!!
                     }
                     data.dbTypeOfHardwareController.reloadTable()
                     data.dbTypeOfHardwareController.buttonTableTypeOfHardwareEdit.disableProperty().set(true)
                     data.dbTypeOfHardwareController.buttonTableTypeOfHardwareDelete.disableProperty().set(true)
                     data.dbTypeOfHardwareController.formStage.close()
-                } else {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("Запись с введённым наименованием уже существует.")
-                        .showWarning()
                 }
             }
         }

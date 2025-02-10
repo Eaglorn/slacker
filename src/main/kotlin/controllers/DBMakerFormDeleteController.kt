@@ -65,6 +65,6 @@ class DBMakerFormDeleteController {
 
     @FXML
     private fun onButtonClickCancel() {
-        Data.companion.dbMakerController.formStage.close()
+        data.dbMakerController.formStage.close()
     }
 }

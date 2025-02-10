@@ -4,28 +4,28 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="131.0"
-      prefWidth="391.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      prefWidth="486.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="controllers.DBMakerFormDeleteController">
     <children>
-        <TextField fx:id="fieldID" editable="false" layoutX="23.0" layoutY="43.0" prefHeight="25.0" prefWidth="79.0">
+        <TextField fx:id="fieldID" editable="false" layoutX="12.0" layoutY="43.0" prefHeight="35.0" prefWidth="121.0">
             <font>
                 <Font size="16.0"/>
             </font>
         </TextField>
-        <TextField fx:id="fieldName" editable="false" layoutX="112.0" layoutY="43.0" prefHeight="35.0"
-                   prefWidth="265.0">
+        <TextField fx:id="fieldName" editable="false" layoutX="151.0" layoutY="43.0" prefHeight="35.0"
+                   prefWidth="327.0">
             <font>
                 <Font size="16.0"/>
             </font>
         </TextField>
-        <Button layoutX="122.0" layoutY="94.0" mnemonicParsing="false" onAction="#onButtonClickDelete" text="Удалить"/>
-        <Button layoutX="208.0" layoutY="94.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена"/>
-        <Label layoutX="56.0" layoutY="13.0" text="ID">
+        <Button layoutX="171.0" layoutY="94.0" mnemonicParsing="false" onAction="#onButtonClickDelete" text="Удалить"/>
+        <Button layoutX="254.0" layoutY="94.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена"/>
+        <Label layoutX="22.0" layoutY="13.0" text="Идентификатор">
             <font>
                 <Font size="14.0"/>
             </font>
         </Label>
-        <Label layoutX="145.0" layoutY="13.0" text="Наименование производителя">
+        <Label layoutX="254.0" layoutY="13.0" text="Тип оборудования">
             <font>
                 <Font size="14.0"/>
             </font>
