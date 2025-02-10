@@ -63,8 +63,8 @@ class SlackerController {
 
         dbMakerController.reloadTable()
 
-        //fieldLoadDatabase.text = Data.companion.config.pathDB
-        //fieldLoadTemplates.text = Data.companion.config.pathTemplates
+        fieldLoadDatabase.text = Data.companion.config.pathDB
+        fieldLoadTemplates.text = Data.companion.config.pathTemplates
     }
 
     @FXML

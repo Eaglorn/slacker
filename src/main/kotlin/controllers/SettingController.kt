@@ -20,6 +20,7 @@ class SettingController(private val fieldLoadDatabase: TextField, private val fi
         val selectedFile = fileChooser.showOpenDialog(Data.companion.scene.window)
         if (selectedFile != null) {
             fieldLoadDatabase.text = selectedFile.absolutePath
+            Data.companion.config.pathDB = selectedFile.absolutePath
             Data.companion.config.save()
         }
     }
@@ -31,6 +32,7 @@ class SettingController(private val fieldLoadDatabase: TextField, private val fi
         val selectedDirectory = directoryChooser.showDialog(Data.companion.scene.window)
         if (selectedDirectory != null) {
             fieldLoadTemplates.text = selectedDirectory.absolutePath
+            Data.companion.config.pathTemplates = selectedDirectory.absolutePath
             Data.companion.config.save()
         }
     }
