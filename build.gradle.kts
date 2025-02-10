@@ -1,14 +1,3 @@
-val kotlin_version = "2.1.10"
-val kotlinx_coroutines_version = "1.10.1"
-val ktorm_version = "4.1.1"
-val sqlite_jdbc_version = "3.48.0.0"
-val controls_fx_version = "11.2.1"
-val tiles_fx_version = "21.0.9"
-val log4j_version = "2.24.3"
-val disruptor_version = "4.0.0"
-val poi_tl_version = "1.12.2"
-val gson_vesrion = "2.12.1"
-
 plugins {
     id("java")
     id("application")
@@ -33,6 +22,18 @@ kotlin {
     jvmToolchain(23)
 }
 
+val kotlin_version = "2.1.10"
+val kotlinx_coroutines_version = "1.10.1"
+val ktorm_version = "4.1.1"
+val sqlite_jdbc_version = "3.49.0.0"
+val controls_fx_version = "11.2.1"
+val tiles_fx_version = "21.0.9"
+val log4j_version = "2.24.3"
+val disruptor_version = "4.0.0"
+val poi_tl_version = "1.12.2"
+val gson_vesrion = "2.12.1"
+val commons_io_version = "2.18.0"
+
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinx_coroutines_version}")
@@ -47,6 +48,7 @@ dependencies {
     implementation("com.lmax:disruptor:${disruptor_version}")
     implementation("com.deepoove:poi-tl:${poi_tl_version}")
     implementation("com.google.code.gson:gson:${gson_vesrion}")
+    implementation("commons-io:commons-io:${commons_io_version}")
 }
 
 javafx {

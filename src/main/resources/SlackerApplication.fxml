@@ -106,8 +106,6 @@
                                 </Tab>
                             </tabs>
                         </TabPane>
-                        <Button contentDisplay="RIGHT" layoutX="777.0" mnemonicParsing="false" onAction="#onButtonClick"
-                                prefHeight="25.0" prefWidth="120.0" text="Создать таблицу"/>
                     </children>
                 </AnchorPane>
             </content>

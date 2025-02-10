@@ -26,11 +26,15 @@ class DBMakerController(
 
     lateinit var formStage: Stage
 
+    var selectId: Int = -1
+
     init {
         tableMaker.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
             newValue.let {
                 if (it != null) {
-                    println("Selected Maker: ${it.getId()} ${it.getName()}")
+                    selectId = it.getId()
+                } else {
+                    selectId = -1
                 }
             }
         }
@@ -61,7 +65,13 @@ class DBMakerController(
     }
 
     fun onButtonClickEdit() {
-
+        val fxmlLoader = FXMLLoader(DBMakerFormEditController::class.java.getResource("/DBMakerFormEdit.fxml"))
+        val formScene = Scene(fxmlLoader.load())
+        formStage = Stage()
+        formStage.initModality(Modality.APPLICATION_MODAL)
+        formStage.title = "Изменение производителя"
+        formStage.scene = formScene
+        formStage.showAndWait()
     }
 
 

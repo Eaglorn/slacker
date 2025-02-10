@@ -62,6 +62,9 @@ class SlackerController {
         dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
 
         dbMakerController.reloadTable()
+
+        //fieldLoadDatabase.text = Data.companion.config.pathDB
+        //fieldLoadTemplates.text = Data.companion.config.pathTemplates
     }
 
     @FXML
@@ -94,10 +97,5 @@ class SlackerController {
         tabWriteOff.disableProperty().set(false)
         tabExpertise.disableProperty().set(false)
         tabDataBase.disableProperty().set(false)
-    }
-
-    @FXML
-    private fun onButtonClick() {
-        Config.load()
     }
 }

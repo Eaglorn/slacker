@@ -39,6 +39,7 @@ class DBMakerFormAddController {
                     database.insert(Makers) {
                         set(it.name, fieldName.text)
                     }
+                    Data.companion.controller.dbMakerController.reloadTable()
                     Data.companion.controller.dbMakerController.formStage.close()
                 } else {
                     Notifications.create()
@@ -46,8 +47,6 @@ class DBMakerFormAddController {
                         .text("Запись производитель с введённым названием уже существует.")
                         .showWarning()
                 }
-
-                Data.companion.controller.dbMakerController.reloadTable()
             }
         }
     }
