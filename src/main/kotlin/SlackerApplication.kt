@@ -1,4 +1,6 @@
 import controllers.SlackerController
+import db.Maker
+import db.TypeOfHardware
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -14,6 +16,13 @@ class SlackerApplication : Application() {
     private lateinit var controller: SlackerController
 
     private fun beforeShow() {
+        val database = SqliteDatabase().connect()
+
+        database.useConnection { conn ->
+            Maker.createDatabase(conn)
+            TypeOfHardware.createDatabase(conn)
+        }
+
         controller = Data.companion.controller
         controller.tabWriteOff.disableProperty().set(true)
         controller.tabExpertise.disableProperty().set(true)

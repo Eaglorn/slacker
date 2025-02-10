@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="128.0"
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="131.0"
       prefWidth="391.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="controllers.DBMakerFormDeleteController">
     <children>
@@ -25,7 +25,7 @@
                 <Font size="14.0"/>
             </font>
         </Label>
-        <Label layoutX="163.0" layoutY="13.0" text="Название производителя">
+        <Label layoutX="145.0" layoutY="13.0" text="Наименование производителя">
             <font>
                 <Font size="14.0"/>
             </font>

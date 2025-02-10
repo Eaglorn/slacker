@@ -5,19 +5,19 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0"
-      prefWidth="557.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0"
+      prefWidth="590.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="controllers.DBMakerFormEditController">
     <children>
-        <TextField fx:id="fieldName" alignment="CENTER" layoutX="188.0" layoutY="14.0" prefHeight="35.0"
+        <TextField fx:id="fieldName" alignment="CENTER" layoutX="224.0" layoutY="14.0" prefHeight="35.0"
                    prefWidth="352.0">
             <font>
                 <Font size="16.0"/>
             </font>
         </TextField>
-        <Button layoutX="201.0" layoutY="59.0" mnemonicParsing="false" onAction="#onButtonClickEdit" text="Изменить"/>
-        <Button layoutX="285.0" layoutY="59.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена"/>
-        <Label layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="167.0" text="Название производителя">
+        <Button layoutX="218.0" layoutY="59.0" mnemonicParsing="false" onAction="#onButtonClickEdit" text="Изменить"/>
+        <Button layoutX="307.0" layoutY="59.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена"/>
+        <Label layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="204.0" text="Наименование производителя">
             <font>
                 <Font size="14.0"/>
             </font>

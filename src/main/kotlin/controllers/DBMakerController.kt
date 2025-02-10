@@ -30,7 +30,6 @@ class DBMakerController(
     lateinit var formEditController: DBMakerFormEditController
     lateinit var formDeleteController: DBMakerFormDeleteController
 
-
     init {
         buttonTableMakerEdit.disableProperty().set(true)
         buttonTableMakerDelete.disableProperty().set(true)
