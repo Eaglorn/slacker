@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="128.0"
+      prefWidth="391.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.DBMakerFormDeleteController">
+    <children>
+        <TextField fx:id="fieldID" editable="false" layoutX="23.0" layoutY="43.0" prefHeight="25.0" prefWidth="79.0">
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </TextField>
+        <TextField fx:id="fieldName" editable="false" layoutX="112.0" layoutY="43.0" prefHeight="35.0"
+                   prefWidth="265.0">
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </TextField>
+        <Button layoutX="122.0" layoutY="94.0" mnemonicParsing="false" onAction="#onButtonClickDelete" text="Удалить"/>
+        <Button layoutX="208.0" layoutY="94.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена"/>
+        <Label layoutX="56.0" layoutY="13.0" text="ID">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+        <Label layoutX="163.0" layoutY="13.0" text="Название производителя">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+    </children>
+</Pane>

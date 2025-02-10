@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory
 
 class SettingController(private val fieldLoadDatabase: TextField, private val fieldLoadTemplates: TextField) {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    private var data: Data.companion = Data.companion
 
     fun onButtonClickLoadDataBase() {
         val fileChooser = FileChooser()
@@ -17,11 +18,11 @@ class SettingController(private val fieldLoadDatabase: TextField, private val fi
             FileChooser.ExtensionFilter("DataBase", "*.db"),
         )
 
-        val selectedFile = fileChooser.showOpenDialog(Data.companion.scene.window)
+        val selectedFile = fileChooser.showOpenDialog(data.scene.window)
         if (selectedFile != null) {
             fieldLoadDatabase.text = selectedFile.absolutePath
-            Data.companion.config.pathDB = selectedFile.absolutePath
-            Data.companion.config.save()
+            data.config.pathDB = selectedFile.absolutePath
+            data.config.save()
         }
     }
 
@@ -29,11 +30,11 @@ class SettingController(private val fieldLoadDatabase: TextField, private val fi
         val directoryChooser = DirectoryChooser()
         directoryChooser.title = "Каталог c шаблонами"
 
-        val selectedDirectory = directoryChooser.showDialog(Data.companion.scene.window)
+        val selectedDirectory = directoryChooser.showDialog(data.scene.window)
         if (selectedDirectory != null) {
             fieldLoadTemplates.text = selectedDirectory.absolutePath
-            Data.companion.config.pathTemplates = selectedDirectory.absolutePath
-            Data.companion.config.save()
+            data.config.pathTemplates = selectedDirectory.absolutePath
+            data.config.save()
         }
     }
 }

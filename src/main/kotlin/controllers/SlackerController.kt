@@ -15,9 +15,7 @@ import org.slf4j.LoggerFactory
 
 class SlackerController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-
-    private lateinit var settingController: SettingController
-    lateinit var dbMakerController: DBMakerController
+    private var data: Data.companion = Data.companion
 
     @FXML
     lateinit var tabWriteOff: Tab
@@ -58,10 +56,10 @@ class SlackerController {
         tableMakerColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
         tableMakerColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
 
-        settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
-        dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
+        data.settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
+        data.dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
 
-        dbMakerController.reloadTable()
+        data.dbMakerController.reloadTable()
 
         fieldLoadDatabase.text = Data.companion.config.pathDB
         fieldLoadTemplates.text = Data.companion.config.pathTemplates
@@ -69,27 +67,27 @@ class SlackerController {
 
     @FXML
     private fun onButtonClickLoadDataBase() {
-        settingController.onButtonClickLoadDataBase()
+        data.settingController.onButtonClickLoadDataBase()
     }
 
     @FXML
     private fun onButtonClickLoadTemplates() {
-        settingController.onButtonClickLoadTemplates()
+        data.settingController.onButtonClickLoadTemplates()
     }
 
     @FXML
     private fun onButtonClickDBMakerAdd() {
-        dbMakerController.onButtonClickAdd()
+        data.dbMakerController.onButtonClickAdd()
     }
 
     @FXML
     private fun onButtonClickDBMakerEdit() {
-        dbMakerController.onButtonClickEdit()
+        data.dbMakerController.onButtonClickEdit()
     }
 
     @FXML
     private fun onButtonClickDBMakerDelete() {
-        dbMakerController.onButtonClickDelete()
+        data.dbMakerController.onButtonClickDelete()
     }
 
     @FXML

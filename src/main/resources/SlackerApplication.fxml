@@ -80,12 +80,6 @@
                                                     prefWidth="914.0"/>
                                     </content>
                                 </Tab>
-                                <Tab text="Тип запроса">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0"
-                                                    prefWidth="914.0"/>
-                                    </content>
-                                </Tab>
                                 <Tab text="Адрес">
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0"

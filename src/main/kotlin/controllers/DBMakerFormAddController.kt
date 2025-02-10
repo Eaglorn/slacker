@@ -5,7 +5,6 @@ import SqliteDatabase
 import db.Maker
 import db.Makers
 import javafx.fxml.FXML
-import javafx.scene.control.Button
 import javafx.scene.control.TextField
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -16,19 +15,17 @@ import org.slf4j.LoggerFactory
 
 class DBMakerFormAddController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    private var data: Data.companion = Data.companion
 
     @FXML
     private lateinit var fieldName: TextField
-
-    @FXML
-    private lateinit var buttonAdd: Button
 
     @FXML
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
                 val database = SqliteDatabase().connect()
-                var query = database.from(Makers).select()
+                val query = database.from(Makers).select()
 
                 val result = query
                     .where { (Makers.name eq fieldName.text) }
@@ -39,8 +36,10 @@ class DBMakerFormAddController {
                     database.insert(Makers) {
                         set(it.name, fieldName.text)
                     }
-                    Data.companion.controller.dbMakerController.reloadTable()
-                    Data.companion.controller.dbMakerController.formStage.close()
+                    data.dbMakerController.reloadTable()
+                    data.dbMakerController.buttonTableMakerEdit.disableProperty().set(true)
+                    data.dbMakerController.buttonTableMakerDelete.disableProperty().set(true)
+                    data.dbMakerController.formStage.close()
                 } else {
                     Notifications.create()
                         .title("Предупреждение!")
@@ -53,6 +52,6 @@ class DBMakerFormAddController {
 
     @FXML
     private fun onButtonClickCancel() {
-        Data.companion.controller.dbMakerController.formStage.close()
+        data.dbMakerController.formStage.close()
     }
 }

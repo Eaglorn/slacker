@@ -13,19 +13,22 @@ import org.ktorm.dsl.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class DBMakerFormEditController {
+class DBMakerFormDeleteController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
     private var data: Data.companion = Data.companion
+
+    @FXML
+    lateinit var fieldID: TextField
 
     @FXML
     lateinit var fieldName: TextField
 
     init {
-        data.dbMakerController.formEditController = this
+        data.dbMakerController.formDeleteController = this
     }
 
     @FXML
-    private fun onButtonClickEdit() {
+    private fun onButtonClickDelete() {
         if (data.dbMakerController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
@@ -48,32 +51,13 @@ class DBMakerFormEditController {
                         .text("Запись с выбранным id в базе отсуствует.")
                         .showWarning()
                 } else {
-                    if (result.name.equals(fieldName.text)) {
-                        Notifications.create()
-                            .title("Предупреждение!")
-                            .text("Введённое название уже существует.")
-                            .showWarning()
-                    } else {
-                        val result1 = query
-                            .where { (Makers.name eq fieldName.text) }
-                            .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-                            .firstOrNull()
-                        if (result1 == null) {
-                            database.update(Makers) {
-                                set(it.name, fieldName.text)
-                                where { it.id eq result.id!! }
-                            }
-                            data.dbMakerController.reloadTable()
-                            data.dbMakerController.buttonTableMakerEdit.disableProperty().set(true)
-                            data.dbMakerController.buttonTableMakerDelete.disableProperty().set(true)
-                            data.dbMakerController.formStage.close()
-                        } else {
-                            Notifications.create()
-                                .title("Предупреждение!")
-                                .text("Введённое навзание уже существует.")
-                                .showWarning()
-                        }
+                    database.delete(Makers) {
+                        it.id eq result.id!!
                     }
+                    data.dbMakerController.reloadTable()
+                    data.dbMakerController.buttonTableMakerEdit.disableProperty().set(true)
+                    data.dbMakerController.buttonTableMakerDelete.disableProperty().set(true)
+                    data.dbMakerController.formStage.close()
                 }
             }
         }
