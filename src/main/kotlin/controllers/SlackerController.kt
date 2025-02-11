@@ -87,6 +87,12 @@ class SlackerController {
         }
     }
 
+    fun setTabsDisabled() {
+        tabWriteOff.disableProperty().set(true)
+        tabExpertise.disableProperty().set(true)
+        tabDataBase.disableProperty().set(true)
+    }
+
     fun beforeShow() {
         tableMakerColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
         tableMakerColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
@@ -107,11 +113,23 @@ class SlackerController {
             buttonTableTypeOfHardwareDelete
         )
 
-        Data.dbMakerController.reloadTable()
-        Data.dbTypeOfHardwareController.reloadTable()
 
-        fieldLoadDatabase.text = Data.config.pathDB
-        fieldLoadTemplates.text = Data.config.pathTemplates
+
+        if (Data.config.pathDB.isNotEmpty()) {
+            Data.dbMakerController.reloadTable()
+            Data.dbTypeOfHardwareController.reloadTable()
+            if (Data.config.pathTemplates.isNotEmpty()) {
+                fieldLoadDatabase.text = Data.config.pathDB
+                fieldLoadTemplates.text = Data.config.pathTemplates
+                tabWriteOff.disableProperty().set(false)
+                tabExpertise.disableProperty().set(false)
+                tabDataBase.disableProperty().set(false)
+            } else {
+                setTabsDisabled()
+            }
+        } else {
+            setTabsDisabled()
+        }
     }
 
     @FXML
@@ -156,8 +174,14 @@ class SlackerController {
 
     @FXML
     private fun onButtonLoadApp() {
-        tabWriteOff.disableProperty().set(false)
-        tabExpertise.disableProperty().set(false)
-        tabDataBase.disableProperty().set(false)
+        if (Data.config.pathDB.isNotEmpty() && Data.config.pathTemplates.isNotEmpty()) {
+
+            Data.dbMakerController.reloadTable()
+            Data.dbTypeOfHardwareController.reloadTable()
+
+            tabWriteOff.disableProperty().set(false)
+            tabExpertise.disableProperty().set(false)
+            tabDataBase.disableProperty().set(false)
+        }
     }
 }

@@ -24,9 +24,6 @@ class SlackerApplication : Application() {
         }
 
         controller = Data.controller
-        controller.tabWriteOff.disableProperty().set(true)
-        controller.tabExpertise.disableProperty().set(true)
-        controller.tabDataBase.disableProperty().set(true)
         controller.beforeShow()
     }
 

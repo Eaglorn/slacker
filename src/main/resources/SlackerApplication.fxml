@@ -20,7 +20,7 @@
                                          prefHeight="25.0" prefWidth="470.0"/>
                         <Button fx:id="buttonLoadTemplates" layoutX="500.0" layoutY="50.0" mnemonicParsing="false"
                                 onAction="#onButtonClickLoadTemplates" text="Выбрать каталог с шаблонами"/>
-                        <Button layoutX="414.0" layoutY="279.0" mnemonicParsing="false" onAction="#onButtonLoadApp"
+                        <Button layoutX="422.0" layoutY="123.0" mnemonicParsing="false" onAction="#onButtonLoadApp"
                                 text="Загрузить"/>
                     </children>
                 </AnchorPane>

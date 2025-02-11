@@ -1,11 +1,14 @@
 package controllers
 
+import Config
 import Data
 import javafx.scene.control.TextField
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
+import org.apache.commons.io.FileUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 
 class SettingController(private val fieldLoadDatabase: TextField, private val fieldLoadTemplates: TextField) {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
@@ -23,6 +26,7 @@ class SettingController(private val fieldLoadDatabase: TextField, private val fi
             Data.config.pathDB = selectedFile.absolutePath
             Data.config.save()
         }
+        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
     }
 
     fun onButtonClickLoadTemplates() {
