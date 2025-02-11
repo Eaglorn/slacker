@@ -13,9 +13,7 @@ import org.slf4j.LoggerFactory
 import java.sql.Connection
 
 data class TypeOfHardware(val id: Int?, val name: String?) {
-    companion object
-
-    companion {
+    companion object {
         fun createDatabase(conn: Connection) {
             val tableExists = conn.createStatement()
                 .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='type_of_hardware'").next()

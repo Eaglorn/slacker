@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
 class Data {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    object companion {
+    companion object {
         var config: Config = Config()
         lateinit var controller: SlackerController
         lateinit var settingController: SettingController

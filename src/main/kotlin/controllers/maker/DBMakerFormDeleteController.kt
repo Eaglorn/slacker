@@ -8,14 +8,15 @@ import javafx.fxml.FXML
 import javafx.scene.control.TextField
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.apache.commons.io.FileUtils
 import org.controlsfx.control.Notifications
 import org.ktorm.dsl.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 
 class DBMakerFormDeleteController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-    private var data: Data.companion = Data.companion
 
     @FXML
     lateinit var fieldID: TextField
@@ -24,12 +25,12 @@ class DBMakerFormDeleteController {
     lateinit var fieldName: TextField
 
     init {
-        data.dbMakerController.formDeleteController = this
+        Data.dbMakerController.formDeleteController = this
     }
 
     @FXML
     private fun onButtonClickDelete() {
-        if (data.dbMakerController.selectId < 0) {
+        if (Data.dbMakerController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -37,11 +38,11 @@ class DBMakerFormDeleteController {
         }
         runBlocking {
             launch {
-                val database = SqliteDatabase().connect()
+                val database = SqliteDatabase.connect(Data.config.pathDB)
                 val query = database.from(Makers).select()
 
                 val result = query
-                    .where { (Makers.id eq data.dbMakerController.selectId) }
+                    .where { (Makers.id eq Data.dbMakerController.selectId) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
 
@@ -54,10 +55,11 @@ class DBMakerFormDeleteController {
                     database.delete(Makers) {
                         it.id eq result.id!!
                     }
-                    data.dbMakerController.reloadTable()
-                    data.dbMakerController.buttonTableMakerEdit.disableProperty().set(true)
-                    data.dbMakerController.buttonTableMakerDelete.disableProperty().set(true)
-                    data.dbMakerController.formStage.close()
+                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                    Data.dbMakerController.reloadTable()
+                    Data.dbMakerController.buttonTableMakerEdit.disableProperty().set(true)
+                    Data.dbMakerController.buttonTableMakerDelete.disableProperty().set(true)
+                    Data.dbMakerController.formStage.close()
                 }
             }
         }
@@ -65,6 +67,6 @@ class DBMakerFormDeleteController {
 
     @FXML
     private fun onButtonClickCancel() {
-        data.dbMakerController.formStage.close()
+        Data.dbMakerController.formStage.close()
     }
 }

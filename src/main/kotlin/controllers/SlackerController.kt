@@ -9,14 +9,19 @@ import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.Tab
 import javafx.scene.control.TextField
+import org.apache.commons.io.FileUtils
 import org.controlsfx.control.tableview2.TableColumn2
 import org.controlsfx.control.tableview2.TableView2
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 class SlackerController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-    private var data: Data.companion = Data.companion
 
     @FXML
     lateinit var tabWriteOff: Tab
@@ -64,8 +69,20 @@ class SlackerController {
     lateinit var buttonTableTypeOfHardwareDelete: Button
 
     init {
-        data.controller = this
-        data.config = Config.load()
+        Data.controller = this
+        Data.config = Config.load()
+
+        if (Data.config.pathDB.isNotEmpty()) {
+            val file: File = File(Data.config.pathDB)
+            if (file.exists()) {
+                val lastModified: Date = Date(file.lastModified())
+                val instant: Instant = lastModified.toInstant()
+                val localDateTime: LocalDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+                if(Data.config.dateTimeDB.isBefore(localDateTime)) {
+                    FileUtils.copyFile(file, File(Config.pathDirectory + "slacker.db"))
+                }
+            }
+        }
     }
 
     fun beforeShow() {
@@ -79,60 +96,60 @@ class SlackerController {
         }
         tableTypeOfHardwareColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
 
-        data.settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
-        data.dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
+        Data.settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
+        Data.dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
 
-        data.dbTypeOfHardwareController = DBTypeOfHardwareController(
+        Data.dbTypeOfHardwareController = DBTypeOfHardwareController(
             tableTypeOfHardware,
             buttonTableTypeOfHardwareEdit,
             buttonTableTypeOfHardwareDelete
         )
 
-        data.dbMakerController.reloadTable()
-        data.dbTypeOfHardwareController.reloadTable()
+        Data.dbMakerController.reloadTable()
+        Data.dbTypeOfHardwareController.reloadTable()
 
-        fieldLoadDatabase.text = data.config.pathDB
-        fieldLoadTemplates.text = data.config.pathTemplates
+        fieldLoadDatabase.text = Data.config.pathDB
+        fieldLoadTemplates.text = Data.config.pathTemplates
     }
 
     @FXML
     private fun onButtonClickLoadDataBase() {
-        data.settingController.onButtonClickLoadDataBase()
+        Data.settingController.onButtonClickLoadDataBase()
     }
 
     @FXML
     private fun onButtonClickLoadTemplates() {
-        data.settingController.onButtonClickLoadTemplates()
+        Data.settingController.onButtonClickLoadTemplates()
     }
 
     @FXML
     private fun onButtonClickDBMakerAdd() {
-        data.dbMakerController.onButtonClickAdd()
+        Data.dbMakerController.onButtonClickAdd()
     }
 
     @FXML
     private fun onButtonClickDBMakerEdit() {
-        data.dbMakerController.onButtonClickEdit()
+        Data.dbMakerController.onButtonClickEdit()
     }
 
     @FXML
     private fun onButtonClickDBMakerDelete() {
-        data.dbMakerController.onButtonClickDelete()
+        Data.dbMakerController.onButtonClickDelete()
     }
 
     @FXML
     private fun onButtonClickDBTypeOfHardwareAdd() {
-        data.dbTypeOfHardwareController.onButtonClickAdd()
+        Data.dbTypeOfHardwareController.onButtonClickAdd()
     }
 
     @FXML
     private fun onButtonClickDBTypeOfHardwareEdit() {
-        data.dbTypeOfHardwareController.onButtonClickEdit()
+        Data.dbTypeOfHardwareController.onButtonClickEdit()
     }
 
     @FXML
     private fun onButtonClickDBTypeOfHardwareDelete() {
-        data.dbTypeOfHardwareController.onButtonClickDelete()
+        Data.dbTypeOfHardwareController.onButtonClickDelete()
     }
 
     @FXML

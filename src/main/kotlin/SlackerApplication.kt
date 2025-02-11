@@ -23,7 +23,7 @@ class SlackerApplication : Application() {
             TypeOfHardware.createDatabase(conn)
         }
 
-        controller = Data.companion.controller
+        controller = Data.controller
         controller.tabWriteOff.disableProperty().set(true)
         controller.tabExpertise.disableProperty().set(true)
         controller.tabDataBase.disableProperty().set(true)
@@ -37,7 +37,7 @@ class SlackerApplication : Application() {
                 val scene = Scene(fxmlLoader.load())
                 stage.title = "Slacker"
                 stage.scene = scene
-                Data.companion.scene = scene
+                Data.scene = scene
                 beforeShow()
                 stage.show()
             }

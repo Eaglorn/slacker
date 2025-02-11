@@ -2,31 +2,32 @@ package controllers
 
 import Data
 import SqliteDatabase
-import db.TypeOfHardware
-import db.TypeOfHardwares
+import db.Maker
+import db.Makers
 import javafx.fxml.FXML
 import javafx.scene.control.TextField
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.apache.commons.io.FileUtils
 import org.controlsfx.control.Notifications
 import org.ktorm.dsl.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 
-class DBTypeOfHardwareFormEditController {
+class DBMakerFormEditController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-    private var data: Data.companion = Data.companion
 
     @FXML
     lateinit var fieldName: TextField
 
     init {
-        data.dbTypeOfHardwareController.formEditController = this
+        Data.dbMakerController.formEditController = this
     }
 
     @FXML
     private fun onButtonClickEdit() {
-        if (data.dbTypeOfHardwareController.selectId < 0) {
+        if (Data.dbMakerController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -34,12 +35,12 @@ class DBTypeOfHardwareFormEditController {
         }
         runBlocking {
             launch {
-                val database = SqliteDatabase().connect()
-                val query = database.from(TypeOfHardwares).select()
+                val database = SqliteDatabase.connect(Data.config.pathDB)
+                val query = database.from(Makers).select()
 
                 val result = query
-                    .where { (TypeOfHardwares.id eq data.dbTypeOfHardwareController.selectId) }
-                    .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                    .where { (Makers.id eq Data.dbMakerController.selectId) }
+                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
 
                 if (result == null) {
@@ -55,18 +56,19 @@ class DBTypeOfHardwareFormEditController {
                             .showWarning()
                     } else {
                         val result1 = query
-                            .where { (TypeOfHardwares.name eq fieldName.text) }
-                            .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                            .where { (Makers.name eq fieldName.text) }
+                            .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                             .firstOrNull()
                         if (result1 == null) {
-                            database.update(TypeOfHardwares) {
+                            database.update(Makers) {
                                 set(it.name, fieldName.text)
                                 where { it.id eq result.id!! }
                             }
-                            data.dbTypeOfHardwareController.reloadTable()
-                            data.dbTypeOfHardwareController.buttonTableTypeOfHardwareEdit.disableProperty().set(true)
-                            data.dbTypeOfHardwareController.buttonTableTypeOfHardwareDelete.disableProperty().set(true)
-                            data.dbTypeOfHardwareController.formStage.close()
+                            FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                            Data.dbMakerController.reloadTable()
+                            Data.dbMakerController.buttonTableMakerEdit.disableProperty().set(true)
+                            Data.dbMakerController.buttonTableMakerDelete.disableProperty().set(true)
+                            Data.dbMakerController.formStage.close()
                         } else {
                             Notifications.create()
                                 .title("Предупреждение!")
@@ -81,6 +83,6 @@ class DBTypeOfHardwareFormEditController {
 
     @FXML
     private fun onButtonClickCancel() {
-        data.dbMakerController.formStage.close()
+        Data.dbMakerController.formStage.close()
     }
 }

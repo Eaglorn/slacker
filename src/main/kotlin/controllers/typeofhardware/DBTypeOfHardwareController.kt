@@ -21,7 +21,6 @@ class DBTypeOfHardwareController(
     val buttonTableTypeOfHardwareDelete: Button
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-    private var data: Data.companion = Data.companion
 
     lateinit var formStage: Stage
 
@@ -57,7 +56,7 @@ class DBTypeOfHardwareController(
     }
 
     fun reloadTable() {
-        val database = SqliteDatabase().connect()
+        val database = SqliteDatabase.connect(Config.pathDBLocal)
 
         val query = database.from(TypeOfHardwares).select()
 
@@ -89,7 +88,7 @@ class DBTypeOfHardwareController(
         formStage.initModality(Modality.APPLICATION_MODAL)
         formStage.title = "Редактирование записи тип оборудования"
         formStage.scene = formScene
-        val database = SqliteDatabase().connect()
+        val database = SqliteDatabase.connect(Config.pathDBLocal)
         val query = database.from(TypeOfHardwares).select()
         val result = query
             .where { (TypeOfHardwares.id eq selectId) }
@@ -109,7 +108,7 @@ class DBTypeOfHardwareController(
         formStage.initModality(Modality.APPLICATION_MODAL)
         formStage.title = "Удаление записи тип оборудования"
         formStage.scene = formScene
-        val database = SqliteDatabase().connect()
+        val database = SqliteDatabase.connect(Config.pathDBLocal)
         val query = database.from(TypeOfHardwares).select()
         val result = query
             .where { (TypeOfHardwares.id eq selectId) }

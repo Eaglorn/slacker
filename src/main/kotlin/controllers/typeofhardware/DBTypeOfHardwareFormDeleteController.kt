@@ -8,14 +8,15 @@ import javafx.fxml.FXML
 import javafx.scene.control.TextField
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.apache.commons.io.FileUtils
 import org.controlsfx.control.Notifications
 import org.ktorm.dsl.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 
 class DBTypeOfHardwareFormDeleteController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-    private var data: Data.companion = Data.companion
 
     @FXML
     lateinit var fieldID: TextField
@@ -24,12 +25,12 @@ class DBTypeOfHardwareFormDeleteController {
     lateinit var fieldName: TextField
 
     init {
-        data.dbTypeOfHardwareController.formDeleteController = this
+        Data.dbTypeOfHardwareController.formDeleteController = this
     }
 
     @FXML
     private fun onButtonClickDelete() {
-        if (data.dbTypeOfHardwareController.selectId < 0) {
+        if (Data.dbTypeOfHardwareController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -37,11 +38,11 @@ class DBTypeOfHardwareFormDeleteController {
         }
         runBlocking {
             launch {
-                val database = SqliteDatabase().connect()
+                val database = SqliteDatabase.connect(Data.config.pathDB)
                 val query = database.from(TypeOfHardwares).select()
 
                 val result = query
-                    .where { (TypeOfHardwares.id eq data.dbTypeOfHardwareController.selectId) }
+                    .where { (TypeOfHardwares.id eq Data.dbTypeOfHardwareController.selectId) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
 
@@ -54,10 +55,11 @@ class DBTypeOfHardwareFormDeleteController {
                     database.delete(TypeOfHardwares) {
                         it.id eq result.id!!
                     }
-                    data.dbTypeOfHardwareController.reloadTable()
-                    data.dbTypeOfHardwareController.buttonTableTypeOfHardwareEdit.disableProperty().set(true)
-                    data.dbTypeOfHardwareController.buttonTableTypeOfHardwareDelete.disableProperty().set(true)
-                    data.dbTypeOfHardwareController.formStage.close()
+                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                    Data.dbTypeOfHardwareController.reloadTable()
+                    Data.dbTypeOfHardwareController.buttonTableTypeOfHardwareEdit.disableProperty().set(true)
+                    Data.dbTypeOfHardwareController.buttonTableTypeOfHardwareDelete.disableProperty().set(true)
+                    Data.dbTypeOfHardwareController.formStage.close()
                 }
             }
         }
@@ -65,6 +67,6 @@ class DBTypeOfHardwareFormDeleteController {
 
     @FXML
     private fun onButtonClickCancel() {
-        data.dbTypeOfHardwareController.formStage.close()
+        Data.dbTypeOfHardwareController.formStage.close()
     }
 }

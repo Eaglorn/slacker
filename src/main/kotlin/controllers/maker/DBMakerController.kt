@@ -21,7 +21,6 @@ class DBMakerController(
     val buttonTableMakerDelete: Button
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-    private var data: Data.companion = Data.companion
 
     lateinit var formStage: Stage
 
@@ -57,7 +56,7 @@ class DBMakerController(
     }
 
     fun reloadTable() {
-        val database = SqliteDatabase().connect()
+        val database = SqliteDatabase.connect(Config.pathDBLocal)
 
         val query = database.from(Makers).select()
 
@@ -87,7 +86,7 @@ class DBMakerController(
         formStage.initModality(Modality.APPLICATION_MODAL)
         formStage.title = "Редактирование записи производитель"
         formStage.scene = formScene
-        val database = SqliteDatabase().connect()
+        val database = SqliteDatabase.connect(Config.pathDBLocal)
         val query = database.from(Makers).select()
         val result = query
             .where { (Makers.id eq selectId) }
@@ -106,7 +105,7 @@ class DBMakerController(
         formStage.initModality(Modality.APPLICATION_MODAL)
         formStage.title = "Удаление записи производитель"
         formStage.scene = formScene
-        val database = SqliteDatabase().connect()
+        val database = SqliteDatabase.connect(Config.pathDBLocal)
         val query = database.from(Makers).select()
         val result = query
             .where { (Makers.id eq selectId) }

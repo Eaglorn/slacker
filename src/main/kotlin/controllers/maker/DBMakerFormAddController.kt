@@ -2,20 +2,21 @@ package controllers
 
 import Data
 import SqliteDatabase
-import db.TypeOfHardware
-import db.TypeOfHardwares
+import db.Maker
+import db.Makers
 import javafx.fxml.FXML
 import javafx.scene.control.TextField
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.apache.commons.io.FileUtils
 import org.controlsfx.control.Notifications
 import org.ktorm.dsl.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 
-class DBTypeOfHardwareFormAddController {
+class DBMakerFormAddController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-    private var data: Data.companion = Data.companion
 
     @FXML
     private lateinit var fieldName: TextField
@@ -24,22 +25,23 @@ class DBTypeOfHardwareFormAddController {
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
-                val database = SqliteDatabase().connect()
-                val query = database.from(TypeOfHardwares).select()
+                val database = SqliteDatabase.connect(Data.config.pathDB)
+                val query = database.from(Makers).select()
 
                 val result = query
-                    .where { (TypeOfHardwares.name eq fieldName.text) }
-                    .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                    .where { (Makers.name eq fieldName.text) }
+                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
 
                 if (result == null) {
-                    database.insert(TypeOfHardwares) {
+                    database.insert(Makers) {
                         set(it.name, fieldName.text)
                     }
-                    data.dbTypeOfHardwareController.reloadTable()
-                    data.dbTypeOfHardwareController.buttonTableTypeOfHardwareEdit.disableProperty().set(true)
-                    data.dbTypeOfHardwareController.buttonTableTypeOfHardwareDelete.disableProperty().set(true)
-                    data.dbTypeOfHardwareController.formStage.close()
+                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                    Data.dbMakerController.reloadTable()
+                    Data.dbMakerController.buttonTableMakerEdit.disableProperty().set(true)
+                    Data.dbMakerController.buttonTableMakerDelete.disableProperty().set(true)
+                    Data.dbMakerController.formStage.close()
                 } else {
                     Notifications.create()
                         .title("Предупреждение!")
@@ -52,6 +54,6 @@ class DBTypeOfHardwareFormAddController {
 
     @FXML
     private fun onButtonClickCancel() {
-        data.dbTypeOfHardwareController.formStage.close()
+        Data.dbMakerController.formStage.close()
     }
 }

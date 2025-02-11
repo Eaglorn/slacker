@@ -23,37 +23,14 @@ class Config {
     var pathTemplates: String = ""
 
     @Expose
-    lateinit var dateTimeDB: LocalDateTime
-
-    fun save() {
-        val pathDirectory = System.getenv("APPDATA") + "\\slacker\\"
-        val pathConfig = System.getenv("APPDATA") + "\\slacker\\config.json"
-
-        val directory: File = File(pathDirectory)
-
-        if (!directory.exists()) {
-            try {
-                FileUtils.forceMkdir(directory)
-            } catch (e: IOException) {
-                logger.error(e.message)
-            }
-        }
-
-        FileWriter(pathConfig).use { file ->
-            val gson: Gson = GsonBuilder()
-                .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss"))
-                .excludeFieldsWithoutExposeAnnotation()
-                .create()
-            file.write(gson.toJson(this, Config::class.java))
-            file.flush()
-        }
-    }
+    var dateTimeDB: LocalDateTime = LocalDateTime.of(1,1,1, 1, 1)
 
     companion object {
-        fun load(): Config {
-            val pathDirectory = System.getenv("APPDATA") + "\\slacker\\"
-            val pathConfig = System.getenv("APPDATA") + "\\slacker\\config.json"
+        val pathDirectory = System.getenv("APPDATA") + "\\slacker\\"
+        val pathConfig = System.getenv("APPDATA") + "\\slacker\\config.json"
+        val pathDBLocal = System.getenv("APPDATA") + "\\slacker\\slacker.db"
 
+        fun load(): Config {
             val directory: File = File(pathDirectory)
 
             if (!directory.exists()) {
@@ -75,6 +52,27 @@ class Config {
             } else {
                 Config()
             }
+        }
+    }
+
+    fun save() {
+        val directory: File = File(pathDirectory)
+
+        if (!directory.exists()) {
+            try {
+                FileUtils.forceMkdir(directory)
+            } catch (e: IOException) {
+                logger.error(e.message)
+            }
+        }
+
+        FileWriter(pathConfig).use { file ->
+            val gson: Gson = GsonBuilder()
+                .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss"))
+                .excludeFieldsWithoutExposeAnnotation()
+                .create()
+            file.write(gson.toJson(this, Config::class.java))
+            file.flush()
         }
     }
 }
