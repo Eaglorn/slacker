@@ -20,9 +20,6 @@ class DBMakerFormDeleteController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML
-    lateinit var fieldID: TextField
-
-    @FXML
     lateinit var fieldName: TextField
 
     init {

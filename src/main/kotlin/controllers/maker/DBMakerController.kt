@@ -112,7 +112,6 @@ class DBMakerController(
             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
             .firstOrNull()
         if (result != null) {
-            formDeleteController.fieldID.text = result.id.toString()
             formDeleteController.fieldName.text = result.name
         }
         formStage.showAndWait()

@@ -16,18 +16,17 @@ class SlackerApplication : Application() {
     private lateinit var controller: SlackerController
 
     private fun beforeShow() {
-        val database = SqliteDatabase.connect(Data.config.pathDB)
-
-        database.useConnection { conn ->
-            Maker.createDatabase(conn)
-            TypeOfHardware.createDatabase(conn)
-        }
-
         controller = Data.controller
         controller.beforeShow()
     }
 
     override fun start(stage: Stage) {
+        val database = SqliteDatabase.connect("slacker.db")
+        database.useConnection { conn ->
+            Maker.createDatabase(conn)
+            TypeOfHardware.createDatabase(conn)
+        }
+
         runBlocking {
             launch {
                 val fxmlLoader = FXMLLoader(SlackerApplication::class.java.getResource("SlackerApplication.fxml"))
