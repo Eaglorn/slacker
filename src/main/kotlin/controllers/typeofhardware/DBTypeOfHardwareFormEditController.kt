@@ -1,5 +1,6 @@
-package controllers
+package controllers.typeofhardware
 
+import Config
 import Data
 import SqliteDatabase
 import db.TypeOfHardware
@@ -8,10 +9,12 @@ import javafx.fxml.FXML
 import javafx.scene.control.TextField
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.apache.commons.io.FileUtils
 import org.controlsfx.control.Notifications
 import org.ktorm.dsl.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 
 class DBTypeOfHardwareFormEditController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)

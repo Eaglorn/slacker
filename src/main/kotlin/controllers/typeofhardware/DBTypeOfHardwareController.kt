@@ -1,6 +1,6 @@
-package controllers
+package controllers.typeofhardware
 
-import Data
+import Config
 import SqliteDatabase
 import db.TypeOfHardware
 import db.TypeOfHardwareTable

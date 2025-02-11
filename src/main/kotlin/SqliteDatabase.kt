@@ -13,6 +13,7 @@ class SqliteDatabase {
                 logger = Slf4jLoggerAdapter(logger.name)
             )
         }
+
         fun execSqlScript(filename: String, database: Database) {
             database.useConnection { conn ->
                 conn.createStatement().use { statement ->

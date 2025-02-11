@@ -1,5 +1,6 @@
-package controllers
+package controllers.typeofhardware
 
+import Config
 import Data
 import SqliteDatabase
 import db.TypeOfHardware

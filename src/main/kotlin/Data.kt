@@ -1,7 +1,7 @@
-import controllers.DBMakerController
-import controllers.DBTypeOfHardwareController
 import controllers.SettingController
 import controllers.SlackerController
+import controllers.maker.DBMakerController
+import controllers.typeofhardware.DBTypeOfHardwareController
 import javafx.scene.Scene
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

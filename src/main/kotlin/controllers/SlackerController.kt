@@ -2,6 +2,8 @@ package controllers
 
 import Config
 import Data
+import controllers.maker.DBMakerController
+import controllers.typeofhardware.DBTypeOfHardwareController
 import db.MakerTable
 import db.TypeOfHardwareTable
 import javafx.beans.property.SimpleStringProperty
@@ -78,7 +80,7 @@ class SlackerController {
                 val lastModified: Date = Date(file.lastModified())
                 val instant: Instant = lastModified.toInstant()
                 val localDateTime: LocalDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
-                if(Data.config.dateTimeDB.isBefore(localDateTime)) {
+                if (Data.config.dateTimeDB.isBefore(localDateTime)) {
                     FileUtils.copyFile(file, File(Config.pathDirectory + "slacker.db"))
                 }
             }

@@ -23,7 +23,7 @@ class Config {
     var pathTemplates: String = ""
 
     @Expose
-    var dateTimeDB: LocalDateTime = LocalDateTime.of(1,1,1, 1, 1)
+    var dateTimeDB: LocalDateTime = LocalDateTime.of(1, 1, 1, 1, 1)
 
     companion object {
         val pathDirectory = System.getenv("APPDATA") + "\\slacker\\"

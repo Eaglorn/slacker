@@ -16,7 +16,7 @@ class SlackerApplication : Application() {
     private lateinit var controller: SlackerController
 
     private fun beforeShow() {
-        val database = SqliteDatabase().connect()
+        val database = SqliteDatabase.connect(Data.config.pathDB)
 
         database.useConnection { conn ->
             Maker.createDatabase(conn)

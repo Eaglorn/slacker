@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0"
       prefWidth="544.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.DBTypeOfHardwareFormEditController">
+      fx:controller="controllers.typeofhardware.DBTypeOfHardwareFormEditController">
     <children>
         <TextField fx:id="fieldName" alignment="CENTER" layoutX="152.0" layoutY="14.0" prefHeight="35.0"
                    prefWidth="383.0">

@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Font?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="131.0"
       prefWidth="502.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.DBTypeOfHardwareFormDeleteController">
+      fx:controller="controllers.typeofhardware.DBTypeOfHardwareFormDeleteController">
     <children>
         <TextField fx:id="fieldID" editable="false" layoutX="14.0" layoutY="43.0" prefHeight="35.0" prefWidth="121.0">
             <font>

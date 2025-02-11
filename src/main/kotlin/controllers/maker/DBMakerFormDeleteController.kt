@@ -1,5 +1,6 @@
-package controllers
+package controllers.maker
 
+import Config
 import Data
 import SqliteDatabase
 import db.Maker
