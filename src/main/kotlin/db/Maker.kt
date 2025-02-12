@@ -7,6 +7,7 @@ import javafx.beans.property.StringProperty
 import org.ktorm.dsl.QueryRowSet
 import org.ktorm.schema.BaseTable
 import org.ktorm.schema.int
+import org.ktorm.schema.text
 import org.ktorm.schema.varchar
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -34,7 +35,7 @@ data class Maker(val id: Int?, val name: String?) {
 
 object Makers : BaseTable<Maker>("maker") {
     val id = int("id").primaryKey()
-    val name = varchar("name")
+    val name = text("name")
 
     override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean) = Maker(
         id = row[id] ?: 0,
@@ -46,6 +47,7 @@ class MakerTable() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     private var id: IntegerProperty? = null
+
     fun setId(value: Int) {
         idProperty().set(value)
     }
@@ -60,6 +62,7 @@ class MakerTable() {
     }
 
     private var name: StringProperty? = null
+
     fun setName(value: String) {
         nameProperty().set(value)
     }
