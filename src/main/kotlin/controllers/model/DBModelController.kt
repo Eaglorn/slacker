@@ -2,7 +2,10 @@ package controllers.model
 
 import Data
 import db.*
+import javafx.fxml.FXMLLoader
+import javafx.scene.Scene
 import javafx.scene.control.Button
+import javafx.stage.Modality
 import javafx.stage.Stage
 import org.controlsfx.control.tableview2.TableView2
 import org.ktorm.dsl.eq
@@ -21,6 +24,8 @@ class DBModelController(
     lateinit var formStage: Stage
 
     var selectId: Int = -1
+
+    lateinit var formAddController: DBModelFormAddController
 
     init {
         buttonEdit.disableProperty().set(true)
@@ -51,14 +56,21 @@ class DBModelController(
     fun reloadTable() {
         table.items.clear()
         Data.dbModel
-            .map { row -> Model(row[Models.id], row[Models.name], row[Models.maker], row[Models.type_of_hardware]) }
+            .map { row ->
+                Model(
+                    row[Models.id],
+                    row[Models.name],
+                    row[Models.maker_id],
+                    row[Models.type_of_hardware_id]
+                )
+            }
             .forEach {
                 val maker = Data.dbMaker
-                    .where { (Makers.id eq it.maker!!) }
+                    .where { (Makers.id eq it.maker_id!!) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
                 val typeOfHardware = Data.dbTypeOfHardware
-                    .where { (TypeOfHardwares.id eq it.type_of_hardware!!) }
+                    .where { (TypeOfHardwares.id eq it.type_of_hardware_id!!) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
                 table.items.add(ModelTable(it.id, it.name, maker?.name, typeOfHardware?.name))
@@ -66,6 +78,28 @@ class DBModelController(
     }
 
     fun onButtonClickAdd() {
+        val fxmlLoader = FXMLLoader(DBModelFormAddController::class.java.getResource("/DBModelFormAdd.fxml"))
+        val formScene = Scene(fxmlLoader.load())
+        formStage = Stage()
+        formStage.initModality(Modality.APPLICATION_MODAL)
+        formStage.title = "Создание записи модель"
+        formStage.scene = formScene
+
+        Data.updateDB()
+
+        Data.dbMaker
+            .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+            .forEach {
+                Data.dbModelController.formAddController.boxMaker.items.add(it.name)
+            }
+
+        Data.dbTypeOfHardware
+            .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+            .forEach {
+                Data.dbModelController.formAddController.boxTypeOfHardware.items.add(it.name)
+            }
+
+        formStage.showAndWait()
     }
 
     fun onButtonClickEdit() {}

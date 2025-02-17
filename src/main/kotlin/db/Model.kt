@@ -12,7 +12,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.sql.Connection
 
-data class Model(val id: Int?, val name: String?, val maker: Int?, val type_of_hardware: Int?) {
+data class Model(val id: Int?, val name: String?, val maker_id: Int?, val type_of_hardware_id: Int?) {
     companion object {
         fun createDatabase(conn: Connection) {
             val tableExists = conn.createStatement()
@@ -24,10 +24,10 @@ data class Model(val id: Int?, val name: String?, val maker: Int?, val type_of_h
                     CREATE TABLE model (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
-                    maker INT,
-                    type_of_hardware INT,
-                    FOREIGN KEY (maker) REFERENCES maker(id),
-                    FOREIGN KEY (type_of_hardware) REFERENCES type_of_hardware(id)
+                    maker_id INT,
+                    type_of_hardware_id INT,
+                    FOREIGN KEY (maker_id) REFERENCES maker(id),
+                    FOREIGN KEY (type_of_hardware_id) REFERENCES type_of_hardware(id)
                     )
                     """.trimIndent()
                 )
@@ -39,14 +39,14 @@ data class Model(val id: Int?, val name: String?, val maker: Int?, val type_of_h
 object Models : BaseTable<Model>("model") {
     val id = int("id").primaryKey()
     val name = text("name")
-    val maker = int("maker")
-    val type_of_hardware = int("type_of_hardware")
+    val maker_id = int("maker_id")
+    val type_of_hardware_id = int("type_of_hardware_id")
 
     override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean) = Model(
         id = row[id] ?: 0,
         name = row[name].orEmpty(),
-        maker = row[maker] ?: 0,
-        type_of_hardware = row[type_of_hardware] ?: 0
+        maker_id = row[maker_id] ?: 0,
+        type_of_hardware_id = row[type_of_hardware_id] ?: 0
     )
 }
 
