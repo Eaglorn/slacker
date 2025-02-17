@@ -1,7 +1,6 @@
 package controllers.maker
 
-import Config
-import SqliteDatabase
+import Data
 import db.Maker
 import db.MakerTable
 import db.Makers
@@ -11,7 +10,9 @@ import javafx.scene.control.Button
 import javafx.stage.Modality
 import javafx.stage.Stage
 import org.controlsfx.control.tableview2.TableView2
-import org.ktorm.dsl.*
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.map
+import org.ktorm.dsl.where
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -56,13 +57,8 @@ class DBMakerController(
     }
 
     fun reloadTable() {
-        val database = SqliteDatabase.connect(Config.pathDBLocal)
-
-        val query = database.from(Makers).select()
-
         table.items.clear()
-
-        query
+        Data.dbMaker
             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
             .forEach {
                 table.items.add(MakerTable(it.id, it.name))
@@ -86,9 +82,7 @@ class DBMakerController(
         formStage.initModality(Modality.APPLICATION_MODAL)
         formStage.title = "Редактирование записи производитель"
         formStage.scene = formScene
-        val database = SqliteDatabase.connect(Config.pathDBLocal)
-        val query = database.from(Makers).select()
-        val result = query
+        val result = Data.dbMaker
             .where { (Makers.id eq selectId) }
             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
             .firstOrNull()
@@ -105,9 +99,7 @@ class DBMakerController(
         formStage.initModality(Modality.APPLICATION_MODAL)
         formStage.title = "Удаление записи производитель"
         formStage.scene = formScene
-        val database = SqliteDatabase.connect(Config.pathDBLocal)
-        val query = database.from(Makers).select()
-        val result = query
+        val result = Data.dbMaker
             .where { (Makers.id eq selectId) }
             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
             .firstOrNull()

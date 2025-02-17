@@ -96,7 +96,7 @@
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0">
                                             <children>
-                                                <TableView2 fx:id="tableMaker1" layoutY="6.0" prefHeight="579.0"
+                                                <TableView2 fx:id="tableModel" layoutY="6.0" prefHeight="579.0"
                                                             prefWidth="914.0">
                                                     <columns>
                                                         <TableColumn2 fx:id="tableModelColumnId" prefWidth="100.0"
@@ -109,6 +109,14 @@
                                                                       prefWidth="270.0" text="Тип оборудования"/>
                                                     </columns>
                                                 </TableView2>
+                                                <Button layoutX="14.0" layoutY="597.0" mnemonicParsing="false"
+                                                        onAction="#onButtonClickDBModelAdd" text="Добавить"/>
+                                                <Button fx:id="buttonTableModelEdit" layoutX="92.0" layoutY="597.0"
+                                                        mnemonicParsing="false" onAction="#onButtonClickDBModelEdit"
+                                                        text="Изменить"/>
+                                                <Button fx:id="buttonTableModelDelete" layoutX="171.0" layoutY="597.0"
+                                                        mnemonicParsing="false" onAction="#onButtonClickDBModelDelete"
+                                                        text="Удалить"/>
                                             </children>
                                         </AnchorPane>
                                     </content>

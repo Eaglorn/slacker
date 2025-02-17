@@ -3,6 +3,7 @@ package controllers
 import Config
 import Data
 import controllers.maker.DBMakerController
+import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
 import db.MakerTable
 import db.ModelTable
@@ -126,15 +127,6 @@ class SlackerController {
         }
         tableTypeOfHardwareColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
 
-        Data.settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
-        Data.dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
-
-        Data.dbTypeOfHardwareController = DBTypeOfHardwareController(
-            tableTypeOfHardware,
-            buttonTableTypeOfHardwareEdit,
-            buttonTableTypeOfHardwareDelete
-        )
-
         tableModelColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
         tableModelColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
         tableModelColumnMaker.setCellValueFactory { cellData ->
@@ -144,13 +136,25 @@ class SlackerController {
         }
         tableModelColumnTypeOfHardware.setCellValueFactory { cellData ->
             SimpleStringProperty(
-                cellData.value.getTypeofhardware().toString()
+                cellData.value.getTypeOfHardware().toString()
             )
         }
 
+        Data.settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
+
+        Data.dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
+        Data.dbTypeOfHardwareController = DBTypeOfHardwareController(
+            tableTypeOfHardware,
+            buttonTableTypeOfHardwareEdit,
+            buttonTableTypeOfHardwareDelete
+        )
+        Data.dbModelController = DBModelController(tableModel, buttonTableModelEdit, buttonTableModelDelete)
+
         if (Data.config.pathDB.isNotEmpty()) {
+            Data.updateDB()
             Data.dbMakerController.reloadTable()
             Data.dbTypeOfHardwareController.reloadTable()
+            Data.dbModelController.reloadTable()
             if (Data.config.pathTemplates.isNotEmpty()) {
                 fieldLoadDatabase.text = Data.config.pathDB
                 fieldLoadTemplates.text = Data.config.pathTemplates
@@ -206,11 +210,29 @@ class SlackerController {
     }
 
     @FXML
+    private fun onButtonClickDBModelAdd() {
+        Data.dbModelController.onButtonClickAdd()
+    }
+
+    @FXML
+    private fun onButtonClickDBModelEdit() {
+        Data.dbModelController.onButtonClickEdit()
+    }
+
+    @FXML
+    private fun onButtonClickDBModelDelete() {
+        Data.dbModelController.onButtonClickDelete()
+    }
+
+    @FXML
     private fun onButtonLoadApp() {
         if (Data.config.pathDB.isNotEmpty() && Data.config.pathTemplates.isNotEmpty()) {
 
+            Data.updateDB()
+
             Data.dbMakerController.reloadTable()
             Data.dbTypeOfHardwareController.reloadTable()
+            Data.dbModelController.reloadTable()
 
             tabWriteOff.disableProperty().set(false)
             tabExpertise.disableProperty().set(false)

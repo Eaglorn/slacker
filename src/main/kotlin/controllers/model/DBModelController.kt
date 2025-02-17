@@ -1,16 +1,13 @@
 package controllers.model
 
-import Config
-import SqliteDatabase
-import db.Model
-import db.ModelTable
-import db.Models
+import Data
+import db.*
 import javafx.scene.control.Button
 import javafx.stage.Stage
 import org.controlsfx.control.tableview2.TableView2
-import org.ktorm.dsl.from
+import org.ktorm.dsl.eq
 import org.ktorm.dsl.map
-import org.ktorm.dsl.select
+import org.ktorm.dsl.where
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -52,16 +49,27 @@ class DBModelController(
     }
 
     fun reloadTable() {
-        val database = SqliteDatabase.connect(Config.pathDBLocal)
-
-        val query = database.from(Models).select()
-
         table.items.clear()
-
-        query
-            .map { row -> Model(row[Models.id], row[Models.name], row[Models.maker], row[Models.typeofhardware]) }
+        Data.dbModel
+            .map { row -> Model(row[Models.id], row[Models.name], row[Models.maker], row[Models.type_of_hardware]) }
             .forEach {
-                table.items.add(ModelTable(it.id, it.name, it.maker, it.typeofhardware))
+                val maker = Data.dbMaker
+                    .where { (Makers.id eq it.maker!!) }
+                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                    .firstOrNull()
+                val typeOfHardware = Data.dbTypeOfHardware
+                    .where { (TypeOfHardwares.id eq it.type_of_hardware!!) }
+                    .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                    .firstOrNull()
+                table.items.add(ModelTable(it.id, it.name, maker?.name, typeOfHardware?.name))
             }
+    }
+
+    fun onButtonClickAdd() {
+    }
+
+    fun onButtonClickEdit() {}
+
+    fun onButtonClickDelete() {
     }
 }

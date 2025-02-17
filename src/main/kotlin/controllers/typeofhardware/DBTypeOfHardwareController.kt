@@ -1,7 +1,6 @@
 package controllers.typeofhardware
 
-import Config
-import SqliteDatabase
+import Data
 import db.TypeOfHardware
 import db.TypeOfHardwareTable
 import db.TypeOfHardwares
@@ -11,7 +10,9 @@ import javafx.scene.control.Button
 import javafx.stage.Modality
 import javafx.stage.Stage
 import org.controlsfx.control.tableview2.TableView2
-import org.ktorm.dsl.*
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.map
+import org.ktorm.dsl.where
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -56,13 +57,8 @@ class DBTypeOfHardwareController(
     }
 
     fun reloadTable() {
-        val database = SqliteDatabase.connect(Config.pathDBLocal)
-
-        val query = database.from(TypeOfHardwares).select()
-
         table.items.clear()
-
-        query
+        Data.dbTypeOfHardware
             .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
             .forEach {
                 table.items.add(TypeOfHardwareTable(it.id, it.name))
@@ -88,9 +84,7 @@ class DBTypeOfHardwareController(
         formStage.initModality(Modality.APPLICATION_MODAL)
         formStage.title = "Редактирование записи тип оборудования"
         formStage.scene = formScene
-        val database = SqliteDatabase.connect(Config.pathDBLocal)
-        val query = database.from(TypeOfHardwares).select()
-        val result = query
+        val result = Data.dbTypeOfHardware
             .where { (TypeOfHardwares.id eq selectId) }
             .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
             .firstOrNull()
@@ -108,9 +102,7 @@ class DBTypeOfHardwareController(
         formStage.initModality(Modality.APPLICATION_MODAL)
         formStage.title = "Удаление записи тип оборудования"
         formStage.scene = formScene
-        val database = SqliteDatabase.connect(Config.pathDBLocal)
-        val query = database.from(TypeOfHardwares).select()
-        val result = query
+        val result = Data.dbTypeOfHardware
             .where { (TypeOfHardwares.id eq selectId) }
             .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
             .firstOrNull()

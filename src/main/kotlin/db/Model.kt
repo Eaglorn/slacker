@@ -12,7 +12,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.sql.Connection
 
-data class Model(val id: Int?, val name: String?, val maker: Int?, val typeofhardware: Int?) {
+data class Model(val id: Int?, val name: String?, val maker: Int?, val type_of_hardware: Int?) {
     companion object {
         fun createDatabase(conn: Connection) {
             val tableExists = conn.createStatement()
@@ -22,12 +22,12 @@ data class Model(val id: Int?, val name: String?, val maker: Int?, val typeofhar
                 conn.createStatement().executeUpdate(
                     """
                     CREATE TABLE model (
-                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
                     maker INT,
-                    typeofhardware INT,
+                    type_of_hardware INT,
                     FOREIGN KEY (maker) REFERENCES maker(id),
-                    FOREIGN KEY (typeofhardware) REFERENCES typeofhardware(id)
+                    FOREIGN KEY (type_of_hardware) REFERENCES type_of_hardware(id)
                     )
                     """.trimIndent()
                 )
@@ -40,13 +40,13 @@ object Models : BaseTable<Model>("model") {
     val id = int("id").primaryKey()
     val name = text("name")
     val maker = int("maker")
-    val typeofhardware = int("typeofhardware")
+    val type_of_hardware = int("type_of_hardware")
 
     override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean) = Model(
         id = row[id] ?: 0,
         name = row[name].orEmpty(),
         maker = row[maker] ?: 0,
-        typeofhardware = row[typeofhardware] ?: 0
+        type_of_hardware = row[type_of_hardware] ?: 0
     )
 }
 
@@ -83,37 +83,37 @@ class ModelTable() {
         return name as StringProperty
     }
 
-    private var maker: IntegerProperty? = null
+    private var maker: StringProperty? = null
 
-    fun setMaker(value: Int) {
+    fun setMaker(value: String) {
         makerProperty().set(value)
     }
 
-    fun getMaker(): Int {
+    fun getMaker(): String {
         return makerProperty().get()
     }
 
-    fun makerProperty(): IntegerProperty {
-        if (maker == null) maker = SimpleIntegerProperty(this, "0")
-        return maker as IntegerProperty
+    fun makerProperty(): StringProperty {
+        if (maker == null) maker = SimpleStringProperty(this, "")
+        return maker as StringProperty
     }
 
-    private var typeofhardware: IntegerProperty? = null
+    private var type_of_hardware: StringProperty? = null
 
-    fun setTypeofhardware(value: Int) {
-        typeofhardwareProperty().set(value)
+    fun setTypeOfHardware(value: String) {
+        typeOfHardwareProperty().set(value)
     }
 
-    fun getTypeofhardware(): Int {
-        return typeofhardwareProperty().get()
+    fun getTypeOfHardware(): String {
+        return typeOfHardwareProperty().get()
     }
 
-    fun typeofhardwareProperty(): IntegerProperty {
-        if (typeofhardware == null) typeofhardware = SimpleIntegerProperty(this, "0")
-        return typeofhardware as IntegerProperty
+    fun typeOfHardwareProperty(): StringProperty {
+        if (type_of_hardware == null) type_of_hardware = SimpleStringProperty(this, "")
+        return type_of_hardware as StringProperty
     }
 
-    constructor(id: Int?, name: String?, maker: Int?, typeofhardware: Int?) : this() {
+    constructor(id: Int?, name: String?, maker: String?, type_of_hardware: String?) : this() {
         if (id != null) {
             this.setId(id)
         }
@@ -123,8 +123,8 @@ class ModelTable() {
         if (maker != null) {
             this.setMaker(maker)
         }
-        if (typeofhardware != null) {
-            this.setTypeofhardware(typeofhardware)
+        if (type_of_hardware != null) {
+            this.setTypeOfHardware(type_of_hardware)
         }
     }
 }

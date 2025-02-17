@@ -1,8 +1,15 @@
 import controllers.SettingController
 import controllers.SlackerController
 import controllers.maker.DBMakerController
+import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
+import db.Makers
+import db.Models
+import db.TypeOfHardwares
 import javafx.scene.Scene
+import org.ktorm.dsl.Query
+import org.ktorm.dsl.from
+import org.ktorm.dsl.select
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -17,5 +24,17 @@ class Data {
         lateinit var dbTypeOfHardwareController: DBTypeOfHardwareController
         lateinit var dbModelController: DBModelController
         lateinit var scene: Scene
+
+        lateinit var dbMaker: Query
+        lateinit var dbTypeOfHardware: Query
+        lateinit var dbModel: Query
+
+        fun updateDB() {
+            val database = SqliteDatabase.connect(Config.pathDBLocal)
+
+            dbMaker = database.from(Makers).select()
+            dbTypeOfHardware = database.from(TypeOfHardwares).select()
+            dbModel = database.from(Models).select()
+        }
     }
 }

@@ -11,7 +11,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.apache.commons.io.FileUtils
 import org.controlsfx.control.Notifications
-import org.ktorm.dsl.*
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.insert
+import org.ktorm.dsl.map
+import org.ktorm.dsl.where
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -26,19 +29,20 @@ class DBMakerFormAddController {
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
-                val database = SqliteDatabase.connect(Data.config.pathDB)
-                val query = database.from(Makers).select()
+                Data.updateDB()
 
-                val result = query
+                val result = Data.dbMaker
                     .where { (Makers.name eq fieldName.text) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
 
                 if (result == null) {
+                    val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.insert(Makers) {
                         set(it.name, fieldName.text)
                     }
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                    Data.updateDB()
                     Data.dbMakerController.reloadTable()
                     Data.dbMakerController.buttonEdit.disableProperty().set(true)
                     Data.dbMakerController.buttonDelete.disableProperty().set(true)

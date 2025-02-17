@@ -11,7 +11,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.apache.commons.io.FileUtils
 import org.controlsfx.control.Notifications
-import org.ktorm.dsl.*
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.map
+import org.ktorm.dsl.update
+import org.ktorm.dsl.where
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -36,10 +39,9 @@ class DBTypeOfHardwareFormEditController {
         }
         runBlocking {
             launch {
-                val database = SqliteDatabase.connect(Data.config.pathDB)
-                val query = database.from(TypeOfHardwares).select()
+                Data.updateDB()
 
-                val result = query
+                val result = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.id eq Data.dbTypeOfHardwareController.selectId) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
@@ -56,16 +58,18 @@ class DBTypeOfHardwareFormEditController {
                             .text("Введённое наименование уже существует.")
                             .showWarning()
                     } else {
-                        val result1 = query
+                        val result1 = Data.dbTypeOfHardware
                             .where { (TypeOfHardwares.name eq fieldName.text) }
                             .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                             .firstOrNull()
                         if (result1 == null) {
+                            val database = SqliteDatabase.connect(Data.config.pathDB)
                             database.update(TypeOfHardwares) {
                                 set(it.name, fieldName.text)
                                 where { it.id eq result.id!! }
                             }
                             FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                            Data.updateDB()
                             Data.dbTypeOfHardwareController.reloadTable()
                             Data.dbTypeOfHardwareController.buttonEdit.disableProperty().set(true)
                             Data.dbTypeOfHardwareController.buttonDelete.disableProperty().set(true)

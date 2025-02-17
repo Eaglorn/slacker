@@ -11,7 +11,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.apache.commons.io.FileUtils
 import org.controlsfx.control.Notifications
-import org.ktorm.dsl.*
+import org.ktorm.dsl.delete
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.map
+import org.ktorm.dsl.where
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -36,10 +39,9 @@ class DBTypeOfHardwareFormDeleteController {
         }
         runBlocking {
             launch {
-                val database = SqliteDatabase.connect(Data.config.pathDB)
-                val query = database.from(TypeOfHardwares).select()
+                Data.updateDB()
 
-                val result = query
+                val result = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.id eq Data.dbTypeOfHardwareController.selectId) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
@@ -50,10 +52,12 @@ class DBTypeOfHardwareFormDeleteController {
                         .text("Запись с выбранным id в базе отсуствует.")
                         .showWarning()
                 } else {
+                    val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.delete(TypeOfHardwares) {
                         it.id eq result.id!!
                     }
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                    Data.updateDB()
                     Data.dbTypeOfHardwareController.reloadTable()
                     Data.dbTypeOfHardwareController.buttonEdit.disableProperty().set(true)
                     Data.dbTypeOfHardwareController.buttonDelete.disableProperty().set(true)

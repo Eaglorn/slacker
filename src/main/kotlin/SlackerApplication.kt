@@ -1,5 +1,6 @@
 import controllers.SlackerController
 import db.Maker
+import db.Model
 import db.TypeOfHardware
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
@@ -25,6 +26,7 @@ class SlackerApplication : Application() {
         database.useConnection { conn ->
             Maker.createDatabase(conn)
             TypeOfHardware.createDatabase(conn)
+            Model.createDatabase(conn)
         }
 
         runBlocking {

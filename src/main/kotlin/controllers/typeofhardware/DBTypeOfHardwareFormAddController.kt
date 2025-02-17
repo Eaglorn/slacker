@@ -11,7 +11,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.apache.commons.io.FileUtils
 import org.controlsfx.control.Notifications
-import org.ktorm.dsl.*
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.insert
+import org.ktorm.dsl.map
+import org.ktorm.dsl.where
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -26,19 +29,20 @@ class DBTypeOfHardwareFormAddController {
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
-                val database = SqliteDatabase.connect(Data.config.pathDB)
-                val query = database.from(TypeOfHardwares).select()
+                Data.updateDB()
 
-                val result = query
+                val result = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.name eq fieldName.text) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
 
                 if (result == null) {
+                    val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.insert(TypeOfHardwares) {
                         set(it.name, fieldName.text)
                     }
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                    Data.updateDB()
                     Data.dbTypeOfHardwareController.reloadTable()
                     Data.dbTypeOfHardwareController.buttonEdit.disableProperty().set(true)
                     Data.dbTypeOfHardwareController.buttonDelete.disableProperty().set(true)
