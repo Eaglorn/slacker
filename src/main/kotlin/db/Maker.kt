@@ -32,7 +32,7 @@ data class Maker(val id: Int?, val name: String?) {
     }
 }
 
-object Makers : BaseTable<Maker>("maker") {
+object Makers : BaseTable<Maker>("db/maker") {
     val id = int("id").primaryKey()
     val name = text("name")
 

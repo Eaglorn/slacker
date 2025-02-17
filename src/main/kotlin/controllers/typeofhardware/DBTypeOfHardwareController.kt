@@ -67,7 +67,7 @@ class DBTypeOfHardwareController(
 
     fun onButtonClickAdd() {
         val fxmlLoader =
-            FXMLLoader(DBTypeOfHardwareFormAddController::class.java.getResource("/DBTypeOfHardwareFormAdd.fxml"))
+            FXMLLoader(DBTypeOfHardwareFormAddController::class.java.getResource("/db/typeofhardware/Add.fxml"))
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)
@@ -78,7 +78,7 @@ class DBTypeOfHardwareController(
 
     fun onButtonClickEdit() {
         val fxmlLoader =
-            FXMLLoader(DBTypeOfHardwareController::class.java.getResource("/DBTypeOfHardwareFormEdit.fxml"))
+            FXMLLoader(DBTypeOfHardwareController::class.java.getResource("/db/typeofhardware/Edit.fxml"))
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)
@@ -96,7 +96,7 @@ class DBTypeOfHardwareController(
 
     fun onButtonClickDelete() {
         val fxmlLoader =
-            FXMLLoader(DBTypeOfHardwareController::class.java.getResource("/DBTypeOfHardwareFormDelete.fxml"))
+            FXMLLoader(DBTypeOfHardwareController::class.java.getResource("/db/typeofhardware/Delete.fxml"))
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.SearchableComboBox?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="176.0"
+      prefWidth="516.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.model.DBModelFormAddController">
+    <children>
+        <TextField fx:id="fieldName" alignment="CENTER" layoutX="175.0" layoutY="14.0" prefHeight="35.0"
+                   prefWidth="332.0">
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </TextField>
+        <Button layoutX="379.0" layoutY="137.0" mnemonicParsing="false" onAction="#onButtonClickAdd" text="Создать"/>
+        <Button layoutX="449.0" layoutY="137.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена"/>
+        <Label layoutX="15.0" layoutY="19.0" prefHeight="25.0" prefWidth="153.0" text="Наименование модели">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+        <Label layoutX="65.0" layoutY="62.0" prefHeight="25.0" prefWidth="103.0" text="Производитель">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+        <Label layoutX="44.0" layoutY="98.0" prefHeight="25.0" prefWidth="124.0" text="Тип оборудования">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+        <SearchableComboBox fx:id="boxMaker" layoutX="175.0" layoutY="62.0" prefHeight="25.0" prefWidth="332.0"/>
+        <SearchableComboBox fx:id="boxTypeOfHardware" layoutX="175.0" layoutY="98.0" prefHeight="25.0"
+                            prefWidth="332.0"/>
+    </children>
+</Pane>

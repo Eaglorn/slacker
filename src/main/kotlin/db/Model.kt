@@ -36,7 +36,7 @@ data class Model(val id: Int?, val name: String?, val maker_id: Int?, val type_o
     }
 }
 
-object Models : BaseTable<Model>("model") {
+object Models : BaseTable<Model>("db/model") {
     val id = int("id").primaryKey()
     val name = text("name")
     val maker_id = int("maker_id")

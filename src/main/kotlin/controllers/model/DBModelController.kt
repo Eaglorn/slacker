@@ -1,6 +1,8 @@
 package controllers.model
 
 import Data
+import controllers.maker.DBMakerFormDeleteController
+import controllers.maker.DBMakerFormEditController
 import db.*
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -26,6 +28,8 @@ class DBModelController(
     var selectId: Int = -1
 
     lateinit var formAddController: DBModelFormAddController
+    lateinit var formEditController: DBModelFormEditController
+    lateinit var formDeleteController: DBModelFormDeleteController
 
     init {
         buttonEdit.disableProperty().set(true)
@@ -78,7 +82,7 @@ class DBModelController(
     }
 
     fun onButtonClickAdd() {
-        val fxmlLoader = FXMLLoader(DBModelFormAddController::class.java.getResource("/DBModelFormAdd.fxml"))
+        val fxmlLoader = FXMLLoader(DBModelFormAddController::class.java.getResource("/db/model/Add.fxml"))
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)
@@ -102,8 +106,94 @@ class DBModelController(
         formStage.showAndWait()
     }
 
-    fun onButtonClickEdit() {}
+    fun onButtonClickEdit() {
+        val fxmlLoader = FXMLLoader(DBMakerFormEditController::class.java.getResource("/db/model/Edit.fxml"))
+        val formScene = Scene(fxmlLoader.load())
+        formStage = Stage()
+        formStage.initModality(Modality.APPLICATION_MODAL)
+        formStage.title = "Редактирование записи модель"
+        formStage.scene = formScene
+
+        Data.updateDB()
+
+        val result = Data.dbModel
+            .where { (Models.id eq selectId) }
+            .map { row ->
+                Model(
+                    row[Models.id],
+                    row[Models.name],
+                    row[Models.maker_id],
+                    row[Models.type_of_hardware_id]
+                )
+            }
+            .firstOrNull()
+        if (result != null) {
+            formEditController.fieldName.text = result.name
+            Data.dbMaker
+                .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                .forEach { formEditController.boxMaker.items.add(it.name) }
+            Data.dbTypeOfHardware
+                .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                .forEach { formEditController.boxTypeOfHardware.items.add(it.name) }
+            val maker = Data.dbMaker
+                .where { (Makers.id eq result.maker_id!!) }
+                .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                .firstOrNull()
+            val typeOfHardware = Data.dbTypeOfHardware
+                .where { (TypeOfHardwares.id eq result.type_of_hardware_id!!) }
+                .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                .firstOrNull()
+            if (maker != null && typeOfHardware != null) {
+                formEditController.boxMaker.selectionModel.select(maker.name)
+                formEditController.boxTypeOfHardware.selectionModel.select(typeOfHardware.name)
+            }
+        }
+        formStage.showAndWait()
+    }
 
     fun onButtonClickDelete() {
+        val fxmlLoader =
+            FXMLLoader(DBMakerFormDeleteController::class.java.getResource("/db/maker/Delete.fxml"))
+        val formScene = Scene(fxmlLoader.load())
+        formStage = Stage()
+        formStage.initModality(Modality.APPLICATION_MODAL)
+        formStage.title = "Удаление записи модель"
+        formStage.scene = formScene
+
+        Data.updateDB()
+
+        val result = Data.dbModel
+            .where { (Models.id eq selectId) }
+            .map { row ->
+                Model(
+                    row[Models.id],
+                    row[Models.name],
+                    row[Models.maker_id],
+                    row[Models.type_of_hardware_id]
+                )
+            }
+            .firstOrNull()
+        if (result != null) {
+            formDeleteController.fieldName.text = result.name
+            Data.dbMaker
+                .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                .forEach { formDeleteController.boxMaker.items.add(it.name) }
+            Data.dbTypeOfHardware
+                .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                .forEach { formDeleteController.boxTypeOfHardware.items.add(it.name) }
+            val maker = Data.dbMaker
+                .where { (Makers.id eq result.maker_id!!) }
+                .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                .firstOrNull()
+            val typeOfHardware = Data.dbTypeOfHardware
+                .where { (TypeOfHardwares.id eq result.type_of_hardware_id!!) }
+                .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                .firstOrNull()
+            if (maker != null && typeOfHardware != null) {
+                formDeleteController.boxMaker.selectionModel.select(maker.name)
+                formDeleteController.boxTypeOfHardware.selectionModel.select(typeOfHardware.name)
+            }
+        }
+        formStage.showAndWait()
     }
 }

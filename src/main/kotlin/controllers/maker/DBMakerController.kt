@@ -66,7 +66,7 @@ class DBMakerController(
     }
 
     fun onButtonClickAdd() {
-        val fxmlLoader = FXMLLoader(DBMakerFormAddController::class.java.getResource("/DBMakerFormAdd.fxml"))
+        val fxmlLoader = FXMLLoader(DBMakerFormAddController::class.java.getResource("/db/maker/Add.fxml"))
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)
@@ -76,7 +76,7 @@ class DBMakerController(
     }
 
     fun onButtonClickEdit() {
-        val fxmlLoader = FXMLLoader(DBMakerFormEditController::class.java.getResource("/DBMakerFormEdit.fxml"))
+        val fxmlLoader = FXMLLoader(DBMakerFormEditController::class.java.getResource("/db/maker/Edit.fxml"))
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)
@@ -93,7 +93,8 @@ class DBMakerController(
     }
 
     fun onButtonClickDelete() {
-        val fxmlLoader = FXMLLoader(DBMakerFormDeleteController::class.java.getResource("/DBMakerFormDelete.fxml"))
+        val fxmlLoader =
+            FXMLLoader(DBMakerFormDeleteController::class.java.getResource("/db/maker/Delete.fxml"))
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)
