@@ -5,6 +5,7 @@ import Data
 import SqliteDatabase
 import db.Maker
 import db.Makers
+import db.Models
 import javafx.fxml.FXML
 import javafx.scene.control.TextField
 import kotlinx.coroutines.launch
@@ -55,6 +56,9 @@ class DBMakerFormDeleteController {
                     val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.delete(Makers) {
                         it.id eq result.id!!
+                    }
+                    database.delete(Models) {
+                        it.maker_id eq result.id!!
                     }
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                     Data.updateDB()

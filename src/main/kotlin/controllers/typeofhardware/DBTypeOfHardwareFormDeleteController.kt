@@ -3,6 +3,7 @@ package controllers.typeofhardware
 import Config
 import Data
 import SqliteDatabase
+import db.Models
 import db.TypeOfHardware
 import db.TypeOfHardwares
 import javafx.fxml.FXML
@@ -55,6 +56,9 @@ class DBTypeOfHardwareFormDeleteController {
                     val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.delete(TypeOfHardwares) {
                         it.id eq result.id!!
+                    }
+                    database.delete(Models) {
+                        it.type_of_hardware_id eq result.id!!
                     }
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                     Data.updateDB()
