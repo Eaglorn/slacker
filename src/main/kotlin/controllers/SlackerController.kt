@@ -5,6 +5,7 @@ import Data
 import controllers.maker.DBMakerController
 import controllers.typeofhardware.DBTypeOfHardwareController
 import db.MakerTable
+import db.ModelTable
 import db.TypeOfHardwareTable
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
@@ -70,6 +71,27 @@ class SlackerController {
     @FXML
     lateinit var buttonTableTypeOfHardwareDelete: Button
 
+    @FXML
+    lateinit var tableModel: TableView2<ModelTable>
+
+    @FXML
+    lateinit var tableModelColumnId: TableColumn2<ModelTable, String>
+
+    @FXML
+    lateinit var tableModelColumnName: TableColumn2<ModelTable, String>
+
+    @FXML
+    lateinit var tableModelColumnMaker: TableColumn2<ModelTable, String>
+
+    @FXML
+    lateinit var tableModelColumnTypeOfHardware: TableColumn2<ModelTable, String>
+
+    @FXML
+    lateinit var buttonTableModelEdit: Button
+
+    @FXML
+    lateinit var buttonTableModelDelete: Button
+
     init {
         Data.controller = this
         Data.config = Config.load()
@@ -113,7 +135,18 @@ class SlackerController {
             buttonTableTypeOfHardwareDelete
         )
 
-
+        tableModelColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
+        tableModelColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
+        tableModelColumnMaker.setCellValueFactory { cellData ->
+            SimpleStringProperty(
+                cellData.value.getMaker().toString()
+            )
+        }
+        tableModelColumnTypeOfHardware.setCellValueFactory { cellData ->
+            SimpleStringProperty(
+                cellData.value.getTypeofhardware().toString()
+            )
+        }
 
         if (Data.config.pathDB.isNotEmpty()) {
             Data.dbMakerController.reloadTable()

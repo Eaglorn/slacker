@@ -16,9 +16,9 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class DBMakerController(
-    val tableMaker: TableView2<MakerTable>,
-    val buttonTableMakerEdit: Button,
-    val buttonTableMakerDelete: Button
+    private val table: TableView2<MakerTable>,
+    val buttonEdit: Button,
+    val buttonDelete: Button
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -30,25 +30,25 @@ class DBMakerController(
     lateinit var formDeleteController: DBMakerFormDeleteController
 
     init {
-        buttonTableMakerEdit.disableProperty().set(true)
-        buttonTableMakerDelete.disableProperty().set(true)
-        tableMaker.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
+        buttonEdit.disableProperty().set(true)
+        buttonDelete.disableProperty().set(true)
+        table.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
             newValue.let {
                 if (it != null) {
                     selectId = it.getId()
-                    if (buttonTableMakerEdit.disableProperty().get()) {
-                        buttonTableMakerEdit.disableProperty().set(false)
+                    if (buttonEdit.disableProperty().get()) {
+                        buttonEdit.disableProperty().set(false)
                     }
-                    if (buttonTableMakerDelete.disableProperty().get()) {
-                        buttonTableMakerDelete.disableProperty().set(false)
+                    if (buttonDelete.disableProperty().get()) {
+                        buttonDelete.disableProperty().set(false)
                     }
                 } else {
                     selectId = -1
-                    if (!buttonTableMakerEdit.disableProperty().get()) {
-                        buttonTableMakerEdit.disableProperty().set(true)
+                    if (!buttonEdit.disableProperty().get()) {
+                        buttonEdit.disableProperty().set(true)
                     }
-                    if (!buttonTableMakerDelete.disableProperty().get()) {
-                        buttonTableMakerDelete.disableProperty().set(true)
+                    if (!buttonDelete.disableProperty().get()) {
+                        buttonDelete.disableProperty().set(true)
                     }
                 }
             }
@@ -60,12 +60,12 @@ class DBMakerController(
 
         val query = database.from(Makers).select()
 
-        tableMaker.items.clear()
+        table.items.clear()
 
         query
             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
             .forEach {
-                tableMaker.items.add(MakerTable(it.id, it.name))
+                table.items.add(MakerTable(it.id, it.name))
             }
     }
 

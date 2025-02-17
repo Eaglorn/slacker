@@ -94,8 +94,23 @@
                                 </Tab>
                                 <Tab text="Модель">
                                     <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0"
-                                                    prefWidth="914.0"/>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0">
+                                            <children>
+                                                <TableView2 fx:id="tableMaker1" layoutY="6.0" prefHeight="579.0"
+                                                            prefWidth="914.0">
+                                                    <columns>
+                                                        <TableColumn2 fx:id="tableModelColumnId" prefWidth="100.0"
+                                                                      text="Идентификатор"/>
+                                                        <TableColumn2 fx:id="tableModelColumnName" prefWidth="270.0"
+                                                                      text="Наименование"/>
+                                                        <TableColumn2 fx:id="tableModelColumnMaker" prefWidth="270.0"
+                                                                      text="Производитель"/>
+                                                        <TableColumn2 fx:id="tableModelColumnTypeOfHardware"
+                                                                      prefWidth="270.0" text="Тип оборудования"/>
+                                                    </columns>
+                                                </TableView2>
+                                            </children>
+                                        </AnchorPane>
                                     </content>
                                 </Tab>
                                 <Tab text="Адрес">

@@ -16,9 +16,9 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class DBTypeOfHardwareController(
-    val tableTypeOfHardware: TableView2<TypeOfHardwareTable>,
-    val buttonTableTypeOfHardwareEdit: Button,
-    val buttonTableTypeOfHardwareDelete: Button
+    private val table: TableView2<TypeOfHardwareTable>,
+    val buttonEdit: Button,
+    val buttonDelete: Button
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -30,25 +30,25 @@ class DBTypeOfHardwareController(
     lateinit var formDeleteController: DBTypeOfHardwareFormDeleteController
 
     init {
-        buttonTableTypeOfHardwareEdit.disableProperty().set(true)
-        buttonTableTypeOfHardwareDelete.disableProperty().set(true)
-        tableTypeOfHardware.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
+        buttonEdit.disableProperty().set(true)
+        buttonDelete.disableProperty().set(true)
+        table.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
             newValue.let {
                 if (it != null) {
                     selectId = it.getId()
-                    if (buttonTableTypeOfHardwareEdit.disableProperty().get()) {
-                        buttonTableTypeOfHardwareEdit.disableProperty().set(false)
+                    if (buttonEdit.disableProperty().get()) {
+                        buttonEdit.disableProperty().set(false)
                     }
-                    if (buttonTableTypeOfHardwareDelete.disableProperty().get()) {
-                        buttonTableTypeOfHardwareDelete.disableProperty().set(false)
+                    if (buttonDelete.disableProperty().get()) {
+                        buttonDelete.disableProperty().set(false)
                     }
                 } else {
                     selectId = -1
-                    if (!buttonTableTypeOfHardwareEdit.disableProperty().get()) {
-                        buttonTableTypeOfHardwareEdit.disableProperty().set(true)
+                    if (!buttonEdit.disableProperty().get()) {
+                        buttonEdit.disableProperty().set(true)
                     }
-                    if (!buttonTableTypeOfHardwareDelete.disableProperty().get()) {
-                        buttonTableTypeOfHardwareDelete.disableProperty().set(true)
+                    if (!buttonDelete.disableProperty().get()) {
+                        buttonDelete.disableProperty().set(true)
                     }
                 }
             }
@@ -60,12 +60,12 @@ class DBTypeOfHardwareController(
 
         val query = database.from(TypeOfHardwares).select()
 
-        tableTypeOfHardware.items.clear()
+        table.items.clear()
 
         query
             .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
             .forEach {
-                tableTypeOfHardware.items.add(TypeOfHardwareTable(it.id, it.name))
+                table.items.add(TypeOfHardwareTable(it.id, it.name))
             }
     }
 

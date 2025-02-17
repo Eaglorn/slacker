@@ -15,6 +15,7 @@ class Data {
         lateinit var settingController: SettingController
         lateinit var dbMakerController: DBMakerController
         lateinit var dbTypeOfHardwareController: DBTypeOfHardwareController
+        lateinit var dbModelController: DBModelController
         lateinit var scene: Scene
     }
 }

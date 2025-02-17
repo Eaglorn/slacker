@@ -8,7 +8,6 @@ import org.ktorm.dsl.QueryRowSet
 import org.ktorm.schema.BaseTable
 import org.ktorm.schema.int
 import org.ktorm.schema.text
-import org.ktorm.schema.varchar
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.sql.Connection

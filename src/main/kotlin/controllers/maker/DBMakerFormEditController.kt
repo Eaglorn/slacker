@@ -67,8 +67,8 @@ class DBMakerFormEditController {
                             }
                             FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                             Data.dbMakerController.reloadTable()
-                            Data.dbMakerController.buttonTableMakerEdit.disableProperty().set(true)
-                            Data.dbMakerController.buttonTableMakerDelete.disableProperty().set(true)
+                            Data.dbMakerController.buttonEdit.disableProperty().set(true)
+                            Data.dbMakerController.buttonDelete.disableProperty().set(true)
                             Data.dbMakerController.formStage.close()
                         } else {
                             Notifications.create()
