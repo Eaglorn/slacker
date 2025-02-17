@@ -52,34 +52,28 @@ class DBMakerFormEditController {
                         .text("Запись с выбранным id в базе отсуствует.")
                         .showWarning()
                 } else {
-                    if (result.name.equals(fieldName.text)) {
+                    val result1 = Data.dbMaker
+                        .where { (Makers.name eq fieldName.text) }
+                        .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                        .firstOrNull()
+                    if (result1 == null) {
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
+                        database.update(Makers) {
+                            set(it.name, fieldName.text)
+                            where { it.id eq result.id!! }
+                        }
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.updateDB()
+                        Data.dbMakerController.reloadTable()
+                        Data.dbModelController.reloadTable()
+                        Data.dbMakerController.buttonEdit.disableProperty().set(true)
+                        Data.dbMakerController.buttonDelete.disableProperty().set(true)
+                        Data.dbMakerController.formStage.close()
+                    } else {
                         Notifications.create()
                             .title("Предупреждение!")
                             .text("Введённое наименование уже существует.")
                             .showWarning()
-                    } else {
-                        val result1 = Data.dbMaker
-                            .where { (Makers.name eq fieldName.text) }
-                            .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-                            .firstOrNull()
-                        if (result1 == null) {
-                            val database = SqliteDatabase.connect(Data.config.pathDB)
-                            database.update(Makers) {
-                                set(it.name, fieldName.text)
-                                where { it.id eq result.id!! }
-                            }
-                            FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                            Data.updateDB()
-                            Data.dbMakerController.reloadTable()
-                            Data.dbMakerController.buttonEdit.disableProperty().set(true)
-                            Data.dbMakerController.buttonDelete.disableProperty().set(true)
-                            Data.dbMakerController.formStage.close()
-                        } else {
-                            Notifications.create()
-                                .title("Предупреждение!")
-                                .text("Введённое наименование уже существует.")
-                                .showWarning()
-                        }
                     }
                 }
             }

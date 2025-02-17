@@ -52,34 +52,23 @@ class DBTypeOfHardwareFormEditController {
                         .text("Запись с выбранным id в базе отсуствует.")
                         .showWarning()
                 } else {
-                    if (result.name.equals(fieldName.text)) {
-                        Notifications.create()
-                            .title("Предупреждение!")
-                            .text("Введённое наименование уже существует.")
-                            .showWarning()
-                    } else {
-                        val result1 = Data.dbTypeOfHardware
-                            .where { (TypeOfHardwares.name eq fieldName.text) }
-                            .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
-                            .firstOrNull()
-                        if (result1 == null) {
-                            val database = SqliteDatabase.connect(Data.config.pathDB)
-                            database.update(TypeOfHardwares) {
-                                set(it.name, fieldName.text)
-                                where { it.id eq result.id!! }
-                            }
-                            FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                            Data.updateDB()
-                            Data.dbTypeOfHardwareController.reloadTable()
-                            Data.dbTypeOfHardwareController.buttonEdit.disableProperty().set(true)
-                            Data.dbTypeOfHardwareController.buttonDelete.disableProperty().set(true)
-                            Data.dbTypeOfHardwareController.formStage.close()
-                        } else {
-                            Notifications.create()
-                                .title("Предупреждение!")
-                                .text("Введённое наименование уже существует.")
-                                .showWarning()
+                    val result1 = Data.dbTypeOfHardware
+                        .where { (TypeOfHardwares.name eq fieldName.text) }
+                        .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                        .firstOrNull()
+                    if (result1 == null) {
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
+                        database.update(TypeOfHardwares) {
+                            set(it.name, fieldName.text)
+                            where { it.id eq result.id!! }
                         }
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.updateDB()
+                        Data.dbTypeOfHardwareController.reloadTable()
+                        Data.dbModelController.reloadTable()
+                        Data.dbTypeOfHardwareController.buttonEdit.disableProperty().set(true)
+                        Data.dbTypeOfHardwareController.buttonDelete.disableProperty().set(true)
+                        Data.dbTypeOfHardwareController.formStage.close()
                     }
                 }
             }

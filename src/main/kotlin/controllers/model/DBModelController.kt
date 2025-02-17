@@ -1,7 +1,6 @@
 package controllers.model
 
 import Data
-import controllers.maker.DBMakerFormDeleteController
 import controllers.maker.DBMakerFormEditController
 import db.*
 import javafx.fxml.FXMLLoader
@@ -153,7 +152,7 @@ class DBModelController(
 
     fun onButtonClickDelete() {
         val fxmlLoader =
-            FXMLLoader(DBMakerFormDeleteController::class.java.getResource("/db/maker/Delete.fxml"))
+            FXMLLoader(DBModelFormDeleteController::class.java.getResource("/db/model/Delete.fxml"))
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()
         formStage.initModality(Modality.APPLICATION_MODAL)

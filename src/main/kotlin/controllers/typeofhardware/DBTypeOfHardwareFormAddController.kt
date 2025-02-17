@@ -44,6 +44,7 @@ class DBTypeOfHardwareFormAddController {
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                     Data.updateDB()
                     Data.dbTypeOfHardwareController.reloadTable()
+                    Data.dbModelController.reloadTable()
                     Data.dbTypeOfHardwareController.buttonEdit.disableProperty().set(true)
                     Data.dbTypeOfHardwareController.buttonDelete.disableProperty().set(true)
                     Data.dbTypeOfHardwareController.formStage.close()

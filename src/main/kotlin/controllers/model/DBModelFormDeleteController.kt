@@ -3,7 +3,6 @@ package controllers.model
 import Config
 import Data
 import SqliteDatabase
-import db.Makers
 import db.Model
 import db.Models
 import javafx.fxml.FXML
@@ -84,6 +83,6 @@ class DBModelFormDeleteController {
 
     @FXML
     private fun onButtonClickCancel() {
-        Data.dbMakerController.formStage.close()
+        Data.dbModelController.formStage.close()
     }
 }
