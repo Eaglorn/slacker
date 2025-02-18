@@ -5,9 +5,7 @@ import Data
 import controllers.maker.DBMakerController
 import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
-import db.MakerTable
-import db.ModelTable
-import db.TypeOfHardwareTable
+import db.*
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.scene.control.Button
@@ -151,7 +149,15 @@ class SlackerController {
         Data.dbModelController = DBModelController(tableModel, buttonTableModelEdit, buttonTableModelDelete)
 
         if (Data.config.pathDB.isNotEmpty()) {
+            val database = SqliteDatabase.connect(Data.config.pathDB)
+            database.useConnection { conn ->
+                Maker.createDatabase(conn)
+                TypeOfHardware.createDatabase(conn)
+                Model.createDatabase(conn)
+            }
+
             Data.updateDB()
+
             Data.dbMakerController.reloadTable()
             Data.dbTypeOfHardwareController.reloadTable()
             Data.dbModelController.reloadTable()
