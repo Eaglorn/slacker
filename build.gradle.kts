@@ -25,14 +25,14 @@ kotlin {
 val kotlin_version = "2.1.10"
 val kotlinx_coroutines_version = "1.10.1"
 val ktorm_version = "4.1.1"
-val sqlite_jdbc_version = "3.49.0.0"
+val sqlite_jdbc_version = "3.49.1.0"
 val controls_fx_version = "11.2.1"
 val tiles_fx_version = "21.0.9"
 val log4j_version = "2.24.3"
 val disruptor_version = "4.0.0"
-val poi_tl_version = "1.12.2"
 val gson_vesrion = "2.12.1"
 val commons_io_version = "2.18.0"
+val apache_poi_ooxml_version = "5.4.0"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}")
@@ -46,9 +46,9 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-core:${log4j_version}")
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}")
     implementation("com.lmax:disruptor:${disruptor_version}")
-    implementation("com.deepoove:poi-tl:${poi_tl_version}")
     implementation("com.google.code.gson:gson:${gson_vesrion}")
     implementation("commons-io:commons-io:${commons_io_version}")
+    implementation("org.apache.poi:poi-ooxml:${apache_poi_ooxml_version}")
 }
 
 javafx {

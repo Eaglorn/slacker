@@ -2,6 +2,7 @@ package controllers
 
 import Config
 import Data
+import SqliteDatabase
 import controllers.maker.DBMakerController
 import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
