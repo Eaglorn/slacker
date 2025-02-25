@@ -23,9 +23,10 @@ class SlackerApplication : Application() {
         val templatePath = Data.config.pathTemplates + "\\template.docx"
         val outputPath = "c:\\results\\result.docx"
 
-        val variables: MutableMap<String, String> = HashMap()
-        variables["{name}"] = "Алексей"
-        variables["{date}"] = "1 июня 1994 года"
+        val variables = mapOf(
+            "{name}" to "Алексей",
+            "{date}" to "1 июня 1994 года"
+        )
 
         FileInputStream(templatePath).use { fis ->
             XWPFDocument(fis).use { document ->
@@ -34,7 +35,7 @@ class SlackerApplication : Application() {
                         var text = run.getText(0)
                         if (text != null) {
                             for ((key, value) in variables) {
-                                text = text!!.replace(key, value)
+                                text = text.replace(key, value)
                             }
                             run.setText(text, 0)
                         }

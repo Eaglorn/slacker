@@ -3,9 +3,11 @@ import controllers.SlackerController
 import controllers.maker.DBMakerController
 import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
+import controllers.user.DBUserController
 import db.Makers
 import db.Models
 import db.TypeOfHardwares
+import db.Users
 import javafx.scene.Scene
 import org.ktorm.dsl.Query
 import org.ktorm.dsl.from
@@ -23,11 +25,13 @@ class Data {
         lateinit var dbMakerController: DBMakerController
         lateinit var dbTypeOfHardwareController: DBTypeOfHardwareController
         lateinit var dbModelController: DBModelController
+        lateinit var dbUserController: DBUserController
         lateinit var scene: Scene
 
         lateinit var dbMaker: Query
         lateinit var dbTypeOfHardware: Query
         lateinit var dbModel: Query
+        lateinit var dbUser: Query
 
         fun updateDB() {
             val database = SqliteDatabase.connect(Config.pathDBLocal)
@@ -35,6 +39,7 @@ class Data {
             dbMaker = database.from(Makers).select()
             dbTypeOfHardware = database.from(TypeOfHardwares).select()
             dbModel = database.from(Models).select()
+            dbUser = database.from(Users).select()
         }
     }
 }

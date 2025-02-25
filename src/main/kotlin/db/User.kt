@@ -12,7 +12,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.sql.Connection
 
-data class User(val id: Int?, val address: String?) {
+data class User(val id: Int?, val name: String?, val post: String?, val address: String?) {
     companion object {
         fun createDatabase(conn: Connection) {
             val tableExists = conn.createStatement()
@@ -23,6 +23,8 @@ data class User(val id: Int?, val address: String?) {
                     """
                     CREATE TABLE user (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT NOT NULL
+                        post TEXT NOT NULL
                         address TEXT NOT NULL
                     )
                     """.trimIndent()
@@ -34,10 +36,14 @@ data class User(val id: Int?, val address: String?) {
 
 object Users : BaseTable<User>("user") {
     val id = int("id").primaryKey()
+    val name = text("name")
+    val post = text("post")
     val address = text("address")
 
     override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean) = User(
         id = row[id] ?: 0,
+        name = row[name].orEmpty(),
+        post = row[post].orEmpty(),
         address = row[address].orEmpty(),
     )
 }
@@ -46,6 +52,9 @@ class UserTable() {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     private var id: IntegerProperty? = null
+    private var name: StringProperty? = null
+    private var post: StringProperty? = null
+    private var address: StringProperty? = null
 
     fun setId(value: Int) {
         idProperty().set(value)
@@ -60,7 +69,31 @@ class UserTable() {
         return id as IntegerProperty
     }
 
-    private var address: StringProperty? = null
+    fun setName(value: String) {
+        nameProperty().set(value)
+    }
+
+    fun getName(): String {
+        return nameProperty().get()
+    }
+
+    fun nameProperty(): StringProperty {
+        if (name == null) name = SimpleStringProperty(this, "")
+        return name as StringProperty
+    }
+
+    fun setPost(value: String) {
+        postProperty().set(value)
+    }
+
+    fun getPost(): String {
+        return postProperty().get()
+    }
+
+    fun postProperty(): StringProperty {
+        if (post == null) post = SimpleStringProperty(this, "")
+        return post as StringProperty
+    }
 
     fun setAddress(value: String) {
         addressProperty().set(value)
@@ -75,9 +108,15 @@ class UserTable() {
         return address as StringProperty
     }
 
-    constructor(id: Int?, address: String?) : this() {
+    constructor(id: Int?, name: String?, post: String?, address: String?) : this() {
         if (id != null) {
             this.setId(id)
+        }
+        if (name != null) {
+            this.setName(name)
+        }
+        if (post != null) {
+            this.setPost(post)
         }
         if (address != null) {
             this.setAddress(address)
