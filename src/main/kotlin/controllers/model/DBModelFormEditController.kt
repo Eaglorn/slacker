@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 class DBModelFormEditController {
+    @Suppress("unused")
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML
@@ -35,6 +36,7 @@ class DBModelFormEditController {
         Data.dbModelController.formEditController = this
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickEdit() {
         if (Data.dbModelController.selectId < 0) {
@@ -108,6 +110,7 @@ class DBModelFormEditController {
         }
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
         Data.dbModelController.formStage.close()

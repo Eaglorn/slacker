@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 class DBTypeOfHardwareFormEditController {
+    @Suppress("unused")
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML
@@ -29,6 +30,7 @@ class DBTypeOfHardwareFormEditController {
         Data.dbTypeOfHardwareController.formEditController = this
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickEdit() {
         if (Data.dbTypeOfHardwareController.selectId < 0) {
@@ -75,6 +77,7 @@ class DBTypeOfHardwareFormEditController {
         }
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
         Data.dbMakerController.formStage.close()

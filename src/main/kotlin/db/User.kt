@@ -1,6 +1,5 @@
 package db
 
-import Identifiable
 import javafx.beans.property.IntegerProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
@@ -11,6 +10,7 @@ import org.ktorm.schema.int
 import org.ktorm.schema.text
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import utils.Identifiable
 import java.sql.Connection
 
 data class User(val id: Int?, val name: String?, val post: String?, val address: String?) {

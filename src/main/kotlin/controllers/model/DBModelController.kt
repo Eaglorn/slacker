@@ -1,13 +1,13 @@
 package controllers.model
 
 import Data
-import controllers.BaseController
 import db.*
 import javafx.scene.control.Button
 import org.controlsfx.control.tableview2.TableView2
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.map
 import org.ktorm.dsl.where
+import utils.BaseController
 
 class DBModelController(
     table: TableView2<ModelTable>,

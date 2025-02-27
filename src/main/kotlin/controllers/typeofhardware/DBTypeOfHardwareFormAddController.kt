@@ -20,11 +20,13 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 class DBTypeOfHardwareFormAddController {
+    @Suppress("unused")
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML
     private lateinit var fieldName: TextField
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickAdd() {
         runBlocking {
@@ -58,6 +60,7 @@ class DBTypeOfHardwareFormAddController {
         }
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
         Data.dbTypeOfHardwareController.formStage.close()

@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 class DBUserFormDeleteController {
+    @Suppress("unused")
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML
@@ -36,6 +37,7 @@ class DBUserFormDeleteController {
         Data.dbUserController.formDeleteController = this
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDelete() {
         if (Data.dbUserController.selectId < 0) {
@@ -74,6 +76,7 @@ class DBUserFormDeleteController {
         }
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
         Data.dbUserController.formStage.close()

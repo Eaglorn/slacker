@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 class DBUserFormAddController {
+    @Suppress("unused")
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML
@@ -32,6 +33,7 @@ class DBUserFormAddController {
     @FXML
     private lateinit var areaAddress: TextArea
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickAdd() {
         runBlocking {
@@ -66,6 +68,7 @@ class DBUserFormAddController {
         }
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
         Data.dbUserController.formStage.close()

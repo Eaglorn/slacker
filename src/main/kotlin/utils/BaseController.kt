@@ -1,6 +1,5 @@
-package controllers
+package utils
 
-import Identifiable
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.control.Button

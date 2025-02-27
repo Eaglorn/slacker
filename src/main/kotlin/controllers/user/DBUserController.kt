@@ -1,7 +1,6 @@
 package controllers.user
 
 import Data
-import controllers.BaseController
 import db.User
 import db.UserTable
 import db.Users
@@ -10,6 +9,7 @@ import org.controlsfx.control.tableview2.TableView2
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.map
 import org.ktorm.dsl.where
+import utils.BaseController
 
 class DBUserController(
     table: TableView2<UserTable>,

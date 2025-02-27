@@ -1,7 +1,6 @@
 package controllers.typeofhardware
 
 import Data
-import controllers.BaseController
 import db.TypeOfHardware
 import db.TypeOfHardwareTable
 import db.TypeOfHardwares
@@ -10,6 +9,7 @@ import org.controlsfx.control.tableview2.TableView2
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.map
 import org.ktorm.dsl.where
+import utils.BaseController
 
 class DBTypeOfHardwareController(
     table: TableView2<TypeOfHardwareTable>,

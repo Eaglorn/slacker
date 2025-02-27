@@ -1,7 +1,6 @@
 package controllers.maker
 
 import Data
-import controllers.BaseController
 import db.Maker
 import db.MakerTable
 import db.Makers
@@ -10,6 +9,7 @@ import org.controlsfx.control.tableview2.TableView2
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.map
 import org.ktorm.dsl.where
+import utils.BaseController
 
 class DBMakerController(
     table: TableView2<MakerTable>,

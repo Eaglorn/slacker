@@ -25,6 +25,7 @@ import java.time.ZoneId
 import java.util.*
 
 class SlackerController {
+    @Suppress("unused")
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML
@@ -208,76 +209,91 @@ class SlackerController {
         }
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickLoadDataBase() {
         Data.settingController.onButtonClickLoadDataBase()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickLoadTemplates() {
         Data.settingController.onButtonClickLoadTemplates()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBMakerAdd() {
         Data.dbMakerController.onButtonClickAdd()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBMakerEdit() {
         Data.dbMakerController.onButtonClickEdit()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBMakerDelete() {
         Data.dbMakerController.onButtonClickDelete()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBTypeOfHardwareAdd() {
         Data.dbTypeOfHardwareController.onButtonClickAdd()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBTypeOfHardwareEdit() {
         Data.dbTypeOfHardwareController.onButtonClickEdit()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBTypeOfHardwareDelete() {
         Data.dbTypeOfHardwareController.onButtonClickDelete()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBModelAdd() {
         Data.dbModelController.onButtonClickAdd()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBModelEdit() {
         Data.dbModelController.onButtonClickEdit()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBModelDelete() {
         Data.dbModelController.onButtonClickDelete()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBUserAdd() {
         Data.dbUserController.onButtonClickAdd()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBUserEdit() {
         Data.dbUserController.onButtonClickEdit()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonClickDBUserDelete() {
         Data.dbUserController.onButtonClickDelete()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onButtonLoadApp() {
         if (Data.config.pathDB.isNotEmpty() && Data.config.pathTemplates.isNotEmpty()) {
