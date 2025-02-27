@@ -1,5 +1,6 @@
 package db
 
+import Identifiable
 import javafx.beans.property.IntegerProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
@@ -50,70 +51,50 @@ object Models : BaseTable<Model>("model") {
     )
 }
 
-class ModelTable() {
+class ModelTable : Identifiable {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    private var id: IntegerProperty? = null
+    private var id: IntegerProperty = SimpleIntegerProperty(this, "id", 0)
 
     fun setId(value: Int) {
-        idProperty().set(value)
+        id.set(value)
     }
 
-    fun getId(): Int {
-        return idProperty().get()
+    override fun getId(): Int {
+        return id.get()
     }
 
-    fun idProperty(): IntegerProperty {
-        if (id == null) id = SimpleIntegerProperty(this, "0")
-        return id as IntegerProperty
-    }
-
-    private var name: StringProperty? = null
+    private var name: StringProperty = SimpleStringProperty(this, "name", "")
 
     fun setName(value: String) {
-        nameProperty().set(value)
+        name.set(value)
     }
 
     fun getName(): String {
-        return nameProperty().get()
+        return name.get()
     }
 
-    fun nameProperty(): StringProperty {
-        if (name == null) name = SimpleStringProperty(this, "")
-        return name as StringProperty
-    }
-
-    private var maker: StringProperty? = null
+    private var maker: StringProperty = SimpleStringProperty(this, "maker", "")
 
     fun setMaker(value: String) {
-        makerProperty().set(value)
+        maker.set(value)
     }
 
     fun getMaker(): String {
-        return makerProperty().get()
+        return maker.get()
     }
 
-    fun makerProperty(): StringProperty {
-        if (maker == null) maker = SimpleStringProperty(this, "")
-        return maker as StringProperty
-    }
-
-    private var type_of_hardware: StringProperty? = null
+    private var type_of_hardware: StringProperty = SimpleStringProperty(this, "type_of_hardware", "")
 
     fun setTypeOfHardware(value: String) {
-        typeOfHardwareProperty().set(value)
+        type_of_hardware.set(value)
     }
 
     fun getTypeOfHardware(): String {
-        return typeOfHardwareProperty().get()
+        return type_of_hardware.get()
     }
 
-    fun typeOfHardwareProperty(): StringProperty {
-        if (type_of_hardware == null) type_of_hardware = SimpleStringProperty(this, "")
-        return type_of_hardware as StringProperty
-    }
-
-    constructor(id: Int?, name: String?, maker: String?, type_of_hardware: String?) : this() {
+    constructor(id: Int?, name: String?, maker: String?, type_of_hardware: String?) {
         if (id != null) {
             this.setId(id)
         }

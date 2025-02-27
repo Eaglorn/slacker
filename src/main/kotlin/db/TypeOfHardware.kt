@@ -1,5 +1,6 @@
 package db
 
+import Identifiable
 import javafx.beans.property.IntegerProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
@@ -42,40 +43,30 @@ object TypeOfHardwares : BaseTable<TypeOfHardware>("type_of_hardware") {
     )
 }
 
-class TypeOfHardwareTable() {
+class TypeOfHardwareTable : Identifiable {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    private var id: IntegerProperty? = null
+    private var id: IntegerProperty = SimpleIntegerProperty(this, "id", 0)
 
     fun setId(value: Int) {
-        idProperty().set(value)
+        id.set(value)
     }
 
-    fun getId(): Int {
-        return idProperty().get()
+    override fun getId(): Int {
+        return id.get()
     }
 
-    fun idProperty(): IntegerProperty {
-        if (id == null) id = SimpleIntegerProperty(this, "0")
-        return id as IntegerProperty
-    }
-
-    private var name: StringProperty? = null
+    private var name: StringProperty = SimpleStringProperty(this, "name", "")
 
     fun setName(value: String) {
-        nameProperty().set(value)
+        name.set(value)
     }
 
     fun getName(): String {
-        return nameProperty().get()
+        return name.get()
     }
 
-    fun nameProperty(): StringProperty {
-        if (name == null) name = SimpleStringProperty(this, "")
-        return name as StringProperty
-    }
-
-    constructor(id: Int?, name: String?) : this() {
+    constructor(id: Int?, name: String?) {
         if (id != null) {
             this.setId(id)
         }

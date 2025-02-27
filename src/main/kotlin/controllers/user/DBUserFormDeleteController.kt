@@ -12,43 +12,56 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.apache.commons.io.FileUtils
 import org.controlsfx.control.Notifications
+import org.ktorm.dsl.delete
 import org.ktorm.dsl.eq
-import org.ktorm.dsl.insert
 import org.ktorm.dsl.map
 import org.ktorm.dsl.where
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-class DBUserFormAddController {
+class DBUserFormDeleteController {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML
-    private lateinit var fieldName: TextField
+    lateinit var fieldName: TextField
 
     @FXML
-    private lateinit var fieldPost: TextField
+    lateinit var fieldPost: TextField
 
     @FXML
-    private lateinit var areaAddress: TextArea
+    lateinit var areaAddress: TextArea
+
+    init {
+        Data.dbUserController.formDeleteController = this
+    }
 
     @FXML
-    private fun onButtonClickAdd() {
+    private fun onButtonClickDelete() {
+        if (Data.dbUserController.selectId < 0) {
+            Notifications.create()
+                .title("Предупреждение!")
+                .text("Отсутсвует выбор записи в таблице.")
+                .showWarning()
+        }
         runBlocking {
             launch {
                 Data.updateDB()
 
                 val result = Data.dbUser
-                    .where { (Users.name eq fieldName.text) }
+                    .where { (Users.id eq Data.dbUserController.selectId) }
                     .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                     .firstOrNull()
 
                 if (result == null) {
+                    Notifications.create()
+                        .title("Предупреждение!")
+                        .text("Запись с выбранным id в базе отсуствует.")
+                        .showWarning()
+                } else {
                     val database = SqliteDatabase.connect(Data.config.pathDB)
-                    database.insert(Users) {
-                        set(it.name, fieldName.text)
-                        set(it.post, fieldPost.text)
-                        set(it.address, areaAddress.text)
+                    database.delete(Users) {
+                        it.id eq result.id!!
                     }
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                     Data.updateDB()
@@ -56,11 +69,6 @@ class DBUserFormAddController {
                     Data.dbUserController.buttonEdit.disableProperty().set(true)
                     Data.dbUserController.buttonDelete.disableProperty().set(true)
                     Data.dbUserController.formStage.close()
-                } else {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("Запись с введённым ФИО уже существует.")
-                        .showWarning()
                 }
             }
         }

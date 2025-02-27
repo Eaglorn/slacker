@@ -5,22 +5,23 @@
 <?import javafx.scene.text.*?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="268.0"
       prefWidth="550.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.user.DBUserFormAddController">
+      fx:controller="controllers.user.DBUserFormDeleteController">
     <children>
-        <TextField fx:id="fieldName" alignment="CENTER" layoutX="94.0" layoutY="14.0" prefHeight="35.0"
+        <TextField fx:id="fieldName" alignment="CENTER" editable="false" layoutX="94.0" layoutY="14.0" prefHeight="35.0"
                    prefWidth="448.0">
             <font>
                 <Font size="16.0"/>
             </font>
         </TextField>
-        <Button layoutX="409.0" layoutY="228.0" mnemonicParsing="false" onAction="#onButtonClickAdd" text="Создать"/>
+        <Button layoutX="409.0" layoutY="228.0" mnemonicParsing="false" onAction="#onButtonClickDelete"
+                text="Удалить"/>
         <Button layoutX="484.0" layoutY="228.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена"/>
         <Label layoutX="53.0" layoutY="19.0" prefHeight="25.0" prefWidth="35.0" text="ФИО">
             <font>
                 <Font size="14.0"/>
             </font>
         </Label>
-        <TextField fx:id="fieldPost" alignment="CENTER" layoutX="94.0" layoutY="58.0" prefHeight="35.0"
+        <TextField fx:id="fieldPost" alignment="CENTER" editable="false" layoutX="94.0" layoutY="58.0" prefHeight="35.0"
                    prefWidth="448.0">
             <font>
                 <Font size="16.0"/>
@@ -31,7 +32,8 @@
                 <Font size="14.0"/>
             </font>
         </Label>
-        <TextArea fx:id="areaAddress" layoutX="94.0" layoutY="99.0" prefHeight="112.0" prefWidth="448.0"/>
+        <TextArea fx:id="areaAddress" editable="false" layoutX="94.0" layoutY="99.0" prefHeight="112.0"
+                  prefWidth="448.0"/>
         <Label layoutX="44.0" layoutY="99.0" prefHeight="25.0" prefWidth="44.0" text="Адрес">
             <font>
                 <Font size="14.0"/>

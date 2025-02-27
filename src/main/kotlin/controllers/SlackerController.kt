@@ -6,6 +6,7 @@ import SqliteDatabase
 import controllers.maker.DBMakerController
 import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
+import controllers.user.DBUserController
 import db.*
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
@@ -92,6 +93,27 @@ class SlackerController {
     @FXML
     lateinit var buttonTableModelDelete: Button
 
+    @FXML
+    lateinit var tableUser: TableView2<UserTable>
+
+    @FXML
+    lateinit var tableUserColumnId: TableColumn2<UserTable, String>
+
+    @FXML
+    lateinit var tableUserColumnName: TableColumn2<UserTable, String>
+
+    @FXML
+    lateinit var tableUserColumnPost: TableColumn2<UserTable, String>
+
+    @FXML
+    lateinit var tableUserColumnAddress: TableColumn2<UserTable, String>
+
+    @FXML
+    lateinit var buttonTableUserEdit: Button
+
+    @FXML
+    lateinit var buttonTableUserDelete: Button
+
     init {
         Data.controller = this
         Data.config = Config.load()
@@ -139,6 +161,11 @@ class SlackerController {
             )
         }
 
+        tableUserColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
+        tableUserColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
+        tableUserColumnPost.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getPost()) }
+        tableUserColumnAddress.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getAddress()) }
+
         Data.settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
 
         Data.dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
@@ -148,6 +175,9 @@ class SlackerController {
             buttonTableTypeOfHardwareDelete
         )
         Data.dbModelController = DBModelController(tableModel, buttonTableModelEdit, buttonTableModelDelete)
+        Data.dbUserController = DBUserController(tableUser, buttonTableUserEdit, buttonTableUserDelete)
+
+
 
         if (Data.config.pathDB.isNotEmpty()) {
             val database = SqliteDatabase.connect(Data.config.pathDB)
@@ -155,6 +185,7 @@ class SlackerController {
                 Maker.createDatabase(conn)
                 TypeOfHardware.createDatabase(conn)
                 Model.createDatabase(conn)
+                User.createDatabase(conn)
             }
 
             Data.updateDB()
@@ -162,6 +193,7 @@ class SlackerController {
             Data.dbMakerController.reloadTable()
             Data.dbTypeOfHardwareController.reloadTable()
             Data.dbModelController.reloadTable()
+            Data.dbUserController.reloadTable()
             if (Data.config.pathTemplates.isNotEmpty()) {
                 fieldLoadDatabase.text = Data.config.pathDB
                 fieldLoadTemplates.text = Data.config.pathTemplates
@@ -232,6 +264,21 @@ class SlackerController {
     }
 
     @FXML
+    private fun onButtonClickDBUserAdd() {
+        Data.dbUserController.onButtonClickAdd()
+    }
+
+    @FXML
+    private fun onButtonClickDBUserEdit() {
+        Data.dbUserController.onButtonClickEdit()
+    }
+
+    @FXML
+    private fun onButtonClickDBUserDelete() {
+        Data.dbUserController.onButtonClickDelete()
+    }
+
+    @FXML
     private fun onButtonLoadApp() {
         if (Data.config.pathDB.isNotEmpty() && Data.config.pathTemplates.isNotEmpty()) {
 
@@ -240,6 +287,7 @@ class SlackerController {
             Data.dbMakerController.reloadTable()
             Data.dbTypeOfHardwareController.reloadTable()
             Data.dbModelController.reloadTable()
+            Data.dbUserController.reloadTable()
 
             tabWriteOff.disableProperty().set(false)
             tabExpertise.disableProperty().set(false)
