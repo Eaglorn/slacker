@@ -20,17 +20,25 @@ import utils.SqliteDatabase
 import java.io.File
 
 class DBModelFormAddController {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused")
+    private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML private lateinit var fieldName: TextField
-    @FXML lateinit var boxMaker: SearchableComboBox<String>
-    @FXML lateinit var boxTypeOfHardware: SearchableComboBox<String>
+    @FXML
+    private lateinit var fieldName : TextField
+
+    @FXML
+    lateinit var boxMaker : SearchableComboBox<String>
+
+    @FXML
+    lateinit var boxTypeOfHardware : SearchableComboBox<String>
 
     init {
         Data.dbModelController.formAddController = this
     }
 
-    @Suppress("unused") @FXML private fun onButtonClickAdd() {
+    @Suppress("unused")
+    @FXML
+    private fun onButtonClickAdd() {
         runBlocking {
             launch {
                 Data.updateDB()
@@ -42,7 +50,7 @@ class DBModelFormAddController {
                             row[Models.name],
                             row[Models.maker_id],
                             row[Models.type_of_hardware_id]
-                             )
+                        )
                     }
                     .firstOrNull()
                 if (result == null) {
@@ -78,7 +86,9 @@ class DBModelFormAddController {
         }
     }
 
-    @Suppress("unused") @FXML private fun onButtonClickCancel() {
+    @Suppress("unused")
+    @FXML
+    private fun onButtonClickCancel() {
         Data.dbModelController.formStage.close()
     }
 }

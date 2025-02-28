@@ -13,14 +13,15 @@ import org.slf4j.LoggerFactory
 import utils.Identifiable
 import java.sql.Connection
 
-data class Model(val id: Int?, val name: String?, val maker_id: Int?, val type_of_hardware_id: Int?) {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+data class Model(val id : Int?, val name : String?, val maker_id : Int?, val type_of_hardware_id : Int?) {
+    @Suppress("unused")
+    private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
     companion object {
-        fun createDatabase(conn: Connection) {
+        fun createDatabase(conn : Connection) {
             val tableExists = conn.createStatement()
                 .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='model'").next()
-            if (!tableExists) {
+            if (! tableExists) {
                 conn.createStatement().executeUpdate(
                     """
                     CREATE TABLE model (
@@ -32,7 +33,7 @@ data class Model(val id: Int?, val name: String?, val maker_id: Int?, val type_o
                     FOREIGN KEY (type_of_hardware_id) REFERENCES type_of_hardware(id)
                     )
                     """.trimIndent()
-                                                    )
+                )
             }
         }
     }
@@ -44,54 +45,55 @@ object Models : BaseTable<Model>("model") {
     val maker_id = int("maker_id")
     val type_of_hardware_id = int("type_of_hardware_id")
 
-    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean) = Model(
+    override fun doCreateEntity(row : QueryRowSet, withReferences : Boolean) = Model(
         id = row[id] ?: 0,
         name = row[name].orEmpty(),
         maker_id = row[maker_id] ?: 0,
         type_of_hardware_id = row[type_of_hardware_id] ?: 0
-                                                                                  )
+    )
 }
 
-class ModelTable(id: Int?, name: String?, maker: String?, type_of_hardware: String?) : Identifiable {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+class ModelTable(id : Int?, name : String?, maker : String?, type_of_hardware : String?) : Identifiable {
+    @Suppress("unused")
+    private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
-    private var id: IntegerProperty = SimpleIntegerProperty(this, "id", 0)
+    private var id : IntegerProperty = SimpleIntegerProperty(this, "id", 0)
 
-    private fun setId(value: Int) {
+    private fun setId(value : Int) {
         id.set(value)
     }
 
-    override fun getId(): Int {
+    override fun getId() : Int {
         return id.get()
     }
 
-    private var name: StringProperty = SimpleStringProperty(this, "name", "")
+    private var name : StringProperty = SimpleStringProperty(this, "name", "")
 
-    private fun setName(value: String) {
+    private fun setName(value : String) {
         name.set(value)
     }
 
-    fun getName(): String {
+    fun getName() : String {
         return name.get()
     }
 
-    private var maker: StringProperty = SimpleStringProperty(this, "maker", "")
+    private var maker : StringProperty = SimpleStringProperty(this, "maker", "")
 
-    private fun setMaker(value: String) {
+    private fun setMaker(value : String) {
         maker.set(value)
     }
 
-    fun getMaker(): String {
+    fun getMaker() : String {
         return maker.get()
     }
 
-    private var type_of_hardware: StringProperty = SimpleStringProperty(this, "type_of_hardware", "")
+    private var type_of_hardware : StringProperty = SimpleStringProperty(this, "type_of_hardware", "")
 
-    private fun setTypeOfHardware(value: String) {
+    private fun setTypeOfHardware(value : String) {
         type_of_hardware.set(value)
     }
 
-    fun getTypeOfHardware(): String {
+    fun getTypeOfHardware() : String {
         return type_of_hardware.get()
     }
 

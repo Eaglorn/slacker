@@ -20,15 +20,19 @@ import utils.SqliteDatabase
 import java.io.File
 
 class DBMakerFormEditController {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused")
+    private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML lateinit var fieldName: TextField
+    @FXML
+    lateinit var fieldName : TextField
 
     init {
         Data.dbMakerController.formEditController = this
     }
 
-    @Suppress("unused") @FXML private fun onButtonClickEdit() {
+    @Suppress("unused")
+    @FXML
+    private fun onButtonClickEdit() {
         if (Data.dbMakerController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
@@ -56,7 +60,7 @@ class DBMakerFormEditController {
                         val database = SqliteDatabase.connect(Data.config.pathDB)
                         database.update(Makers) {
                             set(it.name, fieldName.text)
-                            where { it.id eq result.id!! }
+                            where { it.id eq result.id !! }
                         }
                         FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                         Data.updateDB()

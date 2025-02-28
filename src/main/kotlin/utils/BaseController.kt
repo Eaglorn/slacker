@@ -10,14 +10,14 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 abstract class BaseController<T : Identifiable>(
-    protected val table: TableView2<T>,
-    val buttonEdit: Button,
-    val buttonDelete: Button
-                                               ) {
-    protected val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    protected val table : TableView2<T>,
+    val buttonEdit : Button,
+    val buttonDelete : Button
+) {
+    protected val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
-    lateinit var formStage: Stage
-    var selectId: Int = -1
+    lateinit var formStage : Stage
+    var selectId : Int = - 1
 
     init {
         setupButtons()
@@ -28,19 +28,19 @@ abstract class BaseController<T : Identifiable>(
         buttonDelete.isDisable = true
     }
 
-    private fun toggleButtons(isEnabled: Boolean) {
-        buttonEdit.isDisable = !isEnabled
-        buttonDelete.isDisable = !isEnabled
+    private fun toggleButtons(isEnabled : Boolean) {
+        buttonEdit.isDisable = ! isEnabled
+        buttonDelete.isDisable = ! isEnabled
     }
 
     protected fun setupTableListener() {
         table.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
-            selectId = newValue?.getId() ?: -1
-            toggleButtons(selectId != -1)
+            selectId = newValue?.getId() ?: - 1
+            toggleButtons(selectId != - 1)
         }
     }
 
-    protected fun showModal(fxmlPath: String, title: String, setupController: (Any) -> Unit) {
+    protected fun showModal(fxmlPath : String, title : String, setupController : (Any) -> Unit) {
         val fxmlLoader = FXMLLoader(javaClass.getResource(fxmlPath))
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()

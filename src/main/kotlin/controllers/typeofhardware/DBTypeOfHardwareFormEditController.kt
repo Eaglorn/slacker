@@ -20,15 +20,19 @@ import utils.SqliteDatabase
 import java.io.File
 
 class DBTypeOfHardwareFormEditController {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused")
+    private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML lateinit var fieldName: TextField
+    @FXML
+    lateinit var fieldName : TextField
 
     init {
         Data.dbTypeOfHardwareController.formEditController = this
     }
 
-    @Suppress("unused") @FXML private fun onButtonClickEdit() {
+    @Suppress("unused")
+    @FXML
+    private fun onButtonClickEdit() {
         if (Data.dbTypeOfHardwareController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
@@ -57,7 +61,7 @@ class DBTypeOfHardwareFormEditController {
                         val database = SqliteDatabase.connect(Data.config.pathDB)
                         database.update(TypeOfHardwares) {
                             set(it.name, fieldName.text)
-                            where { it.id eq result.id!! }
+                            where { it.id eq result.id !! }
                         }
                         FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                         Data.updateDB()
@@ -72,7 +76,9 @@ class DBTypeOfHardwareFormEditController {
         }
     }
 
-    @Suppress("unused") @FXML private fun onButtonClickCancel() {
+    @Suppress("unused")
+    @FXML
+    private fun onButtonClickCancel() {
         Data.dbMakerController.formStage.close()
     }
 }

@@ -20,17 +20,25 @@ import utils.SqliteDatabase
 import java.io.File
 
 class DBModelFormEditController {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused")
+    private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML lateinit var fieldName: TextField
-    @FXML lateinit var boxMaker: SearchableComboBox<String>
-    @FXML lateinit var boxTypeOfHardware: SearchableComboBox<String>
+    @FXML
+    lateinit var fieldName : TextField
+
+    @FXML
+    lateinit var boxMaker : SearchableComboBox<String>
+
+    @FXML
+    lateinit var boxTypeOfHardware : SearchableComboBox<String>
 
     init {
         Data.dbModelController.formEditController = this
     }
 
-    @Suppress("unused") @FXML private fun onButtonClickEdit() {
+    @Suppress("unused")
+    @FXML
+    private fun onButtonClickEdit() {
         if (Data.dbModelController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
@@ -48,7 +56,7 @@ class DBModelFormEditController {
                             row[Models.name],
                             row[Models.maker_id],
                             row[Models.type_of_hardware_id]
-                             )
+                        )
                     }
                     .firstOrNull()
                 if (result == null) {
@@ -85,7 +93,7 @@ class DBModelFormEditController {
                                 set(it.name, fieldName.text)
                                 set(it.maker_id, maker.id)
                                 set(it.type_of_hardware_id, typeOfHardware.id)
-                                where { it.id eq result.id!! }
+                                where { it.id eq result.id !! }
                             }
                         }
                         FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
@@ -100,7 +108,9 @@ class DBModelFormEditController {
         }
     }
 
-    @Suppress("unused") @FXML private fun onButtonClickCancel() {
+    @Suppress("unused")
+    @FXML
+    private fun onButtonClickCancel() {
         Data.dbModelController.formStage.close()
     }
 }

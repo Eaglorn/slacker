@@ -12,9 +12,10 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 class SlackerApplication : Application() {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused")
+    private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
-    private lateinit var controller: SlackerController
+    private lateinit var controller : SlackerController
 
     private fun beforeShow() {
         controller = Data.controller
@@ -22,8 +23,9 @@ class SlackerApplication : Application() {
         val templatePath = Data.config.pathTemplates + "\\template.docx"
         val outputPath = "c:\\results\\result.docx"
         val variables = mapOf(
-            "{name}" to "Алексей", "{date}" to "1 июня 1994 года"
-                             )
+            "{name}" to "Алексей",
+            "{date}" to "1 июня 1994 года"
+        )
         FileInputStream(templatePath).use { fis ->
             XWPFDocument(fis).use { document ->
                 for (paragraph in document.paragraphs) {
@@ -44,7 +46,7 @@ class SlackerApplication : Application() {
         }
     }
 
-    override fun start(stage: Stage) {
+    override fun start(stage : Stage) {
         runBlocking {
             launch {
                 val fxmlLoader = FXMLLoader(SlackerApplication::class.java.getResource("SlackerApplication.fxml"))
@@ -59,7 +61,7 @@ class SlackerApplication : Application() {
     }
 }
 
-val logger: Logger = LoggerFactory.getLogger("Main")
+val logger : Logger = LoggerFactory.getLogger("Main")
 
 fun main() {
     Application.launch(SlackerApplication::class.java)

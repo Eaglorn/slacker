@@ -22,17 +22,18 @@ import java.time.ZoneId
 import java.util.*
 
 class SlackerController : SlackerControllerData() {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused")
+    private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
     init {
         Data.controller = this
         Data.config = Config.load()
         if (Data.config.pathDB.isNotEmpty()) {
-            val file: File = File(Data.config.pathDB)
+            val file : File = File(Data.config.pathDB)
             if (file.exists()) {
-                val lastModified: Date = Date(file.lastModified())
-                val instant: Instant = lastModified.toInstant()
-                val localDateTime: LocalDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+                val lastModified : Date = Date(file.lastModified())
+                val instant : Instant = lastModified.toInstant()
+                val localDateTime : LocalDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
                 if (Data.config.dateTimeDB.isBefore(localDateTime)) {
                     FileUtils.copyFile(file, File(Config.pathDirectory + "slacker.db"))
                 }
@@ -53,7 +54,7 @@ class SlackerController : SlackerControllerData() {
         tableTypeOfHardwareColumnId.setCellValueFactory { cellData ->
             SimpleStringProperty(
                 cellData.value.getId().toString()
-                                )
+            )
         }
         tableTypeOfHardwareColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
 
@@ -62,12 +63,12 @@ class SlackerController : SlackerControllerData() {
         tableModelColumnMaker.setCellValueFactory { cellData ->
             SimpleStringProperty(
                 cellData.value.getMaker().toString()
-                                )
+            )
         }
         tableModelColumnTypeOfHardware.setCellValueFactory { cellData ->
             SimpleStringProperty(
                 cellData.value.getTypeOfHardware().toString()
-                                )
+            )
         }
 
         tableUserColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
@@ -81,7 +82,7 @@ class SlackerController : SlackerControllerData() {
             tableTypeOfHardware,
             buttonTableTypeOfHardwareEdit,
             buttonTableTypeOfHardwareDelete
-                                                                    )
+        )
         Data.dbModelController = DBModelController(tableModel, buttonTableModelEdit, buttonTableModelDelete)
         Data.dbUserController = DBUserController(tableUser, buttonTableUserEdit, buttonTableUserDelete)
 

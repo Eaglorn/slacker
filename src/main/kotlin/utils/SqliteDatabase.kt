@@ -7,16 +7,17 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class SqliteDatabase {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused")
+    private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
     companion object {
-        fun connect(path: String): Database {
+        fun connect(path : String) : Database {
             return Database.connect(
                 url = "jdbc:sqlite:$path", logger = Slf4jLoggerAdapter(logger.name)
-                                   )
+            )
         }
 
-        fun execSqlScript(filename: String, database: Database) {
+        fun execSqlScript(filename : String, database : Database) {
             database.useConnection { conn ->
                 conn.createStatement().use { statement ->
                     javaClass.classLoader?.getResourceAsStream(filename)?.bufferedReader()?.use { reader ->

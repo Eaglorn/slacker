@@ -1,5 +1,5 @@
 package utils
 
 interface Identifiable {
-    fun getId(): Int
+    fun getId() : Int
 }

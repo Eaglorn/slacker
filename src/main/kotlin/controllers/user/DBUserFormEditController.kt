@@ -21,17 +21,25 @@ import utils.SqliteDatabase
 import java.io.File
 
 class DBUserFormEditController {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused")
+    private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML lateinit var fieldName: TextField
-    @FXML lateinit var fieldPost: TextField
-    @FXML lateinit var areaAddress: TextArea
+    @FXML
+    lateinit var fieldName : TextField
+
+    @FXML
+    lateinit var fieldPost : TextField
+
+    @FXML
+    lateinit var areaAddress : TextArea
 
     init {
         Data.dbUserController.formEditController = this
     }
 
-    @Suppress("unused") @FXML private fun onButtonClickEdit() {
+    @Suppress("unused")
+    @FXML
+    private fun onButtonClickEdit() {
         if (Data.dbUserController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
@@ -53,7 +61,7 @@ class DBUserFormEditController {
                 } else {
                     if (result.name.equals(fieldName.text) && result.post.equals(fieldPost.text) && result.address.equals(
                             areaAddress.text
-                                                                                                                         )
+                        )
                     ) {
                         Notifications.create()
                             .title("Предупреждение!")
@@ -65,7 +73,7 @@ class DBUserFormEditController {
                             set(it.name, fieldName.text)
                             set(it.post, fieldPost.text)
                             set(it.address, areaAddress.text)
-                            where { it.id eq result.id!! }
+                            where { it.id eq result.id !! }
                         }
                         FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                         Data.updateDB()
@@ -79,7 +87,9 @@ class DBUserFormEditController {
         }
     }
 
-    @Suppress("unused") @FXML private fun onButtonClickCancel() {
+    @Suppress("unused")
+    @FXML
+    private fun onButtonClickCancel() {
         Data.dbUserController.formStage.close()
     }
 }

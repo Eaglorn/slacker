@@ -9,12 +9,12 @@ import org.ktorm.dsl.map
 import org.ktorm.dsl.where
 import utils.BaseController
 
-class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, buttonDelete: Button) :
+class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, buttonDelete : Button) :
     BaseController<ModelTable>(table, buttonEdit, buttonDelete) {
 
-    lateinit var formAddController: DBModelFormAddController
-    lateinit var formEditController: DBModelFormEditController
-    lateinit var formDeleteController: DBModelFormDeleteController
+    lateinit var formAddController : DBModelFormAddController
+    lateinit var formEditController : DBModelFormEditController
+    lateinit var formDeleteController : DBModelFormDeleteController
 
     init {
         setupTableListener()
@@ -29,15 +29,15 @@ class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, butto
                     row[Models.name],
                     row[Models.maker_id],
                     row[Models.type_of_hardware_id]
-                     )
+                )
             }
             .forEach {
                 val maker = Data.dbMaker
-                    .where { (Makers.id eq it.maker_id!!) }
+                    .where { (Makers.id eq it.maker_id !!) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
                 val typeOfHardware = Data.dbTypeOfHardware
-                    .where { (TypeOfHardwares.id eq it.type_of_hardware_id!!) }
+                    .where { (TypeOfHardwares.id eq it.type_of_hardware_id !!) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
                 table.items.add(ModelTable(it.id, it.name, maker?.name, typeOfHardware?.name))
@@ -67,7 +67,7 @@ class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, butto
                         row[Models.name],
                         row[Models.maker_id],
                         row[Models.type_of_hardware_id]
-                         )
+                    )
                 }
                 .firstOrNull()
             if (result != null) {
@@ -79,11 +79,11 @@ class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, butto
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .forEach { formEditController.boxTypeOfHardware.items.add(it.name) }
                 val maker = Data.dbMaker
-                    .where { (Makers.id eq result.maker_id!!) }
+                    .where { (Makers.id eq result.maker_id !!) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
                 val typeOfHardware = Data.dbTypeOfHardware
-                    .where { (TypeOfHardwares.id eq result.type_of_hardware_id!!) }
+                    .where { (TypeOfHardwares.id eq result.type_of_hardware_id !!) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
                 if (maker != null && typeOfHardware != null) {
@@ -105,7 +105,7 @@ class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, butto
                         row[Models.name],
                         row[Models.maker_id],
                         row[Models.type_of_hardware_id]
-                         )
+                    )
                 }
                 .firstOrNull()
             if (result != null) {
@@ -117,11 +117,11 @@ class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, butto
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .forEach { formDeleteController.boxTypeOfHardware.items.add(it.name) }
                 val maker = Data.dbMaker
-                    .where { (Makers.id eq result.maker_id!!) }
+                    .where { (Makers.id eq result.maker_id !!) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
                 val typeOfHardware = Data.dbTypeOfHardware
-                    .where { (TypeOfHardwares.id eq result.type_of_hardware_id!!) }
+                    .where { (TypeOfHardwares.id eq result.type_of_hardware_id !!) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
                 if (maker != null && typeOfHardware != null) {

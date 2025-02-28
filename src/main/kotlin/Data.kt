@@ -17,21 +17,22 @@ import org.slf4j.LoggerFactory
 import utils.SqliteDatabase
 
 class Data {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused")
+    private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
     companion object {
-        var config: Config = Config()
-        lateinit var controller: SlackerController
-        lateinit var settingController: SettingController
-        lateinit var dbMakerController: DBMakerController
-        lateinit var dbTypeOfHardwareController: DBTypeOfHardwareController
-        lateinit var dbModelController: DBModelController
-        lateinit var dbUserController: DBUserController
-        lateinit var scene: Scene
-        lateinit var dbMaker: Query
-        lateinit var dbTypeOfHardware: Query
-        lateinit var dbModel: Query
-        lateinit var dbUser: Query
+        var config : Config = Config()
+        lateinit var controller : SlackerController
+        lateinit var settingController : SettingController
+        lateinit var dbMakerController : DBMakerController
+        lateinit var dbTypeOfHardwareController : DBTypeOfHardwareController
+        lateinit var dbModelController : DBModelController
+        lateinit var dbUserController : DBUserController
+        lateinit var scene : Scene
+        lateinit var dbMaker : Query
+        lateinit var dbTypeOfHardware : Query
+        lateinit var dbModel : Query
+        lateinit var dbUser : Query
 
         fun updateDB() {
             val database = SqliteDatabase.connect(Config.pathDBLocal)
