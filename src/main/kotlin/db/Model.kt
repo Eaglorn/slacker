@@ -14,7 +14,8 @@ import utils.Identifiable
 import java.sql.Connection
 
 data class Model(val id: Int?, val name: String?, val maker_id: Int?, val type_of_hardware_id: Int?) {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused")
+    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     companion object {
         fun createDatabase(conn: Connection) {
@@ -54,28 +55,57 @@ object Models : BaseTable<Model>("model") {
 }
 
 class ModelTable(id: Int?, name: String?, maker: String?, type_of_hardware: String?) : Identifiable {
-    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused")
+    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     private var id: IntegerProperty = SimpleIntegerProperty(this, "id", 0)
-    private fun setId(value: Int) { id.set(value) }
-    override fun getId(): Int { return id.get() }
+    private fun setId(value: Int) {
+        id.set(value)
+    }
+
+    override fun getId(): Int {
+        return id.get()
+    }
 
     private var name: StringProperty = SimpleStringProperty(this, "name", "")
-    private fun setName(value: String) { name.set(value) }
-    fun getName(): String { return name.get() }
+    private fun setName(value: String) {
+        name.set(value)
+    }
+
+    fun getName(): String {
+        return name.get()
+    }
 
     private var maker: StringProperty = SimpleStringProperty(this, "maker", "")
-    private fun setMaker(value: String) { maker.set(value) }
-    fun getMaker(): String { return maker.get() }
+    private fun setMaker(value: String) {
+        maker.set(value)
+    }
+
+    fun getMaker(): String {
+        return maker.get()
+    }
 
     private var type_of_hardware: StringProperty = SimpleStringProperty(this, "type_of_hardware", "")
-    private fun setTypeOfHardware(value: String) { type_of_hardware.set(value) }
-    fun getTypeOfHardware(): String { return type_of_hardware.get() }
+    private fun setTypeOfHardware(value: String) {
+        type_of_hardware.set(value)
+    }
+
+    fun getTypeOfHardware(): String {
+        return type_of_hardware.get()
+    }
 
     init {
-        if (id != null) { this.setId(id) }
-        if (name != null) { this.setName(name) }
-        if (maker != null) { this.setMaker(maker) }
-        if (type_of_hardware != null) { this.setTypeOfHardware(type_of_hardware) }
+        if (id != null) {
+            this.setId(id)
+        }
+        if (name != null) {
+            this.setName(name)
+        }
+        if (maker != null) {
+            this.setMaker(maker)
+        }
+        if (type_of_hardware != null) {
+            this.setTypeOfHardware(type_of_hardware)
+        }
     }
 }

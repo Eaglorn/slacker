@@ -9,7 +9,8 @@ import org.ktorm.dsl.map
 import org.ktorm.dsl.where
 import utils.BaseController
 
-class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, buttonDelete: Button) : BaseController<ModelTable>(table, buttonEdit, buttonDelete) {
+class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, buttonDelete: Button) :
+    BaseController<ModelTable>(table, buttonEdit, buttonDelete) {
     lateinit var formAddController: DBModelFormAddController
     lateinit var formEditController: DBModelFormEditController
     lateinit var formDeleteController: DBModelFormDeleteController
@@ -21,7 +22,14 @@ class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, butto
     override fun reloadTable() {
         table.items.clear()
         Data.dbModel
-            .map { row -> Model(row[Models.id], row[Models.name], row[Models.maker_id], row[Models.type_of_hardware_id]) }
+            .map { row ->
+                Model(
+                    row[Models.id],
+                    row[Models.name],
+                    row[Models.maker_id],
+                    row[Models.type_of_hardware_id]
+                )
+            }
             .forEach {
                 val maker = Data.dbMaker
                     .where { (Makers.id eq it.maker_id!!) }
@@ -52,7 +60,14 @@ class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, butto
             Data.updateDB()
             val result = Data.dbModel
                 .where { (Models.id eq selectId) }
-                .map { row -> Model(row[Models.id], row[Models.name], row[Models.maker_id], row[Models.type_of_hardware_id]) }
+                .map { row ->
+                    Model(
+                        row[Models.id],
+                        row[Models.name],
+                        row[Models.maker_id],
+                        row[Models.type_of_hardware_id]
+                    )
+                }
                 .firstOrNull()
             if (result != null) {
                 formEditController.fieldName.text = result.name
@@ -83,7 +98,14 @@ class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, butto
             Data.updateDB()
             val result = Data.dbModel
                 .where { (Models.id eq selectId) }
-                .map { row -> Model(row[Models.id], row[Models.name], row[Models.maker_id], row[Models.type_of_hardware_id]) }
+                .map { row ->
+                    Model(
+                        row[Models.id],
+                        row[Models.name],
+                        row[Models.maker_id],
+                        row[Models.type_of_hardware_id]
+                    )
+                }
                 .firstOrNull()
             if (result != null) {
                 formDeleteController.fieldName.text = result.name

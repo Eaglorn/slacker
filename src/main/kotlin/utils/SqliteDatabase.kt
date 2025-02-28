@@ -12,18 +12,14 @@ class SqliteDatabase {
     companion object {
         fun connect(path: String): Database {
             return Database.connect(
-                url = "jdbc:sqlite:$path",
-                logger = Slf4jLoggerAdapter(logger.name)
+                url = "jdbc:sqlite:$path", logger = Slf4jLoggerAdapter(logger.name)
             )
         }
 
         fun execSqlScript(filename: String, database: Database) {
             database.useConnection { conn ->
                 conn.createStatement().use { statement ->
-                    javaClass.classLoader
-                        ?.getResourceAsStream(filename)
-                        ?.bufferedReader()
-                        ?.use { reader ->
+                    javaClass.classLoader?.getResourceAsStream(filename)?.bufferedReader()?.use { reader ->
                             for (sql in reader.readText().split(';')) {
                                 if (sql.any { it.isLetterOrDigit() }) {
                                     statement.executeUpdate(sql)

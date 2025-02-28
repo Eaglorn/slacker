@@ -31,12 +31,11 @@ class Config {
                 FileUtils.forceMkdir(directory)
             }
             return if (Files.exists(Paths.get(pathConfig))) {
-                val gson: Gson = GsonBuilder()
-                    .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss"))
-                    .excludeFieldsWithoutExposeAnnotation()
-                    .create()
-                val configServer: Config =
-                    gson.fromJson(JsonReader(FileReader(pathConfig)), Config::class.java)
+                val gson: Gson = GsonBuilder().registerTypeAdapter(
+                        LocalDateTime::class.java,
+                        LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss")
+                    ).excludeFieldsWithoutExposeAnnotation().create()
+                val configServer: Config = gson.fromJson(JsonReader(FileReader(pathConfig)), Config::class.java)
                 configServer
             } else {
                 Config()
@@ -50,10 +49,10 @@ class Config {
             FileUtils.forceMkdir(directory)
         }
         FileWriter(pathConfig).use { file ->
-            val gson: Gson = GsonBuilder()
-                .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss"))
-                .excludeFieldsWithoutExposeAnnotation()
-                .create()
+            val gson: Gson = GsonBuilder().registerTypeAdapter(
+                    LocalDateTime::class.java,
+                    LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss")
+                ).excludeFieldsWithoutExposeAnnotation().create()
             file.write(gson.toJson(this, Config::class.java))
             file.flush()
         }

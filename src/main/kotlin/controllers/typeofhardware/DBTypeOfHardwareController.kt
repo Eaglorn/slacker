@@ -11,7 +11,8 @@ import org.ktorm.dsl.map
 import org.ktorm.dsl.where
 import utils.BaseController
 
-class DBTypeOfHardwareController(table: TableView2<TypeOfHardwareTable>, buttonEdit: Button, buttonDelete: Button) : BaseController<TypeOfHardwareTable>(table, buttonEdit, buttonDelete) {
+class DBTypeOfHardwareController(table: TableView2<TypeOfHardwareTable>, buttonEdit: Button, buttonDelete: Button) :
+    BaseController<TypeOfHardwareTable>(table, buttonEdit, buttonDelete) {
     lateinit var formEditController: DBTypeOfHardwareFormEditController
     lateinit var formDeleteController: DBTypeOfHardwareFormDeleteController
 

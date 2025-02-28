@@ -12,7 +12,11 @@ class LocalDateTimeAdapter(pattern: String) : JsonSerializer<LocalDateTime>, Jso
 
     private val formatter: DateTimeFormatter = pattern.let { DateTimeFormatter.ofPattern(it) }
 
-    @Throws(JsonParseException::class) override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): LocalDateTime {
+    @Throws(JsonParseException::class) override fun deserialize(
+        json: JsonElement,
+        typeOfT: Type,
+        context: JsonDeserializationContext
+    ): LocalDateTime {
         return LocalDateTime.parse(json.asString, formatter)
     }
 

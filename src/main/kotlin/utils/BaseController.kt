@@ -9,7 +9,11 @@ import org.controlsfx.control.tableview2.TableView2
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-abstract class BaseController<T : Identifiable>(protected val table: TableView2<T>, val buttonEdit: Button, val buttonDelete: Button) {
+abstract class BaseController<T : Identifiable>(
+    protected val table: TableView2<T>,
+    val buttonEdit: Button,
+    val buttonDelete: Button
+) {
     protected val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     lateinit var formStage: Stage
