@@ -24,7 +24,6 @@ class Config {
         val pathDirectory = System.getenv("APPDATA") + "\\slacker\\"
         val pathConfig = System.getenv("APPDATA") + "\\slacker\\config.json"
         val pathDBLocal = System.getenv("APPDATA") + "\\slacker\\slacker.db"
-
         fun load(): Config {
             val directory: File = File(pathDirectory)
             if (!directory.exists()) {
@@ -32,9 +31,9 @@ class Config {
             }
             return if (Files.exists(Paths.get(pathConfig))) {
                 val gson: Gson = GsonBuilder().registerTypeAdapter(
-                        LocalDateTime::class.java,
-                        LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss")
-                    ).excludeFieldsWithoutExposeAnnotation().create()
+                    LocalDateTime::class.java,
+                    LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss")
+                                                                  ).excludeFieldsWithoutExposeAnnotation().create()
                 val configServer: Config = gson.fromJson(JsonReader(FileReader(pathConfig)), Config::class.java)
                 configServer
             } else {
@@ -50,9 +49,9 @@ class Config {
         }
         FileWriter(pathConfig).use { file ->
             val gson: Gson = GsonBuilder().registerTypeAdapter(
-                    LocalDateTime::class.java,
-                    LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss")
-                ).excludeFieldsWithoutExposeAnnotation().create()
+                LocalDateTime::class.java,
+                LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss")
+                                                              ).excludeFieldsWithoutExposeAnnotation().create()
             file.write(gson.toJson(this, Config::class.java))
             file.flush()
         }

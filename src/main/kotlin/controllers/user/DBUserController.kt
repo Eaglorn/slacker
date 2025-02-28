@@ -13,6 +13,7 @@ import utils.BaseController
 
 class DBUserController(table: TableView2<UserTable>, buttonEdit: Button, buttonDelete: Button) :
     BaseController<UserTable>(table, buttonEdit, buttonDelete) {
+
     lateinit var formEditController: DBUserFormEditController
     lateinit var formDeleteController: DBUserFormDeleteController
 

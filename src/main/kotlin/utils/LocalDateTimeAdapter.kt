@@ -16,7 +16,7 @@ class LocalDateTimeAdapter(pattern: String) : JsonSerializer<LocalDateTime>, Jso
         json: JsonElement,
         typeOfT: Type,
         context: JsonDeserializationContext
-    ): LocalDateTime {
+                                                               ): LocalDateTime {
         return LocalDateTime.parse(json.asString, formatter)
     }
 

@@ -31,15 +31,22 @@ class DBMakerFormDeleteController {
 
     @Suppress("unused") @FXML private fun onButtonClickDelete() {
         if (Data.dbMakerController.selectId < 0) {
-            Notifications.create().title("Предупреждение!").text("Отсутсвует выбор записи в таблице.").showWarning()
+            Notifications.create()
+                .title("Предупреждение!")
+                .text("Отсутсвует выбор записи в таблице.")
+                .showWarning()
         }
         runBlocking {
             launch {
                 Data.updateDB()
-                val result = Data.dbMaker.where { (Makers.id eq Data.dbMakerController.selectId) }
-                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }.firstOrNull()
+                val result = Data.dbMaker
+                    .where { (Makers.id eq Data.dbMakerController.selectId) }
+                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                    .firstOrNull()
                 if (result == null) {
-                    Notifications.create().title("Предупреждение!").text("Запись с выбранным id в базе отсуствует.")
+                    Notifications.create()
+                        .title("Предупреждение!")
+                        .text("Запись с выбранным id в базе отсуствует.")
                         .showWarning()
                 } else {
                     val database = SqliteDatabase.connect(Data.config.pathDB)
@@ -61,7 +68,9 @@ class DBMakerFormDeleteController {
         }
     }
 
-    @Suppress("unused") @FXML private fun onButtonClickCancel() {
+    @Suppress("unused")
+    @FXML
+    private fun onButtonClickCancel() {
         Data.dbMakerController.formStage.close()
     }
 }

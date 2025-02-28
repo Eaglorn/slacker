@@ -21,23 +21,17 @@ import utils.SqliteDatabase
 import java.io.File
 
 class DBModelFormDeleteController {
-    @Suppress("unused")
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML
-    lateinit var fieldName: TextField
-    @FXML
-    lateinit var boxMaker: SearchableComboBox<String>
-    @FXML
-    lateinit var boxTypeOfHardware: SearchableComboBox<String>
+    @FXML lateinit var fieldName: TextField
+    @FXML lateinit var boxMaker: SearchableComboBox<String>
+    @FXML lateinit var boxTypeOfHardware: SearchableComboBox<String>
 
     init {
         Data.dbModelController.formDeleteController = this
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDelete() {
+    @Suppress("unused") @FXML private fun onButtonClickDelete() {
         if (Data.dbModelController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
@@ -55,7 +49,7 @@ class DBModelFormDeleteController {
                             row[Models.name],
                             row[Models.maker_id],
                             row[Models.type_of_hardware_id]
-                        )
+                             )
                     }
                     .firstOrNull()
                 if (result == null) {
@@ -79,9 +73,7 @@ class DBModelFormDeleteController {
         }
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickCancel() {
+    @Suppress("unused") @FXML private fun onButtonClickCancel() {
         Data.dbModelController.formStage.close()
     }
 }

@@ -21,7 +21,6 @@ data class Maker(val id: Int?, val name: String?) {
         fun createDatabase(conn: Connection) {
             val tableExists = conn.createStatement()
                 .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='maker'").next()
-
             if (!tableExists) {
                 conn.createStatement().executeUpdate(
                     """
@@ -51,6 +50,7 @@ class MakerTable(id: Int?, name: String?) : Identifiable {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     private var id: IntegerProperty = SimpleIntegerProperty(this, "id", 0)
+
     private fun setId(value: Int) {
         id.set(value)
     }
@@ -60,6 +60,7 @@ class MakerTable(id: Int?, name: String?) : Identifiable {
     }
 
     private var name: StringProperty = SimpleStringProperty(this, "name", "")
+
     private fun setName(value: String) {
         name.set(value)
     }

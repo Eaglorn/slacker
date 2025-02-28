@@ -13,7 +13,7 @@ abstract class BaseController<T : Identifiable>(
     protected val table: TableView2<T>,
     val buttonEdit: Button,
     val buttonDelete: Button
-) {
+                                               ) {
     protected val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     lateinit var formStage: Stage
@@ -39,7 +39,6 @@ abstract class BaseController<T : Identifiable>(
             toggleButtons(selectId != -1)
         }
     }
-
 
     protected fun showModal(fxmlPath: String, title: String, setupController: (Any) -> Unit) {
         val fxmlLoader = FXMLLoader(javaClass.getResource(fxmlPath))

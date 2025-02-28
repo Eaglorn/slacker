@@ -28,10 +28,10 @@ class DBTypeOfHardwareFormAddController {
         runBlocking {
             launch {
                 Data.updateDB()
-
-                val result = Data.dbTypeOfHardware.where { (TypeOfHardwares.name eq fieldName.text) }
-                    .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }.firstOrNull()
-
+                val result = Data.dbTypeOfHardware
+                    .where { (TypeOfHardwares.name eq fieldName.text) }
+                    .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                    .firstOrNull()
                 if (result == null) {
                     val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.insert(TypeOfHardwares) {
@@ -45,8 +45,10 @@ class DBTypeOfHardwareFormAddController {
                     Data.dbTypeOfHardwareController.buttonDelete.disableProperty().set(true)
                     Data.dbTypeOfHardwareController.formStage.close()
                 } else {
-                    Notifications.create().title("Предупреждение!")
-                        .text("Запись с введённым наименованием уже существует.").showWarning()
+                    Notifications.create()
+                        .title("Предупреждение!")
+                        .text("Запись с введённым наименованием уже существует.")
+                        .showWarning()
                 }
             }
         }

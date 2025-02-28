@@ -16,9 +16,7 @@ class SettingController(private val fieldLoadDatabase: TextField, private val fi
     fun onButtonClickLoadDataBase() {
         val fileChooser = FileChooser()
         fileChooser.title = "Файл базы данных"
-        fileChooser.extensionFilters.addAll(
-            FileChooser.ExtensionFilter("DataBase", "*.db"),
-        )
+        fileChooser.extensionFilters.addAll(FileChooser.ExtensionFilter("DataBase", "*.db"))
         val selectedFile = fileChooser.showOpenDialog(Data.scene.window)
         if (selectedFile != null) {
             fieldLoadDatabase.text = selectedFile.absolutePath

@@ -11,6 +11,7 @@ import utils.BaseController
 
 class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, buttonDelete: Button) :
     BaseController<ModelTable>(table, buttonEdit, buttonDelete) {
+
     lateinit var formAddController: DBModelFormAddController
     lateinit var formEditController: DBModelFormEditController
     lateinit var formDeleteController: DBModelFormDeleteController
@@ -28,7 +29,7 @@ class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, butto
                     row[Models.name],
                     row[Models.maker_id],
                     row[Models.type_of_hardware_id]
-                )
+                     )
             }
             .forEach {
                 val maker = Data.dbMaker
@@ -66,7 +67,7 @@ class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, butto
                         row[Models.name],
                         row[Models.maker_id],
                         row[Models.type_of_hardware_id]
-                    )
+                         )
                 }
                 .firstOrNull()
             if (result != null) {
@@ -104,7 +105,7 @@ class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, butto
                         row[Models.name],
                         row[Models.maker_id],
                         row[Models.type_of_hardware_id]
-                    )
+                         )
                 }
                 .firstOrNull()
             if (result != null) {

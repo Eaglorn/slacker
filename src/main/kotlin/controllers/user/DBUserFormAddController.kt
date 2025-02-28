@@ -21,28 +21,20 @@ import utils.SqliteDatabase
 import java.io.File
 
 class DBUserFormAddController {
-    @Suppress("unused")
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML
-    private lateinit var fieldName: TextField
-    @FXML
-    private lateinit var fieldPost: TextField
-    @FXML
-    private lateinit var areaAddress: TextArea
+    @FXML private lateinit var fieldName: TextField
+    @FXML private lateinit var fieldPost: TextField
+    @FXML private lateinit var areaAddress: TextArea
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickAdd() {
+    @Suppress("unused") @FXML private fun onButtonClickAdd() {
         runBlocking {
             launch {
                 Data.updateDB()
-
                 val result = Data.dbUser
                     .where { (Users.name eq fieldName.text) }
                     .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                     .firstOrNull()
-
                 if (result == null) {
                     val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.insert(Users) {
@@ -66,9 +58,7 @@ class DBUserFormAddController {
         }
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickCancel() {
+    @Suppress("unused") @FXML private fun onButtonClickCancel() {
         Data.dbUserController.formStage.close()
     }
 }

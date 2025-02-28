@@ -20,15 +20,11 @@ import utils.SqliteDatabase
 import java.io.File
 
 class DBMakerFormAddController {
-    @Suppress("unused")
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML
-    private lateinit var fieldName: TextField
+    @FXML private lateinit var fieldName: TextField
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickAdd() {
+    @Suppress("unused") @FXML private fun onButtonClickAdd() {
         runBlocking {
             launch {
                 Data.updateDB()
@@ -58,9 +54,7 @@ class DBMakerFormAddController {
         }
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickCancel() {
+    @Suppress("unused") @FXML private fun onButtonClickCancel() {
         Data.dbMakerController.formStage.close()
     }
 }

@@ -53,7 +53,7 @@ class SlackerController : SlackerControllerData() {
         tableTypeOfHardwareColumnId.setCellValueFactory { cellData ->
             SimpleStringProperty(
                 cellData.value.getId().toString()
-            )
+                                )
         }
         tableTypeOfHardwareColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
 
@@ -62,12 +62,12 @@ class SlackerController : SlackerControllerData() {
         tableModelColumnMaker.setCellValueFactory { cellData ->
             SimpleStringProperty(
                 cellData.value.getMaker().toString()
-            )
+                                )
         }
         tableModelColumnTypeOfHardware.setCellValueFactory { cellData ->
             SimpleStringProperty(
                 cellData.value.getTypeOfHardware().toString()
-            )
+                                )
         }
 
         tableUserColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
@@ -81,7 +81,7 @@ class SlackerController : SlackerControllerData() {
             tableTypeOfHardware,
             buttonTableTypeOfHardwareEdit,
             buttonTableTypeOfHardwareDelete
-        )
+                                                                    )
         Data.dbModelController = DBModelController(tableModel, buttonTableModelEdit, buttonTableModelDelete)
         Data.dbUserController = DBUserController(tableUser, buttonTableUserEdit, buttonTableUserDelete)
 

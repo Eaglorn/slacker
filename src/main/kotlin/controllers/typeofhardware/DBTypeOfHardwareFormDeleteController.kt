@@ -21,19 +21,15 @@ import utils.SqliteDatabase
 import java.io.File
 
 class DBTypeOfHardwareFormDeleteController {
-    @Suppress("unused")
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML
-    lateinit var fieldName: TextField
+    @FXML lateinit var fieldName: TextField
 
     init {
         Data.dbTypeOfHardwareController.formDeleteController = this
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDelete() {
+    @Suppress("unused") @FXML private fun onButtonClickDelete() {
         if (Data.dbTypeOfHardwareController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
@@ -43,12 +39,10 @@ class DBTypeOfHardwareFormDeleteController {
         runBlocking {
             launch {
                 Data.updateDB()
-
                 val result = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.id eq Data.dbTypeOfHardwareController.selectId) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
-
                 if (result == null) {
                     Notifications.create()
                         .title("Предупреждение!")
@@ -74,9 +68,7 @@ class DBTypeOfHardwareFormDeleteController {
         }
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickCancel() {
+    @Suppress("unused") @FXML private fun onButtonClickCancel() {
         Data.dbTypeOfHardwareController.formStage.close()
     }
 }

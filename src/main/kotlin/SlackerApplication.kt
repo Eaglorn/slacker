@@ -23,7 +23,7 @@ class SlackerApplication : Application() {
         val outputPath = "c:\\results\\result.docx"
         val variables = mapOf(
             "{name}" to "Алексей", "{date}" to "1 июня 1994 года"
-        )
+                             )
         FileInputStream(templatePath).use { fis ->
             XWPFDocument(fis).use { document ->
                 for (paragraph in document.paragraphs) {
