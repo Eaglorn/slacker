@@ -20,72 +20,21 @@ class Data {
     @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     companion object {
-        /**
-         * Клас настроек приложения.
-         */
         var config: Config = Config()
-
-        /**
-         * Главный контроллер приложения.
-         */
         lateinit var controller: SlackerController
-
-        /**
-         * Контроллер шаблона настроек приложения.
-         */
         lateinit var settingController: SettingController
-
-        /**
-         * Контроллер шаблона базы (производитель).
-         */
         lateinit var dbMakerController: DBMakerController
-
-        /**
-         * Контроллер шаблона базы (тип оборудования).
-         */
         lateinit var dbTypeOfHardwareController: DBTypeOfHardwareController
-
-        /**
-         * Контроллер шаблона базы (модель).
-         */
         lateinit var dbModelController: DBModelController
-
-        /**
-         * Контроллер шаблона базы (составитель).
-         */
         lateinit var dbUserController: DBUserController
-
-        /**
-         * Отображаемое приложение.
-         */
         lateinit var scene: Scene
-
-        /**
-         * Классы для работы с базой (производитель).
-         */
         lateinit var dbMaker: Query
-
-        /**
-         * Классы для работы с базой (тип оборудования).
-         */
         lateinit var dbTypeOfHardware: Query
-
-        /**
-         * Классы для работы с базой (модель).
-         */
         lateinit var dbModel: Query
-
-        /**
-         * Классы для работы с базой (составитель).
-         */
         lateinit var dbUser: Query
 
-        /**
-         * Считывание базы данных и обновление перменных.
-         */
         fun updateDB() {
             val database = SqliteDatabase.connect(Config.pathDBLocal)
-
             dbMaker = database.from(Makers).select()
             dbTypeOfHardware = database.from(TypeOfHardwares).select()
             dbModel = database.from(Models).select()

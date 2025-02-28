@@ -19,7 +19,6 @@ class SettingController(private val fieldLoadDatabase: TextField, private val fi
         fileChooser.extensionFilters.addAll(
             FileChooser.ExtensionFilter("DataBase", "*.db"),
         )
-
         val selectedFile = fileChooser.showOpenDialog(Data.scene.window)
         if (selectedFile != null) {
             fieldLoadDatabase.text = selectedFile.absolutePath
@@ -32,7 +31,6 @@ class SettingController(private val fieldLoadDatabase: TextField, private val fi
     fun onButtonClickLoadTemplates() {
         val directoryChooser = DirectoryChooser()
         directoryChooser.title = "Каталог c шаблонами"
-
         val selectedDirectory = directoryChooser.showDialog(Data.scene.window)
         if (selectedDirectory != null) {
             fieldLoadTemplates.text = selectedDirectory.absolutePath

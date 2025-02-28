@@ -27,7 +27,6 @@ class SlackerController : SlackerControllerData() {
     init {
         Data.controller = this
         Data.config = Config.load()
-
         if (Data.config.pathDB.isNotEmpty()) {
             val file: File = File(Data.config.pathDB)
             if (file.exists()) {
@@ -51,25 +50,13 @@ class SlackerController : SlackerControllerData() {
         tableMakerColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
         tableMakerColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
 
-        tableTypeOfHardwareColumnId.setCellValueFactory { cellData ->
-            SimpleStringProperty(
-                cellData.value.getId().toString()
-            )
-        }
+        tableTypeOfHardwareColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
         tableTypeOfHardwareColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
 
         tableModelColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
         tableModelColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
-        tableModelColumnMaker.setCellValueFactory { cellData ->
-            SimpleStringProperty(
-                cellData.value.getMaker().toString()
-            )
-        }
-        tableModelColumnTypeOfHardware.setCellValueFactory { cellData ->
-            SimpleStringProperty(
-                cellData.value.getTypeOfHardware().toString()
-            )
-        }
+        tableModelColumnMaker.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getMaker().toString()) }
+        tableModelColumnTypeOfHardware.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getTypeOfHardware().toString()) }
 
         tableUserColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
         tableUserColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
@@ -77,17 +64,10 @@ class SlackerController : SlackerControllerData() {
         tableUserColumnAddress.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getAddress()) }
 
         Data.settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
-
         Data.dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
-        Data.dbTypeOfHardwareController = DBTypeOfHardwareController(
-            tableTypeOfHardware,
-            buttonTableTypeOfHardwareEdit,
-            buttonTableTypeOfHardwareDelete
-        )
+        Data.dbTypeOfHardwareController = DBTypeOfHardwareController(tableTypeOfHardware, buttonTableTypeOfHardwareEdit, buttonTableTypeOfHardwareDelete)
         Data.dbModelController = DBModelController(tableModel, buttonTableModelEdit, buttonTableModelDelete)
         Data.dbUserController = DBUserController(tableUser, buttonTableUserEdit, buttonTableUserDelete)
-
-
 
         if (Data.config.pathDB.isNotEmpty()) {
             val database = SqliteDatabase.connect(Data.config.pathDB)
@@ -97,9 +77,7 @@ class SlackerController : SlackerControllerData() {
                 Model.createDatabase(conn)
                 User.createDatabase(conn)
             }
-
             Data.updateDB()
-
             Data.dbMakerController.reloadTable()
             Data.dbTypeOfHardwareController.reloadTable()
             Data.dbModelController.reloadTable()

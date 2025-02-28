@@ -16,19 +16,8 @@ import java.time.LocalDateTime
 class Config {
     @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    /**
-     * Путь к базе данных.
-     */
     @Expose var pathDB: String = ""
-
-    /**
-     * Путь к шаблонам.
-     */
     @Expose var pathTemplates: String = ""
-
-    /**
-     * Дата и время последнего изменения базы данных.
-     */
     @Expose var dateTimeDB: LocalDateTime = LocalDateTime.of(1, 1, 1, 1, 1)
 
     companion object {
@@ -38,11 +27,9 @@ class Config {
 
         fun load(): Config {
             val directory: File = File(pathDirectory)
-
             if (!directory.exists()) {
                 FileUtils.forceMkdir(directory)
             }
-
             return if (Files.exists(Paths.get(pathConfig))) {
                 val gson: Gson = GsonBuilder()
                     .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss"))
@@ -57,16 +44,11 @@ class Config {
         }
     }
 
-    /**
-     * Сохранение настроек приложения.
-     */
     fun save() {
         val directory: File = File(pathDirectory)
-
         if (!directory.exists()) {
             FileUtils.forceMkdir(directory)
         }
-
         FileWriter(pathConfig).use { file ->
             val gson: Gson = GsonBuilder()
                 .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter("dd.MM.yyyy HH:mm:ss"))

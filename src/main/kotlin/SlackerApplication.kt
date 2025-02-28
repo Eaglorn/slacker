@@ -14,26 +14,17 @@ import java.io.FileOutputStream
 class SlackerApplication : Application() {
     @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    /**
-     * Главный контроллер приложения.
-     */
     private lateinit var controller: SlackerController
 
-    /**
-     * Метод выполняется после загрузки и отображения приложения.
-     */
     private fun beforeShow() {
         controller = Data.controller
         controller.beforeShow()
-
         val templatePath = Data.config.pathTemplates + "\\template.docx"
         val outputPath = "c:\\results\\result.docx"
-
         val variables = mapOf(
             "{name}" to "Алексей",
             "{date}" to "1 июня 1994 года"
         )
-
         FileInputStream(templatePath).use { fis ->
             XWPFDocument(fis).use { document ->
                 for (paragraph in document.paragraphs) {

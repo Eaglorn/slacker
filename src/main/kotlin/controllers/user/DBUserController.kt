@@ -11,11 +11,7 @@ import org.ktorm.dsl.map
 import org.ktorm.dsl.where
 import utils.BaseController
 
-class DBUserController(
-    table: TableView2<UserTable>,
-    buttonEdit: Button,
-    buttonDelete: Button
-) : BaseController<UserTable>(table, buttonEdit, buttonDelete) {
+class DBUserController(table: TableView2<UserTable>, buttonEdit: Button, buttonDelete: Button) : BaseController<UserTable>(table, buttonEdit, buttonDelete) {
     lateinit var formEditController: DBUserFormEditController
     lateinit var formDeleteController: DBUserFormDeleteController
 
@@ -27,9 +23,7 @@ class DBUserController(
         table.items.clear()
         Data.dbUser
             .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
-            .forEach {
-                table.items.add(UserTable(it.id, it.name, it.post, it.address))
-            }
+            .forEach { table.items.add(UserTable(it.id, it.name, it.post, it.address)) }
     }
 
     override fun onButtonClickAdd() {
@@ -37,7 +31,7 @@ class DBUserController(
     }
 
     override fun onButtonClickEdit() {
-        showModal("/db/user/Edit.fxml", "Редактирование записи составитель") { controller ->
+        showModal("/db/user/Edit.fxml", "Редактирование записи составитель") {
             val result = Data.dbUser
                 .where { (Users.id eq selectId) }
                 .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
@@ -51,7 +45,7 @@ class DBUserController(
     }
 
     override fun onButtonClickDelete() {
-        showModal("/db/user/Delete.fxml", "Удаление записи составитель") { controller ->
+        showModal("/db/user/Delete.fxml", "Удаление записи составитель") {
             val result = Data.dbUser
                 .where { (Users.id eq selectId) }
                 .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }

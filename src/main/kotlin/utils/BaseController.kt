@@ -9,12 +9,9 @@ import org.controlsfx.control.tableview2.TableView2
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-abstract class BaseController<T : Identifiable>(
-    protected val table: TableView2<T>,
-    val buttonEdit: Button,
-    val buttonDelete: Button
-) {
+abstract class BaseController<T : Identifiable>(protected val table: TableView2<T>, val buttonEdit: Button, val buttonDelete: Button) {
     protected val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
     lateinit var formStage: Stage
     var selectId: Int = -1
 
@@ -22,25 +19,16 @@ abstract class BaseController<T : Identifiable>(
         setupButtons()
     }
 
-    /**
-     * Блокировка в контроллере кнопок изменить/удалить при старте приложения.
-     */
     private fun setupButtons() {
         buttonEdit.isDisable = true
         buttonDelete.isDisable = true
     }
 
-    /**
-     * Переключение блокировки кнопок при рабоет селектора строк.
-     */
     private fun toggleButtons(isEnabled: Boolean) {
         buttonEdit.isDisable = !isEnabled
         buttonDelete.isDisable = !isEnabled
     }
 
-    /**
-     * Прослушивание события выбора строк таблицы.
-     */
     protected fun setupTableListener() {
         table.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
             selectId = newValue?.getId() ?: -1

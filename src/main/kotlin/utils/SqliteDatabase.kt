@@ -10,10 +10,6 @@ class SqliteDatabase {
     @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     companion object {
-        /**
-         * Подключение к базе данных по пути [path].
-         * @return Активное подключение.
-         */
         fun connect(path: String): Database {
             return Database.connect(
                 url = "jdbc:sqlite:$path",

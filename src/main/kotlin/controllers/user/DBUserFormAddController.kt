@@ -24,9 +24,7 @@ class DBUserFormAddController {
     @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML private lateinit var fieldName: TextField
-
     @FXML private lateinit var fieldPost: TextField
-
     @FXML private lateinit var areaAddress: TextArea
 
     @Suppress("unused") @FXML private fun onButtonClickAdd() {
