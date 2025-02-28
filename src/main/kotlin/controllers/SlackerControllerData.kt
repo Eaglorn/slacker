@@ -14,8 +14,7 @@ import org.controlsfx.control.tableview2.TableView2
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-@Suppress("unused")
-open class SlackerControllerData {
+@Suppress("unused") open class SlackerControllerData {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML lateinit var tabWriteOff: Tab
