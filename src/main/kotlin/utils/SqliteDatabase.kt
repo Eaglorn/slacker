@@ -1,3 +1,6 @@
+package utils
+
+import logger
 import org.ktorm.database.Database
 import org.ktorm.logging.Slf4jLoggerAdapter
 import org.slf4j.Logger

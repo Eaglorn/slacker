@@ -2,7 +2,6 @@ package controllers.typeofhardware
 
 import Config
 import Data
-import SqliteDatabase
 import db.TypeOfHardware
 import db.TypeOfHardwares
 import javafx.fxml.FXML
@@ -17,6 +16,7 @@ import org.ktorm.dsl.update
 import org.ktorm.dsl.where
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import utils.SqliteDatabase
 import java.io.File
 
 class DBTypeOfHardwareFormEditController {

@@ -2,7 +2,6 @@ package controllers.model
 
 import Config
 import Data
-import SqliteDatabase
 import db.*
 import javafx.fxml.FXML
 import javafx.scene.control.TextField
@@ -17,6 +16,7 @@ import org.ktorm.dsl.map
 import org.ktorm.dsl.where
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import utils.SqliteDatabase
 import java.io.File
 
 class DBModelFormAddController {

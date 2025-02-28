@@ -2,7 +2,6 @@ package controllers
 
 import Config
 import Data
-import SqliteDatabase
 import controllers.maker.DBMakerController
 import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
@@ -15,6 +14,7 @@ import javafx.beans.property.SimpleStringProperty
 import org.apache.commons.io.FileUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import utils.SqliteDatabase
 import java.io.File
 import java.time.Instant
 import java.time.LocalDateTime
