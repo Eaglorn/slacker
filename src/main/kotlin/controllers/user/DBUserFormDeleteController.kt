@@ -24,9 +24,7 @@ class DBUserFormDeleteController {
     @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML lateinit var fieldName: TextField
-
     @FXML lateinit var fieldPost: TextField
-
     @FXML lateinit var areaAddress: TextArea
 
     init {

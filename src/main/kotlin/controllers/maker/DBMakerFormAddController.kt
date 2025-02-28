@@ -28,12 +28,10 @@ class DBMakerFormAddController {
         runBlocking {
             launch {
                 Data.updateDB()
-
                 val result = Data.dbMaker
                     .where { (Makers.name eq fieldName.text) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
-
                 if (result == null) {
                     val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.insert(Makers) {

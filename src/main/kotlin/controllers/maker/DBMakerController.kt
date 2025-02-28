@@ -11,11 +11,7 @@ import org.ktorm.dsl.map
 import org.ktorm.dsl.where
 import utils.BaseController
 
-class DBMakerController(
-    table: TableView2<MakerTable>,
-    buttonEdit: Button,
-    buttonDelete: Button
-) : BaseController<MakerTable>(table, buttonEdit, buttonDelete) {
+class DBMakerController(table: TableView2<MakerTable>, buttonEdit: Button, buttonDelete: Button) : BaseController<MakerTable>(table, buttonEdit, buttonDelete) {
     lateinit var formEditController: DBMakerFormEditController
     lateinit var formDeleteController: DBMakerFormDeleteController
 
@@ -27,9 +23,7 @@ class DBMakerController(
         table.items.clear()
         Data.dbMaker
             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-            .forEach {
-                table.items.add(MakerTable(it.id, it.name))
-            }
+            .forEach { table.items.add(MakerTable(it.id, it.name)) }
     }
 
     override fun onButtonClickAdd() {

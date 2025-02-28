@@ -38,12 +38,10 @@ class DBTypeOfHardwareFormEditController {
         runBlocking {
             launch {
                 Data.updateDB()
-
                 val result = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.id eq Data.dbTypeOfHardwareController.selectId) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
-
                 if (result == null) {
                     Notifications.create()
                         .title("Предупреждение!")

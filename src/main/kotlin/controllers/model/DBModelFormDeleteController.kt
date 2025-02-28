@@ -24,9 +24,7 @@ class DBModelFormDeleteController {
     @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML lateinit var fieldName: TextField
-
     @FXML lateinit var boxMaker: SearchableComboBox<String>
-
     @FXML lateinit var boxTypeOfHardware: SearchableComboBox<String>
 
     init {
@@ -43,19 +41,10 @@ class DBModelFormDeleteController {
         runBlocking {
             launch {
                 Data.updateDB()
-
                 val result = Data.dbModel
                     .where { (Models.id eq Data.dbModelController.selectId) }
-                    .map { row ->
-                        Model(
-                            row[Models.id],
-                            row[Models.name],
-                            row[Models.maker_id],
-                            row[Models.type_of_hardware_id]
-                        )
-                    }
+                    .map { row -> Model(row[Models.id], row[Models.name], row[Models.maker_id], row[Models.type_of_hardware_id]) }
                     .firstOrNull()
-
                 if (result == null) {
                     Notifications.create()
                         .title("Предупреждение!")

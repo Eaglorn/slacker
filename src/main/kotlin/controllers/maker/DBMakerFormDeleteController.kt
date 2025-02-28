@@ -39,12 +39,10 @@ class DBMakerFormDeleteController {
         runBlocking {
             launch {
                 Data.updateDB()
-
                 val result = Data.dbMaker
                     .where { (Makers.id eq Data.dbMakerController.selectId) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
-
                 if (result == null) {
                     Notifications.create()
                         .title("Предупреждение!")

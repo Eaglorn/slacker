@@ -9,12 +9,7 @@ import org.ktorm.dsl.map
 import org.ktorm.dsl.where
 import utils.BaseController
 
-class DBModelController(
-    table: TableView2<ModelTable>,
-    buttonEdit: Button,
-    buttonDelete: Button
-) : BaseController<ModelTable>(table, buttonEdit, buttonDelete) {
-
+class DBModelController(table: TableView2<ModelTable>, buttonEdit: Button, buttonDelete: Button) : BaseController<ModelTable>(table, buttonEdit, buttonDelete) {
     lateinit var formAddController: DBModelFormAddController
     lateinit var formEditController: DBModelFormEditController
     lateinit var formDeleteController: DBModelFormDeleteController
@@ -26,14 +21,7 @@ class DBModelController(
     override fun reloadTable() {
         table.items.clear()
         Data.dbModel
-            .map { row ->
-                Model(
-                    row[Models.id],
-                    row[Models.name],
-                    row[Models.maker_id],
-                    row[Models.type_of_hardware_id]
-                )
-            }
+            .map { row -> Model(row[Models.id], row[Models.name], row[Models.maker_id], row[Models.type_of_hardware_id]) }
             .forEach {
                 val maker = Data.dbMaker
                     .where { (Makers.id eq it.maker_id!!) }
@@ -50,35 +38,21 @@ class DBModelController(
     override fun onButtonClickAdd() {
         showModal("/db/model/Add.fxml", "Создание записи модель") {
             Data.updateDB()
-
             Data.dbMaker
                 .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-                .forEach {
-                    Data.dbModelController.formAddController.boxMaker.items.add(it.name)
-                }
-
+                .forEach { Data.dbModelController.formAddController.boxMaker.items.add(it.name) }
             Data.dbTypeOfHardware
                 .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
-                .forEach {
-                    Data.dbModelController.formAddController.boxTypeOfHardware.items.add(it.name)
-                }
+                .forEach { Data.dbModelController.formAddController.boxTypeOfHardware.items.add(it.name) }
         }
     }
 
     override fun onButtonClickEdit() {
         showModal("/db/model/Edit.fxml", "Редактирование записи модель") {
             Data.updateDB()
-
             val result = Data.dbModel
                 .where { (Models.id eq selectId) }
-                .map { row ->
-                    Model(
-                        row[Models.id],
-                        row[Models.name],
-                        row[Models.maker_id],
-                        row[Models.type_of_hardware_id]
-                    )
-                }
+                .map { row -> Model(row[Models.id], row[Models.name], row[Models.maker_id], row[Models.type_of_hardware_id]) }
                 .firstOrNull()
             if (result != null) {
                 formEditController.fieldName.text = result.name
@@ -106,19 +80,10 @@ class DBModelController(
 
     override fun onButtonClickDelete() {
         showModal("/db/model/Delete.fxml", "Удаление записи модель") {
-
             Data.updateDB()
-
             val result = Data.dbModel
                 .where { (Models.id eq selectId) }
-                .map { row ->
-                    Model(
-                        row[Models.id],
-                        row[Models.name],
-                        row[Models.maker_id],
-                        row[Models.type_of_hardware_id]
-                    )
-                }
+                .map { row -> Model(row[Models.id], row[Models.name], row[Models.maker_id], row[Models.type_of_hardware_id]) }
                 .firstOrNull()
             if (result != null) {
                 formDeleteController.fieldName.text = result.name

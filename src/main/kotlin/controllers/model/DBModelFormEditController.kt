@@ -23,9 +23,7 @@ class DBModelFormEditController {
     @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML lateinit var fieldName: TextField
-
     @FXML lateinit var boxMaker: SearchableComboBox<String>
-
     @FXML lateinit var boxTypeOfHardware: SearchableComboBox<String>
 
     init {
@@ -42,30 +40,21 @@ class DBModelFormEditController {
         runBlocking {
             launch {
                 Data.updateDB()
-
                 val result = Data.dbModel
                     .where { (Models.id eq Data.dbModelController.selectId) }
-                    .map { row ->
-                        Model(
-                            row[Models.id],
-                            row[Models.name],
-                            row[Models.maker_id],
-                            row[Models.type_of_hardware_id]
-                        )
-                    }
+                    .map { row -> Model(row[Models.id], row[Models.name], row[Models.maker_id], row[Models.type_of_hardware_id]) }
                     .firstOrNull()
-
                 if (result == null) {
                     Notifications.create()
                         .title("Предупреждение!")
                         .text("Запись с выбранным id в базе отсуствует.")
                         .showWarning()
                 } else {
-                    val maker = Data.dbMaker
+                    var maker = Data.dbMaker
                         .where { (Makers.name eq boxMaker.selectionModel.selectedItem) }
                         .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                         .firstOrNull()
-                    val typeOfHardware = Data.dbTypeOfHardware
+                    var typeOfHardware = Data.dbTypeOfHardware
                         .where { (TypeOfHardwares.name eq boxTypeOfHardware.selectionModel.selectedItem) }
                         .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                         .firstOrNull()
@@ -76,11 +65,11 @@ class DBModelFormEditController {
                             .showWarning()
                     } else {
                         val database = SqliteDatabase.connect(Data.config.pathDB)
-                        val maker = Data.dbMaker
+                        maker = Data.dbMaker
                             .where { (Makers.name eq boxMaker.selectionModel.selectedItem) }
                             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                             .firstOrNull()
-                        val typeOfHardware = Data.dbTypeOfHardware
+                        typeOfHardware = Data.dbTypeOfHardware
                             .where { (TypeOfHardwares.name eq boxTypeOfHardware.selectionModel.selectedItem) }
                             .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                             .firstOrNull()
