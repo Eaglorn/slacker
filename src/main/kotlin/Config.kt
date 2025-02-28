@@ -8,22 +8,27 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
-import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.time.LocalDateTime
 
 class Config {
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @Expose
-    var pathDB: String = ""
+    /**
+     * Путь к базе данных.
+     */
+    @Expose var pathDB: String = ""
 
-    @Expose
-    var pathTemplates: String = ""
+    /**
+     * Путь к шаблонам.
+     */
+    @Expose var pathTemplates: String = ""
 
-    @Expose
-    var dateTimeDB: LocalDateTime = LocalDateTime.of(1, 1, 1, 1, 1)
+    /**
+     * Дата и время последнего изменения базы данных.
+     */
+    @Expose var dateTimeDB: LocalDateTime = LocalDateTime.of(1, 1, 1, 1, 1)
 
     companion object {
         val pathDirectory = System.getenv("APPDATA") + "\\slacker\\"
@@ -34,11 +39,7 @@ class Config {
             val directory: File = File(pathDirectory)
 
             if (!directory.exists()) {
-                try {
-                    FileUtils.forceMkdir(directory)
-                } catch (e: IOException) {
-                    logger.error(e.message)
-                }
+                FileUtils.forceMkdir(directory)
             }
 
             return if (Files.exists(Paths.get(pathConfig))) {
@@ -55,15 +56,14 @@ class Config {
         }
     }
 
+    /**
+     * Сохранение настроек приложения.
+     */
     fun save() {
         val directory: File = File(pathDirectory)
 
         if (!directory.exists()) {
-            try {
-                FileUtils.forceMkdir(directory)
-            } catch (e: IOException) {
-                logger.error(e.message)
-            }
+            FileUtils.forceMkdir(directory)
         }
 
         FileWriter(pathConfig).use { file ->

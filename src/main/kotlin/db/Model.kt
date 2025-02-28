@@ -14,6 +14,8 @@ import utils.Identifiable
 import java.sql.Connection
 
 data class Model(val id: Int?, val name: String?, val maker_id: Int?, val type_of_hardware_id: Int?) {
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
     companion object {
         fun createDatabase(conn: Connection) {
             val tableExists = conn.createStatement()
@@ -51,12 +53,12 @@ object Models : BaseTable<Model>("model") {
     )
 }
 
-class ModelTable : Identifiable {
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+class ModelTable(id: Int?, name: String?, maker: String?, type_of_hardware: String?) : Identifiable {
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     private var id: IntegerProperty = SimpleIntegerProperty(this, "id", 0)
 
-    fun setId(value: Int) {
+    private fun setId(value: Int) {
         id.set(value)
     }
 
@@ -66,7 +68,7 @@ class ModelTable : Identifiable {
 
     private var name: StringProperty = SimpleStringProperty(this, "name", "")
 
-    fun setName(value: String) {
+    private fun setName(value: String) {
         name.set(value)
     }
 
@@ -76,7 +78,7 @@ class ModelTable : Identifiable {
 
     private var maker: StringProperty = SimpleStringProperty(this, "maker", "")
 
-    fun setMaker(value: String) {
+    private fun setMaker(value: String) {
         maker.set(value)
     }
 
@@ -86,7 +88,7 @@ class ModelTable : Identifiable {
 
     private var type_of_hardware: StringProperty = SimpleStringProperty(this, "type_of_hardware", "")
 
-    fun setTypeOfHardware(value: String) {
+    private fun setTypeOfHardware(value: String) {
         type_of_hardware.set(value)
     }
 
@@ -94,7 +96,7 @@ class ModelTable : Identifiable {
         return type_of_hardware.get()
     }
 
-    constructor(id: Int?, name: String?, maker: String?, type_of_hardware: String?) {
+    init {
         if (id != null) {
             this.setId(id)
         }

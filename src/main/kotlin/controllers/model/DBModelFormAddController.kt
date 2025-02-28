@@ -20,25 +20,19 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 class DBModelFormAddController {
-    @Suppress("unused")
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML
-    private lateinit var fieldName: TextField
+    @FXML private lateinit var fieldName: TextField
 
-    @FXML
-    lateinit var boxMaker: SearchableComboBox<String>
+    @FXML lateinit var boxMaker: SearchableComboBox<String>
 
-    @FXML
-    lateinit var boxTypeOfHardware: SearchableComboBox<String>
+    @FXML lateinit var boxTypeOfHardware: SearchableComboBox<String>
 
     init {
         Data.dbModelController.formAddController = this
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickAdd() {
+    @Suppress("unused") @FXML private fun onButtonClickAdd() {
         runBlocking {
             launch {
                 Data.updateDB()
@@ -88,9 +82,7 @@ class DBModelFormAddController {
         }
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickCancel() {
+    @Suppress("unused") @FXML private fun onButtonClickCancel() {
         Data.dbModelController.formStage.close()
     }
 }

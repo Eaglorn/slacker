@@ -7,15 +7,12 @@ import controllers.maker.DBMakerController
 import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
 import controllers.user.DBUserController
-import db.*
+import db.Maker
+import db.Model
+import db.TypeOfHardware
+import db.User
 import javafx.beans.property.SimpleStringProperty
-import javafx.fxml.FXML
-import javafx.scene.control.Button
-import javafx.scene.control.Tab
-import javafx.scene.control.TextField
 import org.apache.commons.io.FileUtils
-import org.controlsfx.control.tableview2.TableColumn2
-import org.controlsfx.control.tableview2.TableView2
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -24,96 +21,8 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
-class SlackerController {
-    @Suppress("unused")
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-
-    @FXML
-    lateinit var tabWriteOff: Tab
-
-    @FXML
-    lateinit var tabExpertise: Tab
-
-    @FXML
-    lateinit var tabDataBase: Tab
-
-    @FXML
-    lateinit var fieldLoadDatabase: TextField
-
-    @FXML
-    lateinit var fieldLoadTemplates: TextField
-
-    @FXML
-    lateinit var tableMaker: TableView2<MakerTable>
-
-    @FXML
-    lateinit var tableMakerColumnId: TableColumn2<MakerTable, String>
-
-    @FXML
-    lateinit var tableMakerColumnName: TableColumn2<MakerTable, String>
-
-    @FXML
-    lateinit var buttonTableMakerEdit: Button
-
-    @FXML
-    lateinit var buttonTableMakerDelete: Button
-
-    @FXML
-    lateinit var tableTypeOfHardware: TableView2<TypeOfHardwareTable>
-
-    @FXML
-    lateinit var tableTypeOfHardwareColumnId: TableColumn2<TypeOfHardwareTable, String>
-
-    @FXML
-    lateinit var tableTypeOfHardwareColumnName: TableColumn2<TypeOfHardwareTable, String>
-
-    @FXML
-    lateinit var buttonTableTypeOfHardwareEdit: Button
-
-    @FXML
-    lateinit var buttonTableTypeOfHardwareDelete: Button
-
-    @FXML
-    lateinit var tableModel: TableView2<ModelTable>
-
-    @FXML
-    lateinit var tableModelColumnId: TableColumn2<ModelTable, String>
-
-    @FXML
-    lateinit var tableModelColumnName: TableColumn2<ModelTable, String>
-
-    @FXML
-    lateinit var tableModelColumnMaker: TableColumn2<ModelTable, String>
-
-    @FXML
-    lateinit var tableModelColumnTypeOfHardware: TableColumn2<ModelTable, String>
-
-    @FXML
-    lateinit var buttonTableModelEdit: Button
-
-    @FXML
-    lateinit var buttonTableModelDelete: Button
-
-    @FXML
-    lateinit var tableUser: TableView2<UserTable>
-
-    @FXML
-    lateinit var tableUserColumnId: TableColumn2<UserTable, String>
-
-    @FXML
-    lateinit var tableUserColumnName: TableColumn2<UserTable, String>
-
-    @FXML
-    lateinit var tableUserColumnPost: TableColumn2<UserTable, String>
-
-    @FXML
-    lateinit var tableUserColumnAddress: TableColumn2<UserTable, String>
-
-    @FXML
-    lateinit var buttonTableUserEdit: Button
-
-    @FXML
-    lateinit var buttonTableUserDelete: Button
+class SlackerController : SlackerControllerData() {
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     init {
         Data.controller = this
@@ -132,7 +41,7 @@ class SlackerController {
         }
     }
 
-    fun setTabsDisabled() {
+    private fun setTabsDisabled() {
         tabWriteOff.disableProperty().set(true)
         tabExpertise.disableProperty().set(true)
         tabDataBase.disableProperty().set(true)
@@ -206,108 +115,6 @@ class SlackerController {
             }
         } else {
             setTabsDisabled()
-        }
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickLoadDataBase() {
-        Data.settingController.onButtonClickLoadDataBase()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickLoadTemplates() {
-        Data.settingController.onButtonClickLoadTemplates()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBMakerAdd() {
-        Data.dbMakerController.onButtonClickAdd()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBMakerEdit() {
-        Data.dbMakerController.onButtonClickEdit()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBMakerDelete() {
-        Data.dbMakerController.onButtonClickDelete()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBTypeOfHardwareAdd() {
-        Data.dbTypeOfHardwareController.onButtonClickAdd()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBTypeOfHardwareEdit() {
-        Data.dbTypeOfHardwareController.onButtonClickEdit()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBTypeOfHardwareDelete() {
-        Data.dbTypeOfHardwareController.onButtonClickDelete()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBModelAdd() {
-        Data.dbModelController.onButtonClickAdd()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBModelEdit() {
-        Data.dbModelController.onButtonClickEdit()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBModelDelete() {
-        Data.dbModelController.onButtonClickDelete()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBUserAdd() {
-        Data.dbUserController.onButtonClickAdd()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBUserEdit() {
-        Data.dbUserController.onButtonClickEdit()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDBUserDelete() {
-        Data.dbUserController.onButtonClickDelete()
-    }
-
-    @Suppress("unused")
-    @FXML
-    private fun onButtonLoadApp() {
-        if (Data.config.pathDB.isNotEmpty() && Data.config.pathTemplates.isNotEmpty()) {
-
-            Data.updateDB()
-
-            Data.dbMakerController.reloadTable()
-            Data.dbTypeOfHardwareController.reloadTable()
-            Data.dbModelController.reloadTable()
-            Data.dbUserController.reloadTable()
-
-            tabWriteOff.disableProperty().set(false)
-            tabExpertise.disableProperty().set(false)
-            tabDataBase.disableProperty().set(false)
         }
     }
 }

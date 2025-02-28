@@ -22,22 +22,32 @@ abstract class BaseController<T : Identifiable>(
         setupButtons()
     }
 
+    /**
+     * Блокировка в контроллере кнопок изменить/удалить при старте приложения.
+     */
     private fun setupButtons() {
         buttonEdit.isDisable = true
         buttonDelete.isDisable = true
     }
 
-    protected fun toggleButtons(isEnabled: Boolean) {
+    /**
+     * Переключение блокировки кнопок при рабоет селектора строк.
+     */
+    private fun toggleButtons(isEnabled: Boolean) {
         buttonEdit.isDisable = !isEnabled
         buttonDelete.isDisable = !isEnabled
     }
 
+    /**
+     * Прослушивание события выбора строк таблицы.
+     */
     protected fun setupTableListener() {
         table.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
             selectId = newValue?.getId() ?: -1
             toggleButtons(selectId != -1)
         }
     }
+
 
     protected fun showModal(fxmlPath: String, title: String, setupController: (Any) -> Unit) {
         val fxmlLoader = FXMLLoader(javaClass.getResource(fxmlPath))

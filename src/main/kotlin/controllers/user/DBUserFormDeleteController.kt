@@ -21,25 +21,19 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 class DBUserFormDeleteController {
-    @Suppress("unused")
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML
-    lateinit var fieldName: TextField
+    @FXML lateinit var fieldName: TextField
 
-    @FXML
-    lateinit var fieldPost: TextField
+    @FXML lateinit var fieldPost: TextField
 
-    @FXML
-    lateinit var areaAddress: TextArea
+    @FXML lateinit var areaAddress: TextArea
 
     init {
         Data.dbUserController.formDeleteController = this
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickDelete() {
+    @Suppress("unused") @FXML private fun onButtonClickDelete() {
         if (Data.dbUserController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
@@ -76,9 +70,7 @@ class DBUserFormDeleteController {
         }
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickCancel() {
+    @Suppress("unused") @FXML private fun onButtonClickCancel() {
         Data.dbUserController.formStage.close()
     }
 }

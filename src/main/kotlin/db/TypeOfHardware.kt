@@ -14,6 +14,8 @@ import utils.Identifiable
 import java.sql.Connection
 
 data class TypeOfHardware(val id: Int?, val name: String?) {
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
     companion object {
         fun createDatabase(conn: Connection) {
             val tableExists = conn.createStatement()
@@ -43,12 +45,12 @@ object TypeOfHardwares : BaseTable<TypeOfHardware>("type_of_hardware") {
     )
 }
 
-class TypeOfHardwareTable : Identifiable {
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+class TypeOfHardwareTable(id: Int?, name: String?) : Identifiable {
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     private var id: IntegerProperty = SimpleIntegerProperty(this, "id", 0)
 
-    fun setId(value: Int) {
+    private fun setId(value: Int) {
         id.set(value)
     }
 
@@ -58,7 +60,7 @@ class TypeOfHardwareTable : Identifiable {
 
     private var name: StringProperty = SimpleStringProperty(this, "name", "")
 
-    fun setName(value: String) {
+    private fun setName(value: String) {
         name.set(value)
     }
 
@@ -66,7 +68,7 @@ class TypeOfHardwareTable : Identifiable {
         return name.get()
     }
 
-    constructor(id: Int?, name: String?) {
+    init {
         if (id != null) {
             this.setId(id)
         }

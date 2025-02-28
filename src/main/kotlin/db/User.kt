@@ -14,6 +14,8 @@ import utils.Identifiable
 import java.sql.Connection
 
 data class User(val id: Int?, val name: String?, val post: String?, val address: String?) {
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
     companion object {
         fun createDatabase(conn: Connection) {
             val tableExists = conn.createStatement()
@@ -49,8 +51,8 @@ object Users : BaseTable<User>("user") {
     )
 }
 
-class UserTable : Identifiable {
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+class UserTable(id: Int?, name: String?, post: String?, address: String?) : Identifiable {
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     private var id: IntegerProperty = SimpleIntegerProperty(this, "id", 0)
 
@@ -64,7 +66,7 @@ class UserTable : Identifiable {
 
     private var name: StringProperty = SimpleStringProperty(this, "name", "")
 
-    fun setName(value: String) {
+    private fun setName(value: String) {
         name.set(value)
     }
 
@@ -74,7 +76,7 @@ class UserTable : Identifiable {
 
     private var post: StringProperty = SimpleStringProperty(this, "name", "")
 
-    fun setPost(value: String) {
+    private fun setPost(value: String) {
         post.set(value)
     }
 
@@ -84,7 +86,7 @@ class UserTable : Identifiable {
 
     private var address: StringProperty = SimpleStringProperty(this, "name", "")
 
-    fun setAddress(value: String) {
+    private fun setAddress(value: String) {
         address.set(value)
     }
 
@@ -92,7 +94,7 @@ class UserTable : Identifiable {
         return address.get()
     }
 
-    constructor(id: Int?, name: String?, post: String?, address: String?) {
+    init {
         if (id != null) {
             this.setId(id)
         }

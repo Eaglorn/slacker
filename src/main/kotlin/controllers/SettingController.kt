@@ -11,8 +11,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 class SettingController(private val fieldLoadDatabase: TextField, private val fieldLoadTemplates: TextField) {
-    @Suppress("unused")
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
     fun onButtonClickLoadDataBase() {
         val fileChooser = FileChooser()

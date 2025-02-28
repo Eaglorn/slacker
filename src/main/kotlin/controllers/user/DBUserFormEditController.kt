@@ -21,25 +21,19 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 class DBUserFormEditController {
-    @Suppress("unused")
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+    @Suppress("unused") private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @FXML
-    lateinit var fieldName: TextField
+    @FXML lateinit var fieldName: TextField
 
-    @FXML
-    lateinit var fieldPost: TextField
+    @FXML lateinit var fieldPost: TextField
 
-    @FXML
-    lateinit var areaAddress: TextArea
+    @FXML lateinit var areaAddress: TextArea
 
     init {
         Data.dbUserController.formEditController = this
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickEdit() {
+    @Suppress("unused") @FXML private fun onButtonClickEdit() {
         if (Data.dbUserController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
@@ -89,9 +83,7 @@ class DBUserFormEditController {
         }
     }
 
-    @Suppress("unused")
-    @FXML
-    private fun onButtonClickCancel() {
+    @Suppress("unused") @FXML private fun onButtonClickCancel() {
         Data.dbUserController.formStage.close()
     }
 }
