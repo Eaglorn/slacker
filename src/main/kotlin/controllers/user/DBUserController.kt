@@ -54,7 +54,7 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
                 .where { (Users.id eq selectId) }
                 .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                 .firstOrNull()
-            if (result != null) {
+            result?.let {
                 formDeleteController.run {
                     fieldName.text = result.name
                     fieldPost.text = result.post
