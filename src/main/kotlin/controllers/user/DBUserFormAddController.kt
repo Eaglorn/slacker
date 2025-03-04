@@ -51,11 +51,13 @@ class DBUserFormAddController {
                         set(it.address, areaAddress.text)
                     }
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.updateDB()
-                    Data.dbUserController.reloadTable()
-                    Data.dbUserController.buttonEdit.disableProperty().set(true)
-                    Data.dbUserController.buttonDelete.disableProperty().set(true)
-                    Data.dbUserController.formStage.close()
+                    Data.run {
+                        updateDB()
+                        dbUserController.run {
+                            reloadTable()
+                            formStage.close()
+                        }
+                    }
                 } else {
                     Notifications.create()
                         .title("Предупреждение!")

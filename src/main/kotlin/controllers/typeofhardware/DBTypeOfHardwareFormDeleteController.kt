@@ -61,12 +61,14 @@ class DBTypeOfHardwareFormDeleteController {
                         it.type_of_hardware_id eq result.id !!
                     }
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.updateDB()
-                    Data.dbTypeOfHardwareController.reloadTable()
-                    Data.dbModelController.reloadTable()
-                    Data.dbTypeOfHardwareController.buttonEdit.disableProperty().set(true)
-                    Data.dbTypeOfHardwareController.buttonDelete.disableProperty().set(true)
-                    Data.dbTypeOfHardwareController.formStage.close()
+                    Data.run {
+                        updateDB()
+                        dbModelController.reloadTable()
+                        dbTypeOfHardwareController.run {
+                            reloadTable()
+                            formStage.close()
+                        }
+                    }
                 }
             }
         }

@@ -38,10 +38,12 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
                 .where { (Users.id eq selectId) }
                 .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                 .firstOrNull()
-            if (result != null) {
-                formEditController.fieldName.text = result.name
-                formEditController.fieldPost.text = result.post
-                formEditController.areaAddress.text = result.address
+            result?.let {
+                formEditController.run {
+                    fieldName.text = result.name
+                    fieldPost.text = result.post
+                    areaAddress.text = result.address
+                }
             }
         }
     }
@@ -53,9 +55,11 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
                 .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                 .firstOrNull()
             if (result != null) {
-                formDeleteController.fieldName.text = result.name
-                formDeleteController.fieldPost.text = result.post
-                formDeleteController.areaAddress.text = result.address
+                formDeleteController.run {
+                    fieldName.text = result.name
+                    fieldPost.text = result.post
+                    areaAddress.text = result.address
+                }
             }
         }
     }

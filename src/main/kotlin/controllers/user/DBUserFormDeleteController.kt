@@ -49,12 +49,10 @@ class DBUserFormDeleteController {
         runBlocking {
             launch {
                 Data.updateDB()
-
                 val result = Data.dbUser
                     .where { (Users.id eq Data.dbUserController.selectId) }
                     .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                     .firstOrNull()
-
                 if (result == null) {
                     Notifications.create()
                         .title("Предупреждение!")
@@ -66,11 +64,13 @@ class DBUserFormDeleteController {
                         it.id eq result.id !!
                     }
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.updateDB()
-                    Data.dbUserController.reloadTable()
-                    Data.dbUserController.buttonEdit.disableProperty().set(true)
-                    Data.dbUserController.buttonDelete.disableProperty().set(true)
-                    Data.dbUserController.formStage.close()
+                    Data.run {
+                        updateDB()
+                        dbUserController.run {
+                            reloadTable()
+                            formStage.close()
+                        }
+                    }
                 }
             }
         }

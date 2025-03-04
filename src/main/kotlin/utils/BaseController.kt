@@ -20,12 +20,12 @@ abstract class BaseController<T : Identifiable>(
     var selectId : Int = - 1
 
     init {
-        setupButtons()
+        setButtonsDisable(true)
     }
 
-    private fun setupButtons() {
-        buttonEdit.isDisable = true
-        buttonDelete.isDisable = true
+    fun setButtonsDisable(value: Boolean) {
+        buttonEdit.isDisable = value
+        buttonDelete.isDisable = value
     }
 
     private fun toggleButtons(isEnabled : Boolean) {

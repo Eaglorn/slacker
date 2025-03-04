@@ -87,8 +87,10 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
                 if (maker != null && typeOfHardware != null) {
-                    formEditController.boxMaker.selectionModel.select(maker.name)
-                    formEditController.boxTypeOfHardware.selectionModel.select(typeOfHardware.name)
+                    formEditController.run {
+                        boxMaker.selectionModel.select(maker.name)
+                        boxTypeOfHardware.selectionModel.select(typeOfHardware.name)
+                    }
                 }
             }
         }
@@ -125,8 +127,10 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
                 if (maker != null && typeOfHardware != null) {
-                    formDeleteController.boxMaker.selectionModel.select(maker.name)
-                    formDeleteController.boxTypeOfHardware.selectionModel.select(typeOfHardware.name)
+                    formDeleteController.run {
+                        boxMaker.selectionModel.select(maker.name)
+                        boxTypeOfHardware.selectionModel.select(typeOfHardware.name)
+                    }
                 }
             }
         }
