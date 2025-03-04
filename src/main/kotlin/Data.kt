@@ -35,11 +35,12 @@ class Data {
         lateinit var dbUser : Query
 
         fun updateDB() {
-            val database = SqliteDatabase.connect(Config.pathDBLocal)
-            dbMaker = database.from(Makers).select()
-            dbTypeOfHardware = database.from(TypeOfHardwares).select()
-            dbModel = database.from(Models).select()
-            dbUser = database.from(Users).select()
+            SqliteDatabase.connect(Config.pathDBLocal).let {
+                dbMaker = it.from(Makers).select()
+                dbTypeOfHardware = it.from(TypeOfHardwares).select()
+                dbModel = it.from(Models).select()
+                dbUser = it.from(Users).select()
+            }
         }
     }
 }

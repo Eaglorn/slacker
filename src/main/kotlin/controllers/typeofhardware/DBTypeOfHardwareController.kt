@@ -38,8 +38,8 @@ class DBTypeOfHardwareController(table : TableView2<TypeOfHardwareTable>, button
                 .where { (TypeOfHardwares.id eq selectId) }
                 .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                 .firstOrNull()
-            if (result != null) {
-                formEditController.fieldName.text = result.name
+            result?.let {
+                formEditController.fieldName.text = it.name
             }
         }
     }
@@ -50,8 +50,8 @@ class DBTypeOfHardwareController(table : TableView2<TypeOfHardwareTable>, button
                 .where { (TypeOfHardwares.id eq selectId) }
                 .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                 .firstOrNull()
-            if (result != null) {
-                formDeleteController.fieldName.text = result.name
+            result?.let {
+                formDeleteController.fieldName.text = it.name
             }
         }
     }

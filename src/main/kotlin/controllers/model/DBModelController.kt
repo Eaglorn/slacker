@@ -112,12 +112,6 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
                 .firstOrNull()
             if (result != null) {
                 formDeleteController.fieldName.text = result.name
-                Data.dbMaker
-                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-                    .forEach { formDeleteController.boxMaker.items.add(it.name) }
-                Data.dbTypeOfHardware
-                    .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
-                    .forEach { formDeleteController.boxTypeOfHardware.items.add(it.name) }
                 val maker = Data.dbMaker
                     .where { (Makers.id eq result.maker_id !!) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
@@ -128,8 +122,8 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
                     .firstOrNull()
                 if (maker != null && typeOfHardware != null) {
                     formDeleteController.run {
-                        boxMaker.selectionModel.select(maker.name)
-                        boxTypeOfHardware.selectionModel.select(typeOfHardware.name)
+                        fieldMaker.text = maker.name
+                        fieldTypeOfHardware.text = typeOfHardware.name
                     }
                 }
             }

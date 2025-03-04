@@ -29,9 +29,9 @@ class SlackerController : SlackerControllerData() {
         Data.controller = this
         Data.config = Config.load()
         if (Data.config.pathDB.isNotEmpty()) {
-            val file : File = File(Data.config.pathDB)
+            val file = File(Data.config.pathDB)
             if (file.exists()) {
-                val lastModified : Date = Date(file.lastModified())
+                val lastModified = Date(file.lastModified())
                 val instant : Instant = lastModified.toInstant()
                 val localDateTime : LocalDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
                 if (Data.config.dateTimeDB.isBefore(localDateTime)) {
@@ -94,11 +94,13 @@ class SlackerController : SlackerControllerData() {
                 Model.createDatabase(conn)
                 User.createDatabase(conn)
             }
-            Data.updateDB()
-            Data.dbMakerController.reloadTable()
-            Data.dbTypeOfHardwareController.reloadTable()
-            Data.dbModelController.reloadTable()
-            Data.dbUserController.reloadTable()
+            Data.run {
+                updateDB()
+                dbMakerController.reloadTable()
+                dbTypeOfHardwareController.reloadTable()
+                dbModelController.reloadTable()
+                dbUserController.reloadTable()
+            }
             if (Data.config.pathTemplates.isNotEmpty()) {
                 fieldLoadDatabase.text = Data.config.pathDB
                 fieldLoadTemplates.text = Data.config.pathTemplates

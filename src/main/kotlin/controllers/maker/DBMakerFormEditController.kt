@@ -63,12 +63,14 @@ class DBMakerFormEditController {
                             where { it.id eq result.id !! }
                         }
                         FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                        Data.updateDB()
-                        Data.dbMakerController.reloadTable()
-                        Data.dbModelController.reloadTable()
-                        Data.dbMakerController.buttonEdit.disableProperty().set(true)
-                        Data.dbMakerController.buttonDelete.disableProperty().set(true)
-                        Data.dbMakerController.formStage.close()
+                        Data.run {
+                            updateDB()
+                            dbModelController.reloadTable()
+                            dbMakerController.run {
+                                reloadTable()
+                                formStage.close()
+                            }
+                        }
                     } else {
                         Notifications.create()
                             .title("Предупреждение!")

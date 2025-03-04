@@ -40,9 +40,9 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
                 .firstOrNull()
             result?.let {
                 formEditController.run {
-                    fieldName.text = result.name
-                    fieldPost.text = result.post
-                    areaAddress.text = result.address
+                    fieldName.text = it.name
+                    fieldPost.text = it.post
+                    areaAddress.text = it.address
                 }
             }
         }
@@ -56,9 +56,9 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
                 .firstOrNull()
             result?.let {
                 formDeleteController.run {
-                    fieldName.text = result.name
-                    fieldPost.text = result.post
-                    areaAddress.text = result.address
+                    fieldName.text = it.name
+                    fieldPost.text = it.post
+                    areaAddress.text = it.address
                 }
             }
         }

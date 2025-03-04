@@ -98,17 +98,17 @@ class ModelTable(id : Int?, name : String?, maker : String?, type_of_hardware : 
     }
 
     init {
-        if (id != null) {
-            this.setId(id)
+        id?.let {
+            this.setId(it)
         }
-        if (name != null) {
-            this.setName(name)
+        name?.let {
+            this.setName(it)
         }
-        if (maker != null) {
-            this.setMaker(maker)
+        maker?.let {
+            this.setMaker(it)
         }
-        if (type_of_hardware != null) {
-            this.setTypeOfHardware(type_of_hardware)
+        type_of_hardware?.let {
+            this.setTypeOfHardware(it)
         }
     }
 }

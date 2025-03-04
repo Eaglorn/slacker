@@ -178,11 +178,13 @@ open class SlackerControllerData {
     @FXML
     private fun onButtonLoadApp() {
         if (Data.config.pathDB.isNotEmpty() && Data.config.pathTemplates.isNotEmpty()) {
-            Data.updateDB()
-            Data.dbMakerController.reloadTable()
-            Data.dbTypeOfHardwareController.reloadTable()
-            Data.dbModelController.reloadTable()
-            Data.dbUserController.reloadTable()
+            Data.run {
+                updateDB()
+                dbMakerController.reloadTable()
+                dbTypeOfHardwareController.reloadTable()
+                dbModelController.reloadTable()
+                dbUserController.reloadTable()
+            }
             tabWriteOff.disableProperty().set(false)
             tabExpertise.disableProperty().set(false)
             tabDataBase.disableProperty().set(false)

@@ -96,17 +96,17 @@ class UserTable(id : Int?, name : String?, post : String?, address : String?) : 
     }
 
     init {
-        if (id != null) {
-            this.setId(id)
+        id?.let {
+            this.setId(it)
         }
-        if (name != null) {
-            this.setName(name)
+        name?.let {
+            this.setName(it)
         }
-        if (post != null) {
-            this.setPost(post)
+        post?.let {
+            this.setPost(it)
         }
-        if (address != null) {
-            this.setAddress(address)
+        address?.let {
+            this.setAddress(it)
         }
     }
 }

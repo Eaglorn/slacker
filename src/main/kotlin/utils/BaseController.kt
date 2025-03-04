@@ -23,7 +23,7 @@ abstract class BaseController<T : Identifiable>(
         setButtonsDisable(true)
     }
 
-    fun setButtonsDisable(value: Boolean) {
+    fun setButtonsDisable(value : Boolean) {
         buttonEdit.isDisable = value
         buttonDelete.isDisable = value
     }

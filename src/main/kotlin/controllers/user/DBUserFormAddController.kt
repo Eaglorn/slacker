@@ -43,13 +43,7 @@ class DBUserFormAddController {
                     .where { (Users.name eq fieldName.text) }
                     .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                     .firstOrNull()
-                result?.let {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("Запись с введённым ФИО уже существует.")
-                        .showWarning()
-
-                } ?: run {
+                if (result == null) {
                     val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.insert(Users) {
                         set(it.name, fieldName.text)
@@ -64,6 +58,11 @@ class DBUserFormAddController {
                             formStage.close()
                         }
                     }
+                } else {
+                    Notifications.create()
+                        .title("Предупреждение!")
+                        .text("Запись с введённым ФИО уже существует.")
+                        .showWarning()
                 }
             }
         }

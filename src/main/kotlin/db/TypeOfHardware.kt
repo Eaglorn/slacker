@@ -70,11 +70,11 @@ class TypeOfHardwareTable(id : Int?, name : String?) : Identifiable {
     }
 
     init {
-        if (id != null) {
-            this.setId(id)
+        id?.let {
+            this.setId(it)
         }
-        if (name != null) {
-            this.setName(name)
+        name?.let {
+            this.setName(it)
         }
     }
 }

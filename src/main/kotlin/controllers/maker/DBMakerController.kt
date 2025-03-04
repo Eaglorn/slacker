@@ -11,11 +11,11 @@ import org.ktorm.dsl.map
 import org.ktorm.dsl.where
 import utils.BaseController
 
-class DBMakerController(table: TableView2<MakerTable>, buttonEdit: Button, buttonDelete: Button) :
+class DBMakerController(table : TableView2<MakerTable>, buttonEdit : Button, buttonDelete : Button) :
     BaseController<MakerTable>(table, buttonEdit, buttonDelete) {
 
-    lateinit var formEditController: DBMakerFormEditController
-    lateinit var formDeleteController: DBMakerFormDeleteController
+    lateinit var formEditController : DBMakerFormEditController
+    lateinit var formDeleteController : DBMakerFormDeleteController
 
     init {
         setupTableListener()
@@ -38,8 +38,8 @@ class DBMakerController(table: TableView2<MakerTable>, buttonEdit: Button, butto
                 .where { (Makers.id eq selectId) }
                 .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                 .firstOrNull()
-            if (result != null) {
-                (controller as DBMakerFormEditController).fieldName.text = result.name
+            result?.let {
+                formEditController.fieldName.text = it.name
             }
         }
     }
@@ -50,8 +50,8 @@ class DBMakerController(table: TableView2<MakerTable>, buttonEdit: Button, butto
                 .where { (Makers.id eq selectId) }
                 .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                 .firstOrNull()
-            if (result != null) {
-                (controller as DBMakerFormDeleteController).fieldName.text = result.name
+            result?.let {
+                formDeleteController.fieldName.text = it.name
             }
         }
     }

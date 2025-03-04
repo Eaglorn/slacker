@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.apache.commons.io.FileUtils
 import org.controlsfx.control.Notifications
-import org.controlsfx.control.SearchableComboBox
 import org.ktorm.dsl.delete
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.map
@@ -28,10 +27,10 @@ class DBModelFormDeleteController {
     lateinit var fieldName : TextField
 
     @FXML
-    lateinit var boxMaker : SearchableComboBox<String>
+    lateinit var fieldMaker : TextField
 
     @FXML
-    lateinit var boxTypeOfHardware : SearchableComboBox<String>
+    lateinit var fieldTypeOfHardware : TextField
 
     init {
         Data.dbModelController.formDeleteController = this
@@ -71,11 +70,13 @@ class DBModelFormDeleteController {
                         it.id eq result.id !!
                     }
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.updateDB()
-                    Data.dbModelController.reloadTable()
-                    Data.dbModelController.buttonEdit.disableProperty().set(true)
-                    Data.dbModelController.buttonDelete.disableProperty().set(true)
-                    Data.dbModelController.formStage.close()
+                    Data.run {
+                        updateDB()
+                        dbModelController.run {
+                            reloadTable()
+                            formStage.close()
+                        }
+                    }
                 }
             }
         }

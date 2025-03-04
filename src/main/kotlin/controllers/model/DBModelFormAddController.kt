@@ -71,11 +71,13 @@ class DBModelFormAddController {
                         }
                     }
                     FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.updateDB()
-                    Data.dbModelController.reloadTable()
-                    Data.dbModelController.buttonEdit.disableProperty().set(true)
-                    Data.dbModelController.buttonDelete.disableProperty().set(true)
-                    Data.dbModelController.formStage.close()
+                    Data.run {
+                        updateDB()
+                        dbModelController.run {
+                            reloadTable()
+                            formStage.close()
+                        }
+                    }
                 } else {
                     Notifications.create()
                         .title("Предупреждение!")
