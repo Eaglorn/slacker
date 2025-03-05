@@ -10,9 +10,12 @@ import org.ktorm.schema.int
 import org.ktorm.schema.text
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import utils.DBCreateAnnotation
 import utils.Identifiable
+import utils.SearchableAnnotation
 import java.sql.Connection
 
+@SearchableAnnotation
 class Defect(
     val id : Int?,
     val hardware : String?,
@@ -23,13 +26,13 @@ class Defect(
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
-    companion object {
-        fun createDatabase(conn : Connection) {
-            val tableExists = conn.createStatement()
-                .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='defect'").next()
-            if (! tableExists) {
-                conn.createStatement().executeUpdate(
-                    """
+    @DBCreateAnnotation
+    fun createDatabase(conn : Connection) {
+        val tableExists = conn.createStatement()
+            .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='defect'").next()
+        if (! tableExists) {
+            conn.createStatement().executeUpdate(
+                """
                     CREATE TABLE defect (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         hardware TEXT NOT NULL,
@@ -38,8 +41,7 @@ class Defect(
                         reason TEXT NOT NULL
                     )
                     """.trimIndent()
-                )
-            }
+            )
         }
     }
 }

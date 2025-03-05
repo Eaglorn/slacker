@@ -4,6 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.1.10"
     id("org.openjfx.javafxplugin") version "0.1.0"
     id("org.beryx.runtime") version "1.13.1"
+    id("org.springframework.boot") version "3.4.3"
+    id("io.spring.dependency-management") version "1.1.7"
 }
 
 group = "ru.fku.app"
@@ -33,6 +35,7 @@ val disruptor_version = "4.0.0"
 val gson_vesrion = "2.12.1"
 val commons_io_version = "2.18.0"
 val apache_poi_ooxml_version = "5.4.0"
+val reflections = "4.16.0.Final"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}")
@@ -49,6 +52,11 @@ dependencies {
     implementation("com.google.code.gson:gson:${gson_vesrion}")
     implementation("commons-io:commons-io:${commons_io_version}")
     implementation("org.apache.poi:poi-ooxml:${apache_poi_ooxml_version}")
+    implementation("org.jboss.errai.reflections:reflections:${reflections}")
+    implementation("org.springframework.boot:spring-boot-starter") {
+        exclude("org.springframework.boot","spring-boot-starter-logging")
+    }
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
 }
 
 javafx {

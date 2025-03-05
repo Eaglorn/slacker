@@ -11,12 +11,18 @@ import javafx.beans.property.SimpleStringProperty
 import org.apache.commons.io.FileUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider
+import org.springframework.core.type.filter.AnnotationTypeFilter
+import utils.DBCreateAnnotation
+import utils.SearchableAnnotation
 import utils.SqliteDatabase
 import java.io.File
+import java.lang.reflect.Method
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
+import java.util.stream.Collectors
 
 class SlackerController : SlackerControllerData() {
     @Suppress("unused")
@@ -59,12 +65,12 @@ class SlackerController : SlackerControllerData() {
         tableModelColumnName.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getName()) }
         tableModelColumnMaker.setCellValueFactory { cellData ->
             SimpleStringProperty(
-                cellData.value.getMaker().toString()
+                cellData.value.getMaker()
             )
         }
         tableModelColumnTypeOfHardware.setCellValueFactory { cellData ->
             SimpleStringProperty(
-                cellData.value.getTypeOfHardware().toString()
+                cellData.value.getTypeOfHardware()
             )
         }
 
@@ -85,12 +91,34 @@ class SlackerController : SlackerControllerData() {
 
         if (Data.config.pathDB.isNotEmpty()) {
             val database = SqliteDatabase.connect(Data.config.pathDB)
+
+            val scanner = ClassPathScanningCandidateComponentProvider(false)
+            scanner.addIncludeFilter(AnnotationTypeFilter(SearchableAnnotation::class.java))
+            val collect = scanner
+                .findCandidateComponents("db")
+                .stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList())
+
             database.useConnection { conn ->
-                Maker.createDatabase(conn)
-                TypeOfHardware.createDatabase(conn)
-                Model.createDatabase(conn)
-                User.createDatabase(conn)
-                Defect.createDatabase(conn)
+                collect.forEach { _ ->
+                    val methods: Array<Method> = collect.javaClass.methods
+                    println(methods.size)
+                    for (method in methods) {
+                        println(method.name)
+                        if (method.isAnnotationPresent(DBCreateAnnotation::class.java)) {
+                            val params: ArrayList<Any> = ArrayList()
+                            params.add(conn)
+                            method.invoke(collect, *params.toTypedArray())
+                        }
+                    }
+                }
+
+                //Maker.createDatabase(conn)
+                //TypeOfHardware.createDatabase(conn)
+                //Model.createDatabase(conn)
+                //User.createDatabase(conn)
+                //Defect.createDatabase(conn)
             }
             Data.run {
                 updateDB()
