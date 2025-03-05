@@ -4,10 +4,7 @@ import controllers.maker.DBMakerController
 import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
 import controllers.user.DBUserController
-import db.Makers
-import db.Models
-import db.TypeOfHardwares
-import db.Users
+import db.*
 import javafx.scene.Scene
 import org.ktorm.dsl.Query
 import org.ktorm.dsl.from
@@ -33,6 +30,7 @@ class Data {
         lateinit var dbTypeOfHardware : Query
         lateinit var dbModel : Query
         lateinit var dbUser : Query
+        lateinit var dbDefect : Query
 
         fun updateDB() {
             SqliteDatabase.connect(Config.pathDBLocal).let {
@@ -40,6 +38,7 @@ class Data {
                 dbTypeOfHardware = it.from(TypeOfHardwares).select()
                 dbModel = it.from(Models).select()
                 dbUser = it.from(Users).select()
+                dbDefect = it.from(Defects).select()
             }
         }
     }

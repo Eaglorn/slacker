@@ -6,10 +6,7 @@ import controllers.maker.DBMakerController
 import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
 import controllers.user.DBUserController
-import db.Maker
-import db.Model
-import db.TypeOfHardware
-import db.User
+import db.*
 import javafx.beans.property.SimpleStringProperty
 import org.apache.commons.io.FileUtils
 import org.slf4j.Logger
@@ -93,6 +90,7 @@ class SlackerController : SlackerControllerData() {
                 TypeOfHardware.createDatabase(conn)
                 Model.createDatabase(conn)
                 User.createDatabase(conn)
+                Defect.createDatabase(conn)
             }
             Data.run {
                 updateDB()
