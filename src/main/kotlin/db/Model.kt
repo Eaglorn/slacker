@@ -10,35 +10,11 @@ import org.ktorm.schema.int
 import org.ktorm.schema.text
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import utils.DBCreateAnnotation
 import utils.Identifiable
-import utils.SearchableAnnotation
-import java.sql.Connection
 
-@SearchableAnnotation
 data class Model(val id : Int?, val name : String?, val maker_id : Int?, val type_of_hardware_id : Int?) {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
-
-    @DBCreateAnnotation
-    fun createDatabase(conn : Connection) {
-        val tableExists = conn.createStatement()
-            .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='model'").next()
-        if (! tableExists) {
-            conn.createStatement().executeUpdate(
-                """
-                    CREATE TABLE model (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL,
-                    maker_id INT,
-                    type_of_hardware_id INT,
-                    FOREIGN KEY (maker_id) REFERENCES maker(id),
-                    FOREIGN KEY (type_of_hardware_id) REFERENCES type_of_hardware(id)
-                    )
-                    """.trimIndent()
-            )
-        }
-    }
 }
 
 object Models : BaseTable<Model>("model") {

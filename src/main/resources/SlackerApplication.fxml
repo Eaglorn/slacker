@@ -4,8 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.tableview2.*?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="694.0"
-         prefWidth="914.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1"
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
+         prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1"
          xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SlackerController">
     <tabs>
         <Tab text="Настройки">
@@ -13,14 +13,14 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
                         <CustomTextField fx:id="fieldLoadDatabase" editable="false" layoutX="14.0" layoutY="14.0"
-                                         prefHeight="25.0" prefWidth="470.0"/>
-                        <Button fx:id="buttonLoadDatabase" layoutX="500.0" layoutY="14.0" mnemonicParsing="false"
+                                         prefHeight="25.0" prefWidth="570.0"/>
+                        <Button fx:id="buttonLoadDatabase" layoutX="609.0" layoutY="14.0" mnemonicParsing="false"
                                 onAction="#onButtonClickLoadDataBase" text="Выбрать файл базы данных"/>
                         <CustomTextField fx:id="fieldLoadTemplates" editable="false" layoutX="14.0" layoutY="50.0"
-                                         prefHeight="25.0" prefWidth="470.0"/>
-                        <Button fx:id="buttonLoadTemplates" layoutX="500.0" layoutY="50.0" mnemonicParsing="false"
+                                         prefHeight="25.0" prefWidth="570.0"/>
+                        <Button fx:id="buttonLoadTemplates" layoutX="609.0" layoutY="50.0" mnemonicParsing="false"
                                 onAction="#onButtonClickLoadTemplates" text="Выбрать каталог с шаблонами"/>
-                        <Button layoutX="422.0" layoutY="123.0" mnemonicParsing="false" onAction="#onButtonLoadApp"
+                        <Button layoutX="609.0" layoutY="84.0" mnemonicParsing="false" onAction="#onButtonLoadApp"
                                 text="Загрузить"/>
                     </children>
                 </AnchorPane>
@@ -40,18 +40,18 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
-                        <TabPane prefHeight="665.0" prefWidth="914.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane prefHeight="665.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
                             <tabs>
                                 <Tab text="Производитель">
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                             <children>
-                                                <TableView2 fx:id="tableMaker" layoutY="6.0" prefHeight="579.0"
-                                                            prefWidth="914.0">
+                                                <TableView2 fx:id="tableMaker" layoutY="6.0" prefHeight="580.0"
+                                                            prefWidth="1200.0">
                                                     <columns>
-                                                        <TableColumn2 fx:id="tableMakerColumnId" prefWidth="115.0"
+                                                        <TableColumn2 fx:id="tableMakerColumnId" prefWidth="200.0"
                                                                       text="Идентификатор"/>
-                                                        <TableColumn2 fx:id="tableMakerColumnName" prefWidth="350.0"
+                                                        <TableColumn2 fx:id="tableMakerColumnName" prefWidth="1000.0"
                                                                       text="Наименование"/>
                                                     </columns>
                                                 </TableView2>
@@ -71,13 +71,13 @@
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0">
                                             <children>
-                                                <TableView2 fx:id="tableTypeOfHardware" layoutY="6.0" prefHeight="579.0"
-                                                            prefWidth="914.0">
+                                                <TableView2 fx:id="tableTypeOfHardware" layoutY="6.0" prefHeight="580.0"
+                                                            prefWidth="1200.0">
                                                     <columns>
                                                         <TableColumn2 fx:id="tableTypeOfHardwareColumnId"
-                                                                      prefWidth="115.0" text="Идентификатор"/>
+                                                                      prefWidth="200.0" text="Идентификатор"/>
                                                         <TableColumn2 fx:id="tableTypeOfHardwareColumnName"
-                                                                      prefWidth="350.0" text="Наименование"/>
+                                                                      prefWidth="1000.0" text="Наименование"/>
                                                     </columns>
                                                 </TableView2>
                                                 <Button layoutX="14.0" layoutY="597.0" mnemonicParsing="false"
@@ -96,17 +96,17 @@
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0">
                                             <children>
-                                                <TableView2 fx:id="tableModel" layoutY="6.0" prefHeight="579.0"
-                                                            prefWidth="914.0">
+                                                <TableView2 fx:id="tableModel" layoutY="6.0" prefHeight="580.0"
+                                                            prefWidth="1200.0">
                                                     <columns>
-                                                        <TableColumn2 fx:id="tableModelColumnId" prefWidth="100.0"
+                                                        <TableColumn2 fx:id="tableModelColumnId" prefWidth="210.0"
                                                                       text="Идентификатор"/>
-                                                        <TableColumn2 fx:id="tableModelColumnName" prefWidth="270.0"
+                                                        <TableColumn2 fx:id="tableModelColumnName" prefWidth="330.0"
                                                                       text="Наименование"/>
-                                                        <TableColumn2 fx:id="tableModelColumnMaker" prefWidth="270.0"
+                                                        <TableColumn2 fx:id="tableModelColumnMaker" prefWidth="330.0"
                                                                       text="Производитель"/>
                                                         <TableColumn2 fx:id="tableModelColumnTypeOfHardware"
-                                                                      prefWidth="270.0" text="Тип оборудования"/>
+                                                                      prefWidth="330.0" text="Тип оборудования"/>
                                                     </columns>
                                                 </TableView2>
                                                 <Button layoutX="14.0" layoutY="597.0" mnemonicParsing="false"
@@ -125,15 +125,16 @@
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0">
                                             <children>
-                                                <TableView2 fx:id="tableUser" prefHeight="579.0" prefWidth="914.0">
+                                                <TableView2 fx:id="tableUser" layoutY="6.0" prefHeight="580.0"
+                                                            prefWidth="1200.0">
                                                     <columns>
-                                                        <TableColumn2 fx:id="tableUserColumnId" prefWidth="100.0"
+                                                        <TableColumn2 fx:id="tableUserColumnId" prefWidth="120.0"
                                                                       text="Идентификатор"/>
-                                                        <TableColumn2 fx:id="tableUserColumnName" prefWidth="270.0"
+                                                        <TableColumn2 fx:id="tableUserColumnName" prefWidth="360.0"
                                                                       text="ФИО"/>
-                                                        <TableColumn2 fx:id="tableUserColumnPost" prefWidth="270.0"
+                                                        <TableColumn2 fx:id="tableUserColumnPost" prefWidth="360.0"
                                                                       text="Должность"/>
-                                                        <TableColumn2 fx:id="tableUserColumnAddress" prefWidth="270.0"
+                                                        <TableColumn2 fx:id="tableUserColumnAddress" prefWidth="360.0"
                                                                       text="Адрес"/>
                                                     </columns>
                                                 </TableView2>
@@ -143,6 +144,37 @@
                                                         mnemonicParsing="false" onAction="#onButtonClickDBUserEdit"
                                                         text="Изменить"/>
                                                 <Button fx:id="buttonTableUserDelete" layoutX="171.0" layoutY="597.0"
+                                                        mnemonicParsing="false" onAction="#onButtonClickDBUserDelete"
+                                                        text="Удалить"/>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                                <Tab text="Дефект">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="117.0" prefWidth="914.0">
+                                            <children>
+                                                <TableView2 fx:id="tableDefect" layoutY="6.0" prefHeight="580.0"
+                                                            prefWidth="1200.0">
+                                                    <columns>
+                                                        <TableColumn2 fx:id="tableDefectColumnId" prefWidth="100.0"
+                                                                      text="Идентификатор"/>
+                                                        <TableColumn2 fx:id="tableDefectColumnHardware"
+                                                                      prefWidth="200.0" text="Вид оборудования"/>
+                                                        <TableColumn2 fx:id="tableDefectColumnResultView"
+                                                                      prefWidth="300.0" text="Результат осмотра"/>
+                                                        <TableColumn2 fx:id="tableDefectColumnDetect" prefWidth="300.0"
+                                                                      text="Неисправность"/>
+                                                        <TableColumn2 fx:id="tableDefectColumnReason" prefWidth="300.0"
+                                                                      text="Причина"/>
+                                                    </columns>
+                                                </TableView2>
+                                                <Button layoutX="14.0" layoutY="597.0" mnemonicParsing="false"
+                                                        onAction="#onButtonClickDBUserAdd" text="Добавить"/>
+                                                <Button fx:id="buttonTableUserEdit1" layoutX="92.0" layoutY="597.0"
+                                                        mnemonicParsing="false" onAction="#onButtonClickDBUserEdit"
+                                                        text="Изменить"/>
+                                                <Button fx:id="buttonTableUserDelete1" layoutX="171.0" layoutY="597.0"
                                                         mnemonicParsing="false" onAction="#onButtonClickDBUserDelete"
                                                         text="Удалить"/>
                                             </children>

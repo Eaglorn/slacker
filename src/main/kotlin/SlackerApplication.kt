@@ -8,13 +8,9 @@ import kotlinx.coroutines.runBlocking
 import org.apache.poi.xwpf.usermodel.XWPFDocument
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider
-import org.springframework.core.type.filter.AnnotationTypeFilter
-import utils.SearchableAnnotation
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-@SearchableAnnotation
 class SlackerApplication : Application() {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)

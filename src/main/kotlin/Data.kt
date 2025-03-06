@@ -1,5 +1,6 @@
 import controllers.SettingController
 import controllers.SlackerController
+import controllers.defect.DBDefectController
 import controllers.maker.DBMakerController
 import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
@@ -25,6 +26,7 @@ class Data {
         lateinit var dbTypeOfHardwareController : DBTypeOfHardwareController
         lateinit var dbModelController : DBModelController
         lateinit var dbUserController : DBUserController
+        lateinit var dbDefectController : DBDefectController
         lateinit var scene : Scene
         lateinit var dbMaker : Query
         lateinit var dbTypeOfHardware : Query

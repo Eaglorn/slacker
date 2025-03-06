@@ -1,10 +1,7 @@
 package controllers
 
 import Data
-import db.MakerTable
-import db.ModelTable
-import db.TypeOfHardwareTable
-import db.UserTable
+import db.*
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.Tab
@@ -106,6 +103,31 @@ open class SlackerControllerData {
     lateinit var buttonTableUserDelete : Button
 
     @FXML
+    lateinit var tableDefect : TableView2<DefectTable>
+
+    @FXML
+    lateinit var tableDefectColumnId : TableColumn2<DefectTable, String>
+
+    @FXML
+    lateinit var tableDefectColumnHardware : TableColumn2<DefectTable, String>
+
+    @FXML
+    lateinit var tableDefectColumnResultView : TableColumn2<DefectTable, String>
+
+    @FXML
+    lateinit var tableDefectColumnDetect : TableColumn2<DefectTable, String>
+
+    @FXML
+    lateinit var tableDefectColumnReason : TableColumn2<DefectTable, String>
+
+    @FXML
+    lateinit var buttonTableDefectEdit : Button
+
+    @FXML
+    lateinit var buttonTableDefectDelete : Button
+
+
+    @FXML
     private fun onButtonClickLoadDataBase() {
         Data.settingController.onButtonClickLoadDataBase()
     }
@@ -173,6 +195,21 @@ open class SlackerControllerData {
     @FXML
     private fun onButtonClickDBUserDelete() {
         Data.dbUserController.onButtonClickDelete()
+    }
+
+    @FXML
+    private fun onButtonClickDBDefectAdd() {
+        Data.dbDefectController.onButtonClickAdd()
+    }
+
+    @FXML
+    private fun onButtonClickDBDefectEdit() {
+        Data.dbDefectController.onButtonClickEdit()
+    }
+
+    @FXML
+    private fun onButtonClickDBDefectDelete() {
+        Data.dbDefectController.onButtonClickDelete()
     }
 
     @FXML
