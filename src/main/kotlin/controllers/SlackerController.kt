@@ -2,6 +2,7 @@ package controllers
 
 import Config
 import Data
+import controllers.defect.DBDefectController
 import controllers.maker.DBMakerController
 import controllers.model.DBModelController
 import controllers.typeofhardware.DBTypeOfHardwareController
@@ -74,6 +75,12 @@ class SlackerController : SlackerControllerData() {
         tableUserColumnPost.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getPost()) }
         tableUserColumnAddress.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getAddress()) }
 
+        tableDefectColumnId.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getId().toString()) }
+        tableDefectColumnHardware.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getHardware()) }
+        tableDefectColumnResultView.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getResultView()) }
+        tableDefectColumnDetect.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getDetect()) }
+        tableDefectColumnReason.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.getReason()) }
+
         Data.settingController = SettingController(fieldLoadDatabase, fieldLoadTemplates)
         Data.dbMakerController = DBMakerController(tableMaker, buttonTableMakerEdit, buttonTableMakerDelete)
         Data.dbTypeOfHardwareController = DBTypeOfHardwareController(
@@ -83,6 +90,7 @@ class SlackerController : SlackerControllerData() {
         )
         Data.dbModelController = DBModelController(tableModel, buttonTableModelEdit, buttonTableModelDelete)
         Data.dbUserController = DBUserController(tableUser, buttonTableUserEdit, buttonTableUserDelete)
+        Data.dbDefectController = DBDefectController(tableDefect, buttonTableDefectEdit, buttonTableDefectDelete)
 
         if (Data.config.pathDB.isNotEmpty()) {
             val database = SqliteDatabase.connect(Data.config.pathDB)
@@ -105,6 +113,7 @@ class SlackerController : SlackerControllerData() {
             dbTypeOfHardwareController.reloadTable()
             dbModelController.reloadTable()
             dbUserController.reloadTable()
+            dbDefectController.reloadTable()
         }
         if (Data.config.pathTemplates.isNotEmpty()) {
             fieldLoadDatabase.text = Data.config.pathDB

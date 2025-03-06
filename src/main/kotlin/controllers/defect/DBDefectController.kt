@@ -22,7 +22,7 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
 
     override fun reloadTable() {
         table.items.clear()
-        Data.dbUser
+        Data.dbDefect
             .map { row ->
                 Defect(
                     row[Defects.id],
@@ -37,7 +37,7 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
 
     override fun onButtonClickAdd() {
         showModal("/db/defect/Add.fxml", "Создание записи дефект") {
-            formAddController.boxHardware.items.apply {
+            Data.dbDefectController.formAddController.boxHardware.items.apply {
                 add("ИБП")
                 add("Коммутатор")
                 add("Монитор")

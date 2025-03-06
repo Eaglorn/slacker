@@ -16,6 +16,7 @@ import utils.SqliteDatabase
 import java.io.File
 
 class DBDefectFormAddController {
+
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -23,13 +24,13 @@ class DBDefectFormAddController {
     lateinit var boxHardware : SearchableComboBox<String>
 
     @FXML
-    private lateinit var fieldResultView : TextArea
+    private lateinit var areaResultView : TextArea
 
     @FXML
-    private lateinit var fieldDetect : TextArea
+    private lateinit var areaDetect : TextArea
 
     @FXML
-    private lateinit var fieldReason : TextArea
+    private lateinit var areaReason : TextArea
 
     init {
         Data.dbDefectController.formAddController = this
@@ -44,9 +45,9 @@ class DBDefectFormAddController {
                 val database = SqliteDatabase.connect(Data.config.pathDB)
                 database.insert(Defects) {
                     set(it.hardware, boxHardware.selectionModel.selectedItem)
-                    set(it.result_view, fieldResultView.text)
-                    set(it.detect, fieldDetect.text)
-                    set(it.reason, fieldReason.text)
+                    set(it.result_view, areaResultView.text)
+                    set(it.detect, areaDetect.text)
+                    set(it.reason, areaReason.text)
                 }
                 FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                 Data.run {

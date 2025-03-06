@@ -170,12 +170,12 @@
                                                     </columns>
                                                 </TableView2>
                                                 <Button layoutX="14.0" layoutY="597.0" mnemonicParsing="false"
-                                                        onAction="#onButtonClickDBUserAdd" text="Добавить"/>
-                                                <Button fx:id="buttonTableUserEdit1" layoutX="92.0" layoutY="597.0"
-                                                        mnemonicParsing="false" onAction="#onButtonClickDBUserEdit"
+                                                        onAction="#onButtonClickDBDefectAdd" text="Добавить"/>
+                                                <Button fx:id="buttonTableDefectEdit" layoutX="92.0" layoutY="597.0"
+                                                        mnemonicParsing="false" onAction="#onButtonClickDBDefectEdit"
                                                         text="Изменить"/>
-                                                <Button fx:id="buttonTableUserDelete1" layoutX="171.0" layoutY="597.0"
-                                                        mnemonicParsing="false" onAction="#onButtonClickDBUserDelete"
+                                                <Button fx:id="buttonTableDefectDelete" layoutX="171.0" layoutY="597.0"
+                                                        mnemonicParsing="false" onAction="#onButtonClickDBDefectDelete"
                                                         text="Удалить"/>
                                             </children>
                                         </AnchorPane>
