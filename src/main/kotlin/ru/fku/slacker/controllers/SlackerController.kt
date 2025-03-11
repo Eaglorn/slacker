@@ -10,8 +10,7 @@ import org.controlsfx.control.tableview2.TableColumn2
 import org.controlsfx.control.tableview2.TableView2
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.context.ApplicationContext
-import org.springframework.stereotype.Component
+import org.springframework.context.annotation.Bean
 import ru.fku.slacker.Config
 import ru.fku.slacker.Data
 import ru.fku.slacker.SlackerApplication
@@ -21,8 +20,6 @@ import ru.fku.slacker.controllers.model.DBModelController
 import ru.fku.slacker.controllers.typeofhardware.DBTypeOfHardwareController
 import ru.fku.slacker.controllers.user.DBUserController
 import ru.fku.slacker.db.*
-import ru.fku.slacker.utils.DBCreateAnnotation
-import ru.fku.slacker.utils.SqliteDatabase
 import java.io.File
 import java.lang.reflect.Method
 import java.time.Instant
@@ -30,7 +27,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
-@Component
 class SlackerController {
     lateinit var buttonLoadTemplates : Button
     lateinit var buttonLoadDatabase : Button
@@ -217,16 +213,23 @@ class SlackerController {
         Data.dbUserController = DBUserController(tableUser, buttonTableUserEdit, buttonTableUserDelete)
         Data.dbDefectController =
             DBDefectController(tableDefect, buttonTableDefectEdit, buttonTableDefectDelete)
-        val applicationContext = SlackerApplication.applicationContext
-        applicationContext.let { context ->
-            val beanNames = context.beanDefinitionNames
-            for (beanName in beanNames) {
-                val bean = applicationContext.getBean(beanName)
-                val methods : Array<Method> = bean.javaClass.getDeclaredMethods()
-                for (method in methods) {
-                    if (method.isAnnotationPresent(DBCreateAnnotation::class.java)) {
-                        method.isAccessible = true
-                        method.invoke(bean)
+
+        if (SlackerApplication.databaseCreate) {
+            SlackerApplication.applicationContext.let { context ->
+                val beanNames = context.beanDefinitionNames
+                for (beanName in beanNames) {
+                    if(beanName.contains("DB.Class.")) {
+                        val bean = context.getBean(beanName)
+                        val methods : Array<Method> = bean.javaClass.methods
+                        for (method in methods) {
+                            method.getAnnotationsByType(Bean::class.java).firstOrNull()?.let {
+                                for (item in it.name) {
+                                    if (item.contains("DB.Create.")) {
+                                        method.invoke(bean)
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

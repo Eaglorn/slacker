@@ -13,39 +13,34 @@ import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 import ru.fku.slacker.Data
-import ru.fku.slacker.utils.DBCreateAnnotation
 import ru.fku.slacker.utils.Identifiable
 import ru.fku.slacker.utils.SqliteDatabase
-import java.sql.Connection
 
-@Component
+@Component("DB.Class.Maker")
 data class Maker(val id : Int?, val name : String?) {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
-    companion object {
-        @Suppress("unused")
-        @Bean
-        @DBCreateAnnotation
-        fun createDatabaseMaker() : Boolean {
-            if (Data.config.pathDB.isNotEmpty()) {
-                val database = SqliteDatabase.connect(Data.config.pathDB)
-                database.useConnection { conn ->
-                    val tableExists = conn.createStatement()
-                        .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='maker'").next()
-                    if (! tableExists) {
-                        val sql = """
+    @Suppress("unused")
+    @Bean(name=["DB.Create.Maker"])
+    fun createDatabase() : Boolean {
+        if (Data.config.pathDB.isNotEmpty()) {
+            val database = SqliteDatabase.connect(Data.config.pathDB)
+            database.useConnection { conn ->
+                val tableExists = conn.createStatement()
+                    .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='maker'").next()
+                if (! tableExists) {
+                    val sql = """
                             CREATE TABLE maker (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 name TEXT NOT NULL
                             );
                         """
-                        conn.createStatement().executeUpdate(sql.trimIndent())
-                    }
+                    conn.createStatement().executeUpdate(sql.trimIndent())
                 }
             }
-            return true
         }
+        return true
     }
 }
 

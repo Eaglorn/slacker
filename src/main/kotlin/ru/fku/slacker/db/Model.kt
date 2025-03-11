@@ -13,28 +13,24 @@ import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 import ru.fku.slacker.Data
-import ru.fku.slacker.utils.DBCreateAnnotation
 import ru.fku.slacker.utils.Identifiable
 import ru.fku.slacker.utils.SqliteDatabase
-import java.sql.Connection
 
-@Component
+@Component("DB.Class.Model")
 data class Model(val id : Int?, val name : String?, val maker_id : Int?, val type_of_hardware_id : Int?) {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
-    companion object {
-        @Suppress("unused")
-        @Bean
-        @DBCreateAnnotation
-        fun createDatabaseModel() : Boolean {
-            if (Data.config.pathDB.isNotEmpty()) {
-                val database = SqliteDatabase.connect(Data.config.pathDB)
-                database.useConnection { conn ->
-                    val tableExists = conn.createStatement()
-                        .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='model'").next()
-                    if (! tableExists) {
-                        val sql = """
+    @Suppress("unused")
+    @Bean(name=["DB.Create.Model"])
+    fun createDatabase() : Boolean {
+        if (Data.config.pathDB.isNotEmpty()) {
+            val database = SqliteDatabase.connect(Data.config.pathDB)
+            database.useConnection { conn ->
+                val tableExists = conn.createStatement()
+                    .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='model'").next()
+                if (! tableExists) {
+                    val sql = """
                             CREATE TABLE model (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 name TEXT NOT NULL,
@@ -44,12 +40,11 @@ data class Model(val id : Int?, val name : String?, val maker_id : Int?, val typ
                                 FOREIGN KEY (type_of_hardware_id) REFERENCES type_of_hardware(id)
                             );
                         """
-                        conn.createStatement().executeUpdate(sql.trimIndent())
-                    }
+                    conn.createStatement().executeUpdate(sql.trimIndent())
                 }
             }
-            return false
         }
+        return false
     }
 }
 
