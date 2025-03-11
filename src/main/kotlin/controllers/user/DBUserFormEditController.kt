@@ -45,42 +45,43 @@ class DBUserFormEditController {
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
                 .showWarning()
-        }
-        runBlocking {
-            launch {
-                Data.updateDB()
-                val result = Data.dbUser
-                    .where { (Users.id eq Data.dbUserController.selectId) }
-                    .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
-                    .firstOrNull()
-                if (result == null) {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("Запись с выбранным id в базе отсуствует.")
-                        .showWarning()
-                } else {
-                    if (result.name.equals(fieldName.text) && result.post.equals(fieldPost.text) && result.address.equals(
-                            areaAddress.text
-                        )
-                    ) {
+        } else {
+            runBlocking {
+                launch {
+                    Data.updateDB()
+                    val result = Data.dbUser
+                        .where { (Users.id eq Data.dbUserController.selectId) }
+                        .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
+                        .firstOrNull()
+                    if (result == null) {
                         Notifications.create()
                             .title("Предупреждение!")
-                            .text("Запись составитель с введёнными значениями уже существует.")
+                            .text("Запись с выбранным id в базе отсуствует.")
                             .showWarning()
                     } else {
-                        val database = SqliteDatabase.connect(Data.config.pathDB)
-                        database.update(Users) {
-                            set(it.name, fieldName.text)
-                            set(it.post, fieldPost.text)
-                            set(it.address, areaAddress.text)
-                            where { it.id eq result.id !! }
-                        }
-                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                        Data.run {
-                            updateDB()
-                            dbUserController.run {
-                                reloadTable()
-                                formStage.close()
+                        if (result.name.equals(fieldName.text) && result.post.equals(fieldPost.text) && result.address.equals(
+                                areaAddress.text
+                            )
+                        ) {
+                            Notifications.create()
+                                .title("Предупреждение!")
+                                .text("Запись составитель с введёнными значениями уже существует.")
+                                .showWarning()
+                        } else {
+                            val database = SqliteDatabase.connect(Data.config.pathDB)
+                            database.update(Users) {
+                                set(it.name, fieldName.text)
+                                set(it.post, fieldPost.text)
+                                set(it.address, areaAddress.text)
+                                where { it.id eq result.id !! }
+                            }
+                            FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                            Data.run {
+                                updateDB()
+                                dbUserController.run {
+                                    reloadTable()
+                                    formStage.close()
+                                }
                             }
                         }
                     }

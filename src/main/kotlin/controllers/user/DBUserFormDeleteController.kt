@@ -45,30 +45,31 @@ class DBUserFormDeleteController {
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
                 .showWarning()
-        }
-        runBlocking {
-            launch {
-                Data.updateDB()
-                val result = Data.dbUser
-                    .where { (Users.id eq Data.dbUserController.selectId) }
-                    .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
-                    .firstOrNull()
-                if (result == null) {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("Запись с выбранным id в базе отсуствует.")
-                        .showWarning()
-                } else {
-                    val database = SqliteDatabase.connect(Data.config.pathDB)
-                    database.delete(Users) {
-                        it.id eq result.id !!
-                    }
-                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.run {
-                        updateDB()
-                        dbUserController.run {
-                            reloadTable()
-                            formStage.close()
+        } else {
+            runBlocking {
+                launch {
+                    Data.updateDB()
+                    val result = Data.dbUser
+                        .where { (Users.id eq Data.dbUserController.selectId) }
+                        .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
+                        .firstOrNull()
+                    if (result == null) {
+                        Notifications.create()
+                            .title("Предупреждение!")
+                            .text("Запись с выбранным id в базе отсуствует.")
+                            .showWarning()
+                    } else {
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
+                        database.delete(Users) {
+                            it.id eq result.id !!
+                        }
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
+                            updateDB()
+                            dbUserController.run {
+                                reloadTable()
+                                formStage.close()
+                            }
                         }
                     }
                 }

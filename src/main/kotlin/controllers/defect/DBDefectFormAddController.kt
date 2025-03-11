@@ -18,7 +18,6 @@ import utils.SqliteDatabase
 import java.io.File
 
 class DBDefectFormAddController {
-
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 

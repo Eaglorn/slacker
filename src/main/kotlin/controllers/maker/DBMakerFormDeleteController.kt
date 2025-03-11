@@ -39,34 +39,35 @@ class DBMakerFormDeleteController {
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
                 .showWarning()
-        }
-        runBlocking {
-            launch {
-                Data.updateDB()
-                val result = Data.dbMaker
-                    .where { (Makers.id eq Data.dbMakerController.selectId) }
-                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-                    .firstOrNull()
-                if (result == null) {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("Запись с выбранным id в базе отсуствует.")
-                        .showWarning()
-                } else {
-                    val database = SqliteDatabase.connect(Data.config.pathDB)
-                    database.delete(Makers) {
-                        it.id eq result.id !!
-                    }
-                    database.delete(Models) {
-                        it.maker_id eq result.id !!
-                    }
-                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.run {
-                        updateDB()
-                        dbModelController.reloadTable()
-                        dbMakerController.run {
-                            reloadTable()
-                            formStage.close()
+        } else {
+            runBlocking {
+                launch {
+                    Data.updateDB()
+                    val result = Data.dbMaker
+                        .where { (Makers.id eq Data.dbMakerController.selectId) }
+                        .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                        .firstOrNull()
+                    if (result == null) {
+                        Notifications.create()
+                            .title("Предупреждение!")
+                            .text("Запись с выбранным id в базе отсуствует.")
+                            .showWarning()
+                    } else {
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
+                        database.delete(Makers) {
+                            it.id eq result.id !!
+                        }
+                        database.delete(Models) {
+                            it.maker_id eq result.id !!
+                        }
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
+                            updateDB()
+                            dbModelController.reloadTable()
+                            dbMakerController.run {
+                                reloadTable()
+                                formStage.close()
+                            }
                         }
                     }
                 }

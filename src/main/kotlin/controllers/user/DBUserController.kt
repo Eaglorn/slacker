@@ -34,6 +34,7 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
 
     override fun onButtonClickEdit() {
         showModal("/db/user/Edit.fxml", "Редактирование записи составитель") {
+            Data.updateDB()
             val result = Data.dbUser
                 .where { (Users.id eq selectId) }
                 .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
@@ -50,8 +51,9 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
 
     override fun onButtonClickDelete() {
         showModal("/db/user/Delete.fxml", "Удаление записи составитель") {
+            Data.updateDB()
             val result = Data.dbUser
-                .where { (Users.id eq selectId) }
+                .where { Users.id eq selectId }
                 .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                 .firstOrNull()
             result?.let {

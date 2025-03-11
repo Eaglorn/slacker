@@ -1,11 +1,11 @@
-package controllers.typeofhardware
+package controllers.defect
 
 import Config
 import Data
-import db.Models
-import db.TypeOfHardware
-import db.TypeOfHardwares
+import db.Defect
+import db.Defects
 import javafx.fxml.FXML
+import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -20,21 +20,30 @@ import org.slf4j.LoggerFactory
 import utils.SqliteDatabase
 import java.io.File
 
-class DBTypeOfHardwareFormDeleteController {
+class DBDefectFormDeleteController {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
     @FXML
-    lateinit var fieldName : TextField
+    lateinit var boxHardware : TextField
+
+    @FXML
+    lateinit var areaResultView : TextArea
+
+    @FXML
+    lateinit var areaDetect : TextArea
+
+    @FXML
+    lateinit var areaReason : TextArea
 
     init {
-        Data.dbTypeOfHardwareController.formDeleteController = this
+        Data.dbDefectController.formDeleteController = this
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDelete() {
-        if (Data.dbTypeOfHardwareController.selectId < 0) {
+        if (Data.dbDefectController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -43,9 +52,17 @@ class DBTypeOfHardwareFormDeleteController {
             runBlocking {
                 launch {
                     Data.updateDB()
-                    val result = Data.dbTypeOfHardware
-                        .where { (TypeOfHardwares.id eq Data.dbTypeOfHardwareController.selectId) }
-                        .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                    val result = Data.dbDefect
+                        .where { (Defects.id eq Data.dbDefectController.selectId) }
+                        .map { row ->
+                            Defect(
+                                row[Defects.id],
+                                row[Defects.hardware],
+                                row[Defects.result_view],
+                                row[Defects.detect],
+                                row[Defects.reason]
+                            )
+                        }
                         .firstOrNull()
                     if (result == null) {
                         Notifications.create()
@@ -54,17 +71,13 @@ class DBTypeOfHardwareFormDeleteController {
                             .showWarning()
                     } else {
                         val database = SqliteDatabase.connect(Data.config.pathDB)
-                        database.delete(TypeOfHardwares) {
+                        database.delete(Defects) {
                             it.id eq result.id !!
-                        }
-                        database.delete(Models) {
-                            it.type_of_hardware_id eq result.id !!
                         }
                         FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                         Data.run {
                             updateDB()
-                            dbModelController.reloadTable()
-                            dbTypeOfHardwareController.run {
+                            dbDefectController.run {
                                 reloadTable()
                                 formStage.close()
                             }
@@ -78,6 +91,6 @@ class DBTypeOfHardwareFormDeleteController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.dbTypeOfHardwareController.formStage.close()
+        Data.dbDefectController.formStage.close()
     }
 }

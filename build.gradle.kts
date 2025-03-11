@@ -36,6 +36,8 @@ val gson_vesrion = "2.12.1"
 val commons_io_version = "2.18.0"
 val apache_poi_ooxml_version = "5.4.0"
 val reflections = "4.16.0.Final"
+val spring = "3.4.3"
+val kotlin_reflect = "2.1.10"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}")
@@ -53,10 +55,10 @@ dependencies {
     implementation("commons-io:commons-io:${commons_io_version}")
     implementation("org.apache.poi:poi-ooxml:${apache_poi_ooxml_version}")
     implementation("org.jboss.errai.reflections:reflections:${reflections}")
-    implementation("org.springframework.boot:spring-boot-starter") {
+    implementation("org.springframework.boot:spring-boot-starter:${spring}") {
         exclude("org.springframework.boot","spring-boot-starter-logging")
     }
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlin_reflect}")
 }
 
 javafx {

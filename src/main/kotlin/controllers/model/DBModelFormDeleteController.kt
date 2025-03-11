@@ -44,37 +44,38 @@ class DBModelFormDeleteController {
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
                 .showWarning()
-        }
-        runBlocking {
-            launch {
-                Data.updateDB()
-                val result = Data.dbModel
-                    .where { (Models.id eq Data.dbModelController.selectId) }
-                    .map { row ->
-                        Model(
-                            row[Models.id],
-                            row[Models.name],
-                            row[Models.maker_id],
-                            row[Models.type_of_hardware_id]
-                        )
-                    }
-                    .firstOrNull()
-                if (result == null) {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("Запись с выбранным id в базе отсуствует.")
-                        .showWarning()
-                } else {
-                    val database = SqliteDatabase.connect(Data.config.pathDB)
-                    database.delete(Models) {
-                        it.id eq result.id !!
-                    }
-                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.run {
-                        updateDB()
-                        dbModelController.run {
-                            reloadTable()
-                            formStage.close()
+        } else {
+            runBlocking {
+                launch {
+                    Data.updateDB()
+                    val result = Data.dbModel
+                        .where { (Models.id eq Data.dbModelController.selectId) }
+                        .map { row ->
+                            Model(
+                                row[Models.id],
+                                row[Models.name],
+                                row[Models.maker_id],
+                                row[Models.type_of_hardware_id]
+                            )
+                        }
+                        .firstOrNull()
+                    if (result == null) {
+                        Notifications.create()
+                            .title("Предупреждение!")
+                            .text("Запись с выбранным id в базе отсуствует.")
+                            .showWarning()
+                    } else {
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
+                        database.delete(Models) {
+                            it.id eq result.id !!
+                        }
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
+                            updateDB()
+                            dbModelController.run {
+                                reloadTable()
+                                formStage.close()
+                            }
                         }
                     }
                 }

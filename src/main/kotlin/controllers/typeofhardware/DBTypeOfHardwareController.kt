@@ -34,6 +34,7 @@ class DBTypeOfHardwareController(table : TableView2<TypeOfHardwareTable>, button
 
     override fun onButtonClickEdit() {
         showModal("/db/typeofhardware/Edit.fxml", "Редактирование записи тип оборудования") { controller ->
+            Data.updateDB()
             val result = Data.dbTypeOfHardware
                 .where { (TypeOfHardwares.id eq selectId) }
                 .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
@@ -46,6 +47,7 @@ class DBTypeOfHardwareController(table : TableView2<TypeOfHardwareTable>, button
 
     override fun onButtonClickDelete() {
         showModal("/db/typeofhardware/Delete.fxml", "Удаление записи тип оборудования") { controller ->
+            Data.updateDB()
             val result = Data.dbTypeOfHardware
                 .where { (TypeOfHardwares.id eq selectId) }
                 .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
