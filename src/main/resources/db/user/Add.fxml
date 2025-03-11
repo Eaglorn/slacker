@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="268.0"
       prefWidth="550.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.user.DBUserFormAddController">
+      fx:controller="ru.fku.slacker.controllers.user.DBUserFormAddController">
     <children>
         <TextField fx:id="fieldName" alignment="CENTER" layoutX="94.0" layoutY="14.0" prefHeight="35.0"
                    prefWidth="448.0">

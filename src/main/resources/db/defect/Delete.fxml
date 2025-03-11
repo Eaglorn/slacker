@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Font?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="271.0"
       prefWidth="582.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.defect.DBDefectFormDeleteController">
+      fx:controller="ru.fku.slacker.controllers.defect.DBDefectFormDeleteController">
     <children>
         <Button layoutX="440.0" layoutY="232.0" mnemonicParsing="false" onAction="#onButtonClickDelete" text="Удалить"/>
         <Button layoutX="510.0" layoutY="232.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена"/>

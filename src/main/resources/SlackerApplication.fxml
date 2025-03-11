@@ -6,7 +6,7 @@
 <?import org.controlsfx.control.textfield.CustomTextField?>
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
          prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1"
-         xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SlackerController">
+         xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.fku.slacker.controllers.SlackerController">
     <tabs>
         <Tab text="Настройки">
             <content>

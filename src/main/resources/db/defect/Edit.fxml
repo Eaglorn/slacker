@@ -6,7 +6,7 @@
 <?import org.controlsfx.control.SearchableComboBox?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="271.0"
       prefWidth="582.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.defect.DBDefectFormEditController">
+      fx:controller="ru.fku.slacker.controllers.defect.DBDefectFormEditController">
     <children>
         <Button layoutX="433.0" layoutY="232.0" mnemonicParsing="false" onAction="#onButtonClickEdit" text="Изменить"/>
         <Button layoutX="510.0" layoutY="232.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена"/>

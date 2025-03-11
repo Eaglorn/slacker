@@ -16,7 +16,7 @@ repositories {
 }
 
 application {
-    mainClass = "SlackerApplicationKt"
+    mainClass = "ru.fku.slacker.SlackerApplicationKt"
     applicationName = "Slacker"
 }
 
@@ -73,7 +73,6 @@ runtime {
     options.add("2")
     options.add("--no-header-files")
     options.add("--no-man-pages")
-
     targetPlatform("win") {
         jdkHome = jdkDownload("https://github.com/AdoptOpenJDK/semeru23-binaries/releases/download/jdk-23.0.1%2B11_openj9-0.48.0/ibm-semeru-open-jdk_x64_windows_23.0.1_11_openj9-0.48.0.zip")
     }

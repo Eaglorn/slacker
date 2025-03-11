@@ -6,7 +6,7 @@
 <?import org.controlsfx.control.SearchableComboBox?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="176.0"
       prefWidth="516.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.model.DBModelFormAddController">
+      fx:controller="ru.fku.slacker.controllers.model.DBModelFormAddController">
     <children>
         <TextField fx:id="fieldName" alignment="CENTER" layoutX="175.0" layoutY="14.0" prefHeight="35.0"
                    prefWidth="332.0">

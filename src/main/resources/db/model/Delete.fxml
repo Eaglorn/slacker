@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="176.0"
       prefWidth="516.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.model.DBModelFormDeleteController">
+      fx:controller="ru.fku.slacker.controllers.model.DBModelFormDeleteController">
     <children>
         <TextField fx:id="fieldName" alignment="CENTER" editable="false" layoutX="175.0" layoutY="14.0"
                    prefHeight="35.0" prefWidth="332.0">

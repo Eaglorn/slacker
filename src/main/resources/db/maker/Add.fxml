@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0"
       prefWidth="550.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.maker.DBMakerFormAddController">
+      fx:controller="ru.fku.slacker.controllers.maker.DBMakerFormAddController">
     <children>
         <TextField fx:id="fieldName" alignment="CENTER" layoutX="222.0" layoutY="14.0" prefHeight="35.0"
                    prefWidth="320.0">

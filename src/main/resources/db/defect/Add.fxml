@@ -6,7 +6,7 @@
 <?import org.controlsfx.control.SearchableComboBox?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="271.0"
       prefWidth="582.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.defect.DBDefectFormAddController">
+      fx:controller="ru.fku.slacker.controllers.defect.DBDefectFormAddController">
     <children>
         <Button layoutX="440.0" layoutY="232.0" mnemonicParsing="false" onAction="#onButtonClickAdd" text="Создать"/>
         <Button layoutX="510.0" layoutY="232.0" mnemonicParsing="false" onAction="#onButtonClickCancel" text="Отмена"/>
