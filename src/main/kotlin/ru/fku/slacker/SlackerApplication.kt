@@ -15,7 +15,7 @@ open class SlackerApplication {
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
     companion object {
-        var debug : Boolean = true
+        var templateCreate : Boolean = false
         var databaseCreate : Boolean = true
         lateinit var applicationContext : ApplicationContext
         lateinit var controller : SlackerController

@@ -25,7 +25,7 @@ class SlackerFX : Application() {
             "{name}" to "Алексей",
             "{date}" to "1 июня 1994 года"
         )
-        if(!SlackerApplication.debug)
+        if(SlackerApplication.templateCreate)
         FileInputStream(templatePath).use { fis ->
             XWPFDocument(fis).use { document ->
                 for (paragraph in document.paragraphs) {
