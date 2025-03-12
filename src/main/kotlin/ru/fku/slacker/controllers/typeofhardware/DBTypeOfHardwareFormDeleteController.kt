@@ -28,13 +28,13 @@ class DBTypeOfHardwareFormDeleteController {
     lateinit var fieldName : TextField
 
     init {
-        Data.Companion.dbTypeOfHardwareController.formDeleteController = this
+        Data.dbTypeOfHardwareController.formDeleteController = this
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDelete() {
-        if (Data.Companion.dbTypeOfHardwareController.selectId < 0) {
+        if (Data.dbTypeOfHardwareController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -42,9 +42,9 @@ class DBTypeOfHardwareFormDeleteController {
         } else {
             runBlocking {
                 launch {
-                    Data.Companion.updateDB()
-                    val result = Data.Companion.dbTypeOfHardware
-                        .where { (TypeOfHardwares.id eq Data.Companion.dbTypeOfHardwareController.selectId) }
+                    Data.updateDB()
+                    val result = Data.dbTypeOfHardware
+                        .where { (TypeOfHardwares.id eq Data.dbTypeOfHardwareController.selectId) }
                         .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                         .firstOrNull()
                     if (result == null) {
@@ -53,21 +53,18 @@ class DBTypeOfHardwareFormDeleteController {
                             .text("Запись с выбранным id в базе отсуствует.")
                             .showWarning()
                     } else {
-                        val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
                         database.delete(TypeOfHardwares) {
                             it.id eq result.id !!
                         }
                         database.delete(Models) {
                             it.type_of_hardware_id eq result.id !!
                         }
-                        FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                        Data.Companion.run {
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
                             updateDB()
-                            dbModelController.reloadTable()
-                            dbTypeOfHardwareController.run {
-                                reloadTable()
-                                formStage.close()
-                            }
+                            reloadTable("TypeOfHardware", "Model")
+                            dbTypeOfHardwareController.formStage.close()
                         }
                     }
                 }
@@ -78,6 +75,6 @@ class DBTypeOfHardwareFormDeleteController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbTypeOfHardwareController.formStage.close()
+        Data.dbTypeOfHardwareController.formStage.close()
     }
 }

@@ -6,10 +6,10 @@ import org.ktorm.dsl.eq
 import org.ktorm.dsl.map
 import org.ktorm.dsl.where
 import ru.fku.slacker.Data
+import ru.fku.slacker.controllers.BaseController
 import ru.fku.slacker.db.User
 import ru.fku.slacker.db.UserTable
 import ru.fku.slacker.db.Users
-import ru.fku.slacker.utils.BaseController
 
 class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, buttonDelete : Button) :
     BaseController<UserTable>(table, buttonEdit, buttonDelete) {
@@ -19,11 +19,16 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
 
     init {
         setupTableListener()
+        val name = "User"
+        Data.hMap["Table.Reload.${name}"] = { _ -> this.reloadTable() }
+        Data.hMap["Table.Add.${name}"] = { _ -> this.onButtonClickAdd() }
+        Data.hMap["Table.Edit.${name}"] = { _ -> this.onButtonClickEdit() }
+        Data.hMap["Table.Delete.${name}"] = { _ -> this.onButtonClickDelete() }
     }
 
     override fun reloadTable() {
         table.items.clear()
-        Data.Companion.dbUser
+        Data.dbUser
             .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
             .forEach { table.items.add(UserTable(it.id, it.name, it.post, it.address)) }
     }
@@ -34,8 +39,8 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
 
     override fun onButtonClickEdit() {
         showModal("/db/user/Edit.fxml", "Редактирование записи составитель") {
-            Data.Companion.updateDB()
-            val result = Data.Companion.dbUser
+            Data.updateDB()
+            val result = Data.dbUser
                 .where { (Users.id eq selectId) }
                 .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                 .firstOrNull()
@@ -51,8 +56,8 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
 
     override fun onButtonClickDelete() {
         showModal("/db/user/Delete.fxml", "Удаление записи составитель") {
-            Data.Companion.updateDB()
-            val result = Data.Companion.dbUser
+            Data.updateDB()
+            val result = Data.dbUser
                 .where { Users.id eq selectId }
                 .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                 .firstOrNull()

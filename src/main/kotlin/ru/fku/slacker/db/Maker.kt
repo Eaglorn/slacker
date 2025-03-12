@@ -22,7 +22,7 @@ data class Maker(val id : Int?, val name : String?) {
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
     @Suppress("unused")
-    @Bean(name=["DB.Create.Maker"])
+    @Bean(name = ["DB.Create.Maker"])
     fun createDatabase() : Boolean {
         if (Data.config.pathDB.isNotEmpty()) {
             val database = SqliteDatabase.connect(Data.config.pathDB)

@@ -27,13 +27,13 @@ class DBTypeOfHardwareFormEditController {
     lateinit var fieldName : TextField
 
     init {
-        Data.Companion.dbTypeOfHardwareController.formEditController = this
+        Data.dbTypeOfHardwareController.formEditController = this
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickEdit() {
-        if (Data.Companion.dbTypeOfHardwareController.selectId < 0) {
+        if (Data.dbTypeOfHardwareController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -41,10 +41,10 @@ class DBTypeOfHardwareFormEditController {
         } else {
             runBlocking {
                 launch {
-                    Data.Companion.updateDB()
+                    Data.updateDB()
                     val result =
-                        Data.Companion.dbTypeOfHardware
-                            .where { (TypeOfHardwares.id eq Data.Companion.dbTypeOfHardwareController.selectId) }
+                        Data.dbTypeOfHardware
+                            .where { (TypeOfHardwares.id eq Data.dbTypeOfHardwareController.selectId) }
                             .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                             .firstOrNull()
                     if (result == null) {
@@ -53,24 +53,21 @@ class DBTypeOfHardwareFormEditController {
                             .text("Запись с выбранным id в базе отсуствует.")
                             .showWarning()
                     } else {
-                        val result1 = Data.Companion.dbTypeOfHardware
+                        val result1 = Data.dbTypeOfHardware
                             .where { (TypeOfHardwares.name eq fieldName.text) }
                             .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                             .firstOrNull()
                         if (result1 == null) {
-                            val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
+                            val database = SqliteDatabase.connect(Data.config.pathDB)
                             database.update(TypeOfHardwares) {
                                 set(it.name, fieldName.text)
                                 where { it.id eq result.id !! }
                             }
-                            FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                            Data.Companion.run {
+                            FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                            Data.run {
                                 updateDB()
-                                dbModelController.reloadTable()
-                                dbTypeOfHardwareController.run {
-                                    reloadTable()
-                                    formStage.close()
-                                }
+                                reloadTable("TypeOfHardware", "Model")
+                                dbTypeOfHardwareController.formStage.close()
                             }
                         }
                     }
@@ -82,6 +79,6 @@ class DBTypeOfHardwareFormEditController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbMakerController.formStage.close()
+        Data.dbMakerController.formStage.close()
     }
 }

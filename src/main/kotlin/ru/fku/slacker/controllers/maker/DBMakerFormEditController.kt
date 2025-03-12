@@ -27,13 +27,13 @@ class DBMakerFormEditController {
     lateinit var fieldName : TextField
 
     init {
-        Data.Companion.dbMakerController.formEditController = this
+        Data.dbMakerController.formEditController = this
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickEdit() {
-        if (Data.Companion.dbMakerController.selectId < 0) {
+        if (Data.dbMakerController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -41,9 +41,9 @@ class DBMakerFormEditController {
         } else {
             runBlocking {
                 launch {
-                    Data.Companion.updateDB()
-                    val result = Data.Companion.dbMaker
-                        .where { (Makers.id eq Data.Companion.dbMakerController.selectId) }
+                    Data.updateDB()
+                    val result = Data.dbMaker
+                        .where { (Makers.id eq Data.dbMakerController.selectId) }
                         .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                         .firstOrNull()
                     if (result == null) {
@@ -52,24 +52,21 @@ class DBMakerFormEditController {
                             .text("Запись с выбранным id в базе отсуствует.")
                             .showWarning()
                     } else {
-                        val result1 = Data.Companion.dbMaker
+                        val result1 = Data.dbMaker
                             .where { (Makers.name eq fieldName.text) }
                             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                             .firstOrNull()
                         if (result1 == null) {
-                            val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
+                            val database = SqliteDatabase.connect(Data.config.pathDB)
                             database.update(Makers) {
                                 set(it.name, fieldName.text)
                                 where { it.id eq result.id !! }
                             }
-                            FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                            Data.Companion.run {
+                            FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                            Data.run {
                                 updateDB()
-                                dbModelController.reloadTable()
-                                dbMakerController.run {
-                                    reloadTable()
-                                    formStage.close()
-                                }
+                                reloadTable("Maker", "Model")
+                                dbMakerController.formStage.close()
                             }
                         } else {
                             Notifications.create()
@@ -86,6 +83,6 @@ class DBMakerFormEditController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbMakerController.formStage.close()
+        Data.dbMakerController.formStage.close()
     }
 }

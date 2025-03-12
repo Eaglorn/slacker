@@ -18,23 +18,23 @@ class SettingController(private val fieldLoadDatabase : TextField, private val f
         val fileChooser = FileChooser()
         fileChooser.title = "Файл базы данных"
         fileChooser.extensionFilters.addAll(FileChooser.ExtensionFilter("DataBase", "*.db"))
-        val selectedFile = fileChooser.showOpenDialog(Data.Companion.scene.window)
+        val selectedFile = fileChooser.showOpenDialog(Data.scene.window)
         if (selectedFile != null) {
             fieldLoadDatabase.text = selectedFile.absolutePath
-            Data.Companion.config.pathDB = selectedFile.absolutePath
-            Data.Companion.config.save()
+            Data.config.pathDB = selectedFile.absolutePath
+            Data.config.save()
         }
-        FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
+        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
     }
 
     fun onButtonClickLoadTemplates() {
         val directoryChooser = DirectoryChooser()
         directoryChooser.title = "Каталог c шаблонами"
-        val selectedDirectory = directoryChooser.showDialog(Data.Companion.scene.window)
+        val selectedDirectory = directoryChooser.showDialog(Data.scene.window)
         if (selectedDirectory != null) {
             fieldLoadTemplates.text = selectedDirectory.absolutePath
-            Data.Companion.config.pathTemplates = selectedDirectory.absolutePath
-            Data.Companion.config.save()
+            Data.config.pathTemplates = selectedDirectory.absolutePath
+            Data.config.save()
         }
     }
 }

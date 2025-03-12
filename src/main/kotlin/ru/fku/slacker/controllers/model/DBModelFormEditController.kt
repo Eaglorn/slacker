@@ -33,13 +33,13 @@ class DBModelFormEditController {
     lateinit var boxTypeOfHardware : SearchableComboBox<String>
 
     init {
-        Data.Companion.dbModelController.formEditController = this
+        Data.dbModelController.formEditController = this
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickEdit() {
-        if (Data.Companion.dbModelController.selectId < 0) {
+        if (Data.dbModelController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -47,9 +47,9 @@ class DBModelFormEditController {
         } else {
             runBlocking {
                 launch {
-                    Data.Companion.updateDB()
-                    val result = Data.Companion.dbModel
-                        .where { (Models.id eq Data.Companion.dbModelController.selectId) }
+                    Data.updateDB()
+                    val result = Data.dbModel
+                        .where { (Models.id eq Data.dbModelController.selectId) }
                         .map { row ->
                             Model(
                                 row[Models.id],
@@ -65,11 +65,11 @@ class DBModelFormEditController {
                             .text("Запись с выбранным id в базе отсуствует.")
                             .showWarning()
                     } else {
-                        var maker = Data.Companion.dbMaker
+                        var maker = Data.dbMaker
                             .where { (Makers.name eq boxMaker.selectionModel.selectedItem) }
                             .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                             .firstOrNull()
-                        var typeOfHardware = Data.Companion.dbTypeOfHardware
+                        var typeOfHardware = Data.dbTypeOfHardware
                             .where { (TypeOfHardwares.name eq boxTypeOfHardware.selectionModel.selectedItem) }
                             .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                             .firstOrNull()
@@ -79,12 +79,12 @@ class DBModelFormEditController {
                                 .text("Запись модель с введёнными значениями уже существует.")
                                 .showWarning()
                         } else {
-                            val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
-                            maker = Data.Companion.dbMaker
+                            val database = SqliteDatabase.connect(Data.config.pathDB)
+                            maker = Data.dbMaker
                                 .where { (Makers.name eq boxMaker.selectionModel.selectedItem) }
                                 .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                                 .firstOrNull()
-                            typeOfHardware = Data.Companion.dbTypeOfHardware
+                            typeOfHardware = Data.dbTypeOfHardware
                                 .where { (TypeOfHardwares.name eq boxTypeOfHardware.selectionModel.selectedItem) }
                                 .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                                 .firstOrNull()
@@ -96,13 +96,11 @@ class DBModelFormEditController {
                                     where { it.id eq result.id !! }
                                 }
                             }
-                            FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                            Data.Companion.run {
+                            FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                            Data.run {
                                 updateDB()
-                                dbModelController.run {
-                                    reloadTable()
-                                    formStage.close()
-                                }
+                                reloadTable("Model")
+                                dbModelController.formStage.close()
                             }
                         }
                     }
@@ -114,6 +112,6 @@ class DBModelFormEditController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbModelController.formStage.close()
+        Data.dbModelController.formStage.close()
     }
 }

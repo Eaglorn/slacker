@@ -6,8 +6,8 @@ import org.ktorm.dsl.eq
 import org.ktorm.dsl.map
 import org.ktorm.dsl.where
 import ru.fku.slacker.Data
+import ru.fku.slacker.controllers.BaseController
 import ru.fku.slacker.db.*
-import ru.fku.slacker.utils.BaseController
 
 class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, buttonDelete : Button) :
     BaseController<ModelTable>(table, buttonEdit, buttonDelete) {
@@ -18,11 +18,16 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
 
     init {
         setupTableListener()
+        val name = "Model"
+        Data.hMap["Table.Reload.${name}"] = { _ -> this.reloadTable() }
+        Data.hMap["Table.Add.${name}"] = { _ -> this.onButtonClickAdd() }
+        Data.hMap["Table.Edit.${name}"] = { _ -> this.onButtonClickEdit() }
+        Data.hMap["Table.Delete.${name}"] = { _ -> this.onButtonClickDelete() }
     }
 
     override fun reloadTable() {
         table.items.clear()
-        Data.Companion.dbModel
+        Data.dbModel
             .map { row ->
                 Model(
                     row[Models.id],
@@ -32,11 +37,11 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
                 )
             }
             .forEach {
-                val maker = Data.Companion.dbMaker
+                val maker = Data.dbMaker
                     .where { (Makers.id eq it.maker_id !!) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
-                val typeOfHardware = Data.Companion.dbTypeOfHardware
+                val typeOfHardware = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.id eq it.type_of_hardware_id !!) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
@@ -46,20 +51,20 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
 
     override fun onButtonClickAdd() {
         showModal("/db/model/Add.fxml", "Создание записи модель") {
-            Data.Companion.updateDB()
-            Data.Companion.dbMaker
+            Data.updateDB()
+            Data.dbMaker
                 .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-                .forEach { Data.Companion.dbModelController.formAddController.boxMaker.items.add(it.name) }
-            Data.Companion.dbTypeOfHardware
+                .forEach { Data.dbModelController.formAddController.boxMaker.items.add(it.name) }
+            Data.dbTypeOfHardware
                 .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
-                .forEach { Data.Companion.dbModelController.formAddController.boxTypeOfHardware.items.add(it.name) }
+                .forEach { Data.dbModelController.formAddController.boxTypeOfHardware.items.add(it.name) }
         }
     }
 
     override fun onButtonClickEdit() {
         showModal("/db/model/Edit.fxml", "Редактирование записи модель") {
-            Data.Companion.updateDB()
-            val result = Data.Companion.dbModel
+            Data.updateDB()
+            val result = Data.dbModel
                 .where { (Models.id eq selectId) }
                 .map { row ->
                     Model(
@@ -72,17 +77,17 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
                 .firstOrNull()
             if (result != null) {
                 formEditController.fieldName.text = result.name
-                Data.Companion.dbMaker
+                Data.dbMaker
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .forEach { formEditController.boxMaker.items.add(it.name) }
-                Data.Companion.dbTypeOfHardware
+                Data.dbTypeOfHardware
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .forEach { formEditController.boxTypeOfHardware.items.add(it.name) }
-                val maker = Data.Companion.dbMaker
+                val maker = Data.dbMaker
                     .where { (Makers.id eq result.maker_id !!) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
-                val typeOfHardware = Data.Companion.dbTypeOfHardware
+                val typeOfHardware = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.id eq result.type_of_hardware_id !!) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
@@ -98,8 +103,8 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
 
     override fun onButtonClickDelete() {
         showModal("/db/model/Delete.fxml", "Удаление записи модель") {
-            Data.Companion.updateDB()
-            val result = Data.Companion.dbModel
+            Data.updateDB()
+            val result = Data.dbModel
                 .where { (Models.id eq selectId) }
                 .map { row ->
                     Model(
@@ -112,11 +117,11 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
                 .firstOrNull()
             if (result != null) {
                 formDeleteController.fieldName.text = result.name
-                val maker = Data.Companion.dbMaker
+                val maker = Data.dbMaker
                     .where { (Makers.id eq result.maker_id !!) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
-                val typeOfHardware = Data.Companion.dbTypeOfHardware
+                val typeOfHardware = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.id eq result.type_of_hardware_id !!) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()

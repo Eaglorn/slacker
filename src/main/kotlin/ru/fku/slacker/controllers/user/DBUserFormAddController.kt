@@ -38,25 +38,23 @@ class DBUserFormAddController {
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
-                Data.Companion.updateDB()
-                val result = Data.Companion.dbUser
+                Data.updateDB()
+                val result = Data.dbUser
                     .where { (Users.name eq fieldName.text) }
                     .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                     .firstOrNull()
                 if (result == null) {
-                    val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
+                    val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.insert(Users) {
                         set(it.name, fieldName.text)
                         set(it.post, fieldPost.text)
                         set(it.address, areaAddress.text)
                     }
-                    FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                    Data.Companion.run {
+                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                    Data.run {
                         updateDB()
-                        dbUserController.run {
-                            reloadTable()
-                            formStage.close()
-                        }
+                        reloadTable("User")
+                        dbUserController.formStage.close()
                     }
                 } else {
                     Notifications.create()
@@ -71,6 +69,6 @@ class DBUserFormAddController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbUserController.formStage.close()
+        Data.dbUserController.formStage.close()
     }
 }

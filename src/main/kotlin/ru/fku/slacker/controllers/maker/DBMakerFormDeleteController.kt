@@ -28,13 +28,13 @@ class DBMakerFormDeleteController {
     lateinit var fieldName : TextField
 
     init {
-        Data.Companion.dbMakerController.formDeleteController = this
+        Data.dbMakerController.formDeleteController = this
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDelete() {
-        if (Data.Companion.dbMakerController.selectId < 0) {
+        if (Data.dbMakerController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -42,9 +42,9 @@ class DBMakerFormDeleteController {
         } else {
             runBlocking {
                 launch {
-                    Data.Companion.updateDB()
-                    val result = Data.Companion.dbMaker
-                        .where { (Makers.id eq Data.Companion.dbMakerController.selectId) }
+                    Data.updateDB()
+                    val result = Data.dbMaker
+                        .where { (Makers.id eq Data.dbMakerController.selectId) }
                         .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                         .firstOrNull()
                     if (result == null) {
@@ -53,21 +53,18 @@ class DBMakerFormDeleteController {
                             .text("Запись с выбранным id в базе отсуствует.")
                             .showWarning()
                     } else {
-                        val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
                         database.delete(Makers) {
                             it.id eq result.id !!
                         }
                         database.delete(Models) {
                             it.maker_id eq result.id !!
                         }
-                        FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                        Data.Companion.run {
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
                             updateDB()
-                            dbModelController.reloadTable()
-                            dbMakerController.run {
-                                reloadTable()
-                                formStage.close()
-                            }
+                            reloadTable("Maker", "Model")
+                            dbMakerController.formStage.close()
                         }
                     }
                 }
@@ -78,6 +75,6 @@ class DBMakerFormDeleteController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbMakerController.formStage.close()
+        Data.dbMakerController.formStage.close()
     }
 }

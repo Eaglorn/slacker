@@ -34,13 +34,13 @@ class DBUserFormEditController {
     lateinit var areaAddress : TextArea
 
     init {
-        Data.Companion.dbUserController.formEditController = this
+        Data.dbUserController.formEditController = this
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickEdit() {
-        if (Data.Companion.dbUserController.selectId < 0) {
+        if (Data.dbUserController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -48,9 +48,9 @@ class DBUserFormEditController {
         } else {
             runBlocking {
                 launch {
-                    Data.Companion.updateDB()
-                    val result = Data.Companion.dbUser
-                        .where { (Users.id eq Data.Companion.dbUserController.selectId) }
+                    Data.updateDB()
+                    val result = Data.dbUser
+                        .where { (Users.id eq Data.dbUserController.selectId) }
                         .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                         .firstOrNull()
                     if (result == null) {
@@ -68,20 +68,18 @@ class DBUserFormEditController {
                                 .text("Запись составитель с введёнными значениями уже существует.")
                                 .showWarning()
                         } else {
-                            val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
+                            val database = SqliteDatabase.connect(Data.config.pathDB)
                             database.update(Users) {
                                 set(it.name, fieldName.text)
                                 set(it.post, fieldPost.text)
                                 set(it.address, areaAddress.text)
                                 where { it.id eq result.id !! }
                             }
-                            FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                            Data.Companion.run {
+                            FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                            Data.run {
                                 updateDB()
-                                dbUserController.run {
-                                    reloadTable()
-                                    formStage.close()
-                                }
+                                reloadTable("User")
+                                dbUserController.formStage.close()
                             }
                         }
                     }
@@ -93,6 +91,6 @@ class DBUserFormEditController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbUserController.formStage.close()
+        Data.dbUserController.formStage.close()
     }
 }

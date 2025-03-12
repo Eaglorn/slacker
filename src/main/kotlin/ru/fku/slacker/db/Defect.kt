@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component
 import ru.fku.slacker.Data
 import ru.fku.slacker.utils.Identifiable
 import ru.fku.slacker.utils.SqliteDatabase
-import java.lang.classfile.AnnotationValue
 
 @Component("DB.Class.Defect")
 class Defect(
@@ -29,7 +28,7 @@ class Defect(
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
     @Suppress("unused")
-    @Bean(name=["DB.Create.Defect"])
+    @Bean(name = ["DB.Create.Defect"])
     fun createDatabase() : Boolean {
         if (Data.config.pathDB.isNotEmpty()) {
             val database = SqliteDatabase.connect(Data.config.pathDB)

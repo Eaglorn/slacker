@@ -33,7 +33,7 @@ class DBModelFormAddController {
     lateinit var boxTypeOfHardware : SearchableComboBox<String>
 
     init {
-        Data.Companion.dbModelController.formAddController = this
+        Data.dbModelController.formAddController = this
     }
 
     @Suppress("unused")
@@ -41,8 +41,8 @@ class DBModelFormAddController {
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
-                Data.Companion.updateDB()
-                val result = Data.Companion.dbModel
+                Data.updateDB()
+                val result = Data.dbModel
                     .where { (Models.name eq fieldName.text) }
                     .map { row ->
                         Model(
@@ -54,29 +54,31 @@ class DBModelFormAddController {
                     }
                     .firstOrNull()
                 if (result == null) {
-                    val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
-                    val maker = Data.Companion.dbMaker
-                        .where { (Makers.name eq boxMaker.selectionModel.selectedItem) }
-                        .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-                        .firstOrNull()
-                    val typeOfHardware = Data.Companion.dbTypeOfHardware
-                        .where { (TypeOfHardwares.name eq boxTypeOfHardware.selectionModel.selectedItem) }
-                        .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
-                        .firstOrNull()
-                    if (maker != null && typeOfHardware != null) {
-                        database.insert(Models) {
-                            set(it.name, fieldName.text)
-                            set(it.maker_id, maker.id)
-                            set(it.type_of_hardware_id, typeOfHardware.id)
+                    if(boxMaker.selectionModel.selectedItem.isNotEmpty() && boxTypeOfHardware.selectionModel.selectedItem.isNotEmpty()) {
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
+                        val maker = Data.dbMaker
+                            .where { (Makers.name eq boxMaker.selectionModel.selectedItem) }
+                            .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                            .firstOrNull()
+                        val typeOfHardware = Data.dbTypeOfHardware
+                            .where { (TypeOfHardwares.name eq boxTypeOfHardware.selectionModel.selectedItem) }
+                            .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                            .firstOrNull()
+                        if (maker != null && typeOfHardware != null) {
+                            database.insert(Models) {
+                                set(it.name, fieldName.text)
+                                set(it.maker_id, maker.id)
+                                set(it.type_of_hardware_id, typeOfHardware.id)
+                            }
                         }
-                    }
-                    FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                    Data.Companion.run {
-                        updateDB()
-                        dbModelController.run {
-                            reloadTable()
-                            formStage.close()
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
+                            updateDB()
+                            reloadTable("Model")
+                            dbModelController.formStage.close()
                         }
+                    } else {
+
                     }
                 } else {
                     Notifications.create()
@@ -91,6 +93,6 @@ class DBModelFormAddController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbModelController.formStage.close()
+        Data.dbModelController.formStage.close()
     }
 }

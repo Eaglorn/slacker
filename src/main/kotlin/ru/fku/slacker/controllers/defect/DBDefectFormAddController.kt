@@ -34,7 +34,7 @@ class DBDefectFormAddController {
     private lateinit var areaReason : TextArea
 
     init {
-        Data.Companion.dbDefectController.formAddController = this
+        Data.dbDefectController.formAddController = this
     }
 
     @Suppress("unused")
@@ -42,8 +42,8 @@ class DBDefectFormAddController {
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
-                Data.Companion.updateDB()
-                val result = Data.Companion.dbDefect
+                Data.updateDB()
+                val result = Data.dbDefect
                     .where { ((Defects.result_view eq areaResultView.text) or (Defects.detect eq areaDetect.text) or (Defects.reason eq areaReason.text)) and (Defects.hardware eq boxHardware.selectionModel.selectedItem) }
                     .map { row ->
                         Defect(
@@ -56,20 +56,18 @@ class DBDefectFormAddController {
                     }
                     .firstOrNull()
                 if (result == null) {
-                    val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
+                    val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.insert(Defects) {
                         set(it.hardware, boxHardware.selectionModel.selectedItem)
                         set(it.result_view, areaResultView.text)
                         set(it.detect, areaDetect.text)
                         set(it.reason, areaReason.text)
                     }
-                    FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                    Data.Companion.run {
+                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                    Data.run {
                         updateDB()
-                        dbDefectController.run {
-                            reloadTable()
-                            formStage.close()
-                        }
+                        reloadTable("Defect")
+                        dbDefectController.formStage.close()
                     }
                 } else {
                     Notifications.create()
@@ -84,6 +82,6 @@ class DBDefectFormAddController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbDefectController.formStage.close()
+        Data.dbDefectController.formStage.close()
     }
 }

@@ -22,7 +22,7 @@ data class User(val id : Int?, val name : String?, val post : String?, val addre
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
     @Suppress("unused")
-    @Bean(name=["DB.Create.User"])
+    @Bean(name = ["DB.Create.User"])
     fun createDatabase() : Boolean {
         if (Data.config.pathDB.isNotEmpty()) {
             val database = SqliteDatabase.connect(Data.config.pathDB)

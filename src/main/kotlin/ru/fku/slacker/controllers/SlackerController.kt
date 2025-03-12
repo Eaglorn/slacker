@@ -146,16 +146,16 @@ class SlackerController {
     lateinit var buttonTableDefectDelete : Button
 
     init {
-        Data.Companion.controller = this
-        Data.Companion.config = Config.Companion.load()
-        if (Data.Companion.config.pathDB.isNotEmpty()) {
-            val file = File(Data.Companion.config.pathDB)
+        Data.controller = this
+        Data.config = Config.load()
+        if (Data.config.pathDB.isNotEmpty()) {
+            val file = File(Data.config.pathDB)
             if (file.exists()) {
                 val lastModified = Date(file.lastModified())
                 val instant : Instant = lastModified.toInstant()
                 val localDateTime : LocalDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
-                if (Data.Companion.config.dateTimeDB.isBefore(localDateTime)) {
-                    FileUtils.copyFile(file, File(Config.Companion.pathDirectory + "slacker.db"))
+                if (Data.config.dateTimeDB.isBefore(localDateTime)) {
+                    FileUtils.copyFile(file, File(Config.pathDirectory + "slacker.db"))
                 }
             }
         }
@@ -218,7 +218,7 @@ class SlackerController {
             SlackerApplication.applicationContext.let { context ->
                 val beanNames = context.beanDefinitionNames
                 for (beanName in beanNames) {
-                    if(beanName.contains("DB.Class.")) {
+                    if (beanName.contains("DB.Class.")) {
                         val bean = context.getBean(beanName)
                         val methods : Array<Method> = bean.javaClass.methods
                         for (method in methods) {
@@ -234,17 +234,13 @@ class SlackerController {
                 }
             }
         }
-        Data.Companion.run {
+        Data.run {
             updateDB()
-            dbMakerController.reloadTable()
-            dbTypeOfHardwareController.reloadTable()
-            dbModelController.reloadTable()
-            dbUserController.reloadTable()
-            dbDefectController.reloadTable()
+            reloadTable()
         }
-        if (Data.Companion.config.pathTemplates.isNotEmpty()) {
-            fieldLoadDatabase.text = Data.Companion.config.pathDB
-            fieldLoadTemplates.text = Data.Companion.config.pathTemplates
+        if (Data.config.pathTemplates.isNotEmpty()) {
+            fieldLoadDatabase.text = Data.config.pathDB
+            fieldLoadTemplates.text = Data.config.pathTemplates
             tabWriteOff.disableProperty().set(false)
             tabExpertise.disableProperty().set(false)
             tabDataBase.disableProperty().set(false)
@@ -257,115 +253,112 @@ class SlackerController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickLoadDataBase() {
-        Data.Companion.settingController.onButtonClickLoadDataBase()
+        Data.settingController.onButtonClickLoadDataBase()
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickLoadTemplates() {
-        Data.Companion.settingController.onButtonClickLoadTemplates()
+        Data.settingController.onButtonClickLoadTemplates()
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBMakerAdd() {
-        Data.Companion.dbMakerController.onButtonClickAdd()
+        Data.onButtonClickTable("Maker", "Add")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBMakerEdit() {
-        Data.Companion.dbMakerController.onButtonClickEdit()
+        Data.onButtonClickTable("Maker", "Edit")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBMakerDelete() {
-        Data.Companion.dbMakerController.onButtonClickDelete()
+        Data.onButtonClickTable("Maker", "Delete")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBTypeOfHardwareAdd() {
-        Data.Companion.dbTypeOfHardwareController.onButtonClickAdd()
+        Data.onButtonClickTable("TypeOfHardware", "Add")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBTypeOfHardwareEdit() {
-        Data.Companion.dbTypeOfHardwareController.onButtonClickEdit()
+        Data.onButtonClickTable("TypeOfHardware", "Edit")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBTypeOfHardwareDelete() {
-        Data.Companion.dbTypeOfHardwareController.onButtonClickDelete()
+        Data.onButtonClickTable("TypeOfHardware", "Delete")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBModelAdd() {
-        Data.Companion.dbModelController.onButtonClickAdd()
+        Data.onButtonClickTable("Model", "Add")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBModelEdit() {
-        Data.Companion.dbModelController.onButtonClickEdit()
+        Data.onButtonClickTable("Model", "Edit")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBModelDelete() {
-        Data.Companion.dbModelController.onButtonClickDelete()
+        Data.onButtonClickTable("Model", "Delete")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBUserAdd() {
-        Data.Companion.dbUserController.onButtonClickAdd()
+        Data.onButtonClickTable("User", "Add")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBUserEdit() {
-        Data.Companion.dbUserController.onButtonClickEdit()
+        Data.onButtonClickTable("User", "Edit")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBUserDelete() {
-        Data.Companion.dbUserController.onButtonClickDelete()
+        Data.onButtonClickTable("User", "Delete")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBDefectAdd() {
-        Data.Companion.dbDefectController.onButtonClickAdd()
+        Data.onButtonClickTable("Defect", "Add")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBDefectEdit() {
-        Data.Companion.dbDefectController.onButtonClickEdit()
+        Data.onButtonClickTable("Defect", "Edit")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDBDefectDelete() {
-        Data.Companion.dbDefectController.onButtonClickDelete()
+        Data.onButtonClickTable("Defect", "Delete")
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonLoadApp() {
-        if (Data.Companion.config.pathDB.isNotEmpty() && Data.Companion.config.pathTemplates.isNotEmpty()) {
-            Data.Companion.run {
+        if (Data.config.pathDB.isNotEmpty() && Data.config.pathTemplates.isNotEmpty()) {
+            Data.run {
                 updateDB()
-                dbMakerController.reloadTable()
-                dbTypeOfHardwareController.reloadTable()
-                dbModelController.reloadTable()
-                dbUserController.reloadTable()
+                reloadTable()
             }
             tabWriteOff.disableProperty().set(false)
             tabExpertise.disableProperty().set(false)

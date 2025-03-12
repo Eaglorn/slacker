@@ -31,24 +31,21 @@ class DBTypeOfHardwareFormAddController {
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
-                Data.Companion.updateDB()
-                val result = Data.Companion.dbTypeOfHardware
+                Data.updateDB()
+                val result = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.name eq fieldName.text) }
                     .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
                     .firstOrNull()
                 if (result == null) {
-                    val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
+                    val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.insert(TypeOfHardwares) {
                         set(it.name, fieldName.text)
                     }
-                    FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                    Data.Companion.run {
+                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                    Data.run {
                         updateDB()
-                        dbModelController.reloadTable()
-                        dbTypeOfHardwareController.run {
-                            reloadTable()
-                            formStage.close()
-                        }
+                        reloadTable("TypeOfHardware", "Model")
+                        dbTypeOfHardwareController.formStage.close()
                     }
                 } else {
                     Notifications.create()
@@ -63,6 +60,6 @@ class DBTypeOfHardwareFormAddController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbTypeOfHardwareController.formStage.close()
+        Data.dbTypeOfHardwareController.formStage.close()
     }
 }

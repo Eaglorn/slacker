@@ -37,13 +37,13 @@ class DBDefectFormEditController {
     lateinit var areaReason : TextArea
 
     init {
-        Data.Companion.dbDefectController.formEditController = this
+        Data.dbDefectController.formEditController = this
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickEdit() {
-        if (Data.Companion.dbDefectController.selectId < 0) {
+        if (Data.dbDefectController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -51,9 +51,9 @@ class DBDefectFormEditController {
         }
         runBlocking {
             launch {
-                Data.Companion.updateDB()
-                val result = Data.Companion.dbDefect
-                    .where { (Defects.id eq Data.Companion.dbDefectController.selectId) }
+                Data.updateDB()
+                val result = Data.dbDefect
+                    .where { (Defects.id eq Data.dbDefectController.selectId) }
                     .map { row ->
                         Defect(
                             row[Defects.id],
@@ -79,7 +79,7 @@ class DBDefectFormEditController {
                             .text("Запись модель с введёнными значениями уже существует.")
                             .showWarning()
                     } else {
-                        val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
                         database.update(Defects) {
                             set(it.hardware, boxHardware.selectionModel.selectedItem)
                             set(it.result_view, areaResultView.text)
@@ -87,13 +87,11 @@ class DBDefectFormEditController {
                             set(it.reason, areaReason.text)
                             where { it.id eq result.id !! }
                         }
-                        FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                        Data.Companion.run {
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
                             updateDB()
-                            dbDefectController.run {
-                                reloadTable()
-                                formStage.close()
-                            }
+                            reloadTable("Defect")
+                            dbDefectController.formStage.close()
                         }
                     }
                 }
@@ -104,6 +102,6 @@ class DBDefectFormEditController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbDefectController.formStage.close()
+        Data.dbDefectController.formStage.close()
     }
 }

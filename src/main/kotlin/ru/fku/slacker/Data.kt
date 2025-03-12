@@ -35,6 +35,7 @@ class Data {
         lateinit var dbModel : Query
         lateinit var dbUser : Query
         lateinit var dbDefect : Query
+        val hMap : MutableMap<String, (Any) -> Any> = HashMap()
 
         fun updateDB() {
             SqliteDatabase.connect(Config.pathDBLocal).let {
@@ -44,6 +45,22 @@ class Data {
                 dbUser = it.from(Users).select()
                 dbDefect = it.from(Defects).select()
             }
+        }
+
+        fun reloadTable(vararg names: String) {
+            if(names.isNotEmpty()) {
+                names.forEach {
+                    hMap["Table.Reload.${it}"]?.invoke("")
+                }
+            } else {
+                hMap
+                    .filter { it.component1().contains("Table.Reload.") }
+                    .forEach { it.value.invoke("") }
+            }
+        }
+
+        fun onButtonClickTable(controller: String, button: String) {
+            hMap["Table.${button}.${controller}"]?.invoke("")
         }
     }
 }

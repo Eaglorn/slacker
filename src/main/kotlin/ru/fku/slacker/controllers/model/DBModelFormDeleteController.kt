@@ -33,13 +33,13 @@ class DBModelFormDeleteController {
     lateinit var fieldTypeOfHardware : TextField
 
     init {
-        Data.Companion.dbModelController.formDeleteController = this
+        Data.dbModelController.formDeleteController = this
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickDelete() {
-        if (Data.Companion.dbModelController.selectId < 0) {
+        if (Data.dbModelController.selectId < 0) {
             Notifications.create()
                 .title("Предупреждение!")
                 .text("Отсутсвует выбор записи в таблице.")
@@ -47,9 +47,9 @@ class DBModelFormDeleteController {
         } else {
             runBlocking {
                 launch {
-                    Data.Companion.updateDB()
-                    val result = Data.Companion.dbModel
-                        .where { (Models.id eq Data.Companion.dbModelController.selectId) }
+                    Data.updateDB()
+                    val result = Data.dbModel
+                        .where { (Models.id eq Data.dbModelController.selectId) }
                         .map { row ->
                             Model(
                                 row[Models.id],
@@ -65,17 +65,15 @@ class DBModelFormDeleteController {
                             .text("Запись с выбранным id в базе отсуствует.")
                             .showWarning()
                     } else {
-                        val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
                         database.delete(Models) {
                             it.id eq result.id !!
                         }
-                        FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                        Data.Companion.run {
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
                             updateDB()
-                            dbModelController.run {
-                                reloadTable()
-                                formStage.close()
-                            }
+                            reloadTable("Model")
+                            dbModelController.formStage.close()
                         }
                     }
                 }
@@ -86,6 +84,6 @@ class DBModelFormDeleteController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbModelController.formStage.close()
+        Data.dbModelController.formStage.close()
     }
 }

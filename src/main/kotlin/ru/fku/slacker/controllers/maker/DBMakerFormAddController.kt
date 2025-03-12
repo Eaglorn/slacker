@@ -31,24 +31,21 @@ class DBMakerFormAddController {
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
-                Data.Companion.updateDB()
-                val result = Data.Companion.dbMaker
+                Data.updateDB()
+                val result = Data.dbMaker
                     .where { (Makers.name eq fieldName.text) }
                     .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                     .firstOrNull()
                 if (result == null) {
-                    val database = SqliteDatabase.connect(Data.Companion.config.pathDB)
+                    val database = SqliteDatabase.connect(Data.config.pathDB)
                     database.insert(Makers) {
                         set(it.name, fieldName.text)
                     }
-                    FileUtils.copyFile(File(Data.Companion.config.pathDB), File(Config.Companion.pathDBLocal))
-                    Data.Companion.run {
+                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                    Data.run {
                         updateDB()
-                        dbModelController.reloadTable()
-                        dbMakerController.run {
-                            reloadTable()
-                            formStage.close()
-                        }
+                        reloadTable("Maker", "Model")
+                        dbMakerController.formStage.close()
                     }
                 } else {
                     Notifications.create()
@@ -63,6 +60,6 @@ class DBMakerFormAddController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickCancel() {
-        Data.Companion.dbMakerController.formStage.close()
+        Data.dbMakerController.formStage.close()
     }
 }

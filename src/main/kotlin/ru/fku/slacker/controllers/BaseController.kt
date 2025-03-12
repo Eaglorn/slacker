@@ -1,4 +1,4 @@
-package ru.fku.slacker.utils
+package ru.fku.slacker.controllers
 
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -8,6 +8,7 @@ import javafx.stage.Stage
 import org.controlsfx.control.tableview2.TableView2
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import ru.fku.slacker.utils.Identifiable
 
 abstract class BaseController<T : Identifiable>(
     protected val table : TableView2<T>,
