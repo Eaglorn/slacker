@@ -44,10 +44,7 @@ class DBDefectFormDeleteController {
     @FXML
     private fun onButtonClickDelete() {
         if (Data.dbDefectController.selectId < 0) {
-            Notifications.create()
-                .title("Предупреждение!")
-                .text("Отсутсвует выбор записи в таблице.")
-                .showWarning()
+            Data.showMessage("Warning", "Отсутсвует выбор записи в таблице.")
         } else {
             runBlocking {
                 launch {
@@ -65,10 +62,7 @@ class DBDefectFormDeleteController {
                         }
                         .firstOrNull()
                     if (result == null) {
-                        Notifications.create()
-                            .title("Предупреждение!")
-                            .text("Запись с выбранным id в базе отсуствует.")
-                            .showWarning()
+                        Data.showMessage("Warning", "Запись с выбранным id в базе отсуствует.")
                     } else {
                         val database = SqliteDatabase.connect(Data.config.pathDB)
                         database.delete(Defects) {

@@ -42,38 +42,39 @@ class DBDefectFormAddController {
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
-                Data.updateDB()
-                val result = Data.dbDefect
-                    .where { ((Defects.result_view eq areaResultView.text) or (Defects.detect eq areaDetect.text) or (Defects.reason eq areaReason.text)) and (Defects.hardware eq boxHardware.selectionModel.selectedItem) }
-                    .map { row ->
-                        Defect(
-                            row[Defects.id],
-                            row[Defects.hardware],
-                            row[Defects.result_view],
-                            row[Defects.detect],
-                            row[Defects.reason]
-                        )
-                    }
-                    .firstOrNull()
-                if (result == null) {
-                    val database = SqliteDatabase.connect(Data.config.pathDB)
-                    database.insert(Defects) {
-                        set(it.hardware, boxHardware.selectionModel.selectedItem)
-                        set(it.result_view, areaResultView.text)
-                        set(it.detect, areaDetect.text)
-                        set(it.reason, areaReason.text)
-                    }
-                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.run {
-                        updateDB()
-                        reloadTable("Defect")
-                        dbDefectController.formStage.close()
+                if (areaResultView.text.isNotEmpty() && areaDetect.text.isNotEmpty() && areaReason.text.isNotEmpty() && boxHardware.selectionModel.selectedItem.isNotEmpty()) {
+                    Data.updateDB()
+                    val result = Data.dbDefect
+                        .where { ((Defects.result_view eq areaResultView.text) or (Defects.detect eq areaDetect.text) or (Defects.reason eq areaReason.text)) and (Defects.hardware eq boxHardware.selectionModel.selectedItem) }
+                        .map { row ->
+                            Defect(
+                                row[Defects.id],
+                                row[Defects.hardware],
+                                row[Defects.result_view],
+                                row[Defects.detect],
+                                row[Defects.reason]
+                            )
+                        }
+                        .firstOrNull()
+                    if (result == null) {
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
+                        database.insert(Defects) {
+                            set(it.hardware, boxHardware.selectionModel.selectedItem)
+                            set(it.result_view, areaResultView.text)
+                            set(it.detect, areaDetect.text)
+                            set(it.reason, areaReason.text)
+                        }
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
+                            updateDB()
+                            reloadTable("Defect")
+                            dbDefectController.formStage.close()
+                        }
+                    } else {
+                        Data.showMessage("Warning", "У записи присутсвует совпадение по заполненному полю.")
                     }
                 } else {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("У записи присутсвует совпадение по заполненному полю.")
-                        .showWarning()
+                    Data.showMessage("Warning", "У записи присутсвуют незаполненные поля.")
                 }
             }
         }

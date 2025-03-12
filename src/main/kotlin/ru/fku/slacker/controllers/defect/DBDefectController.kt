@@ -22,10 +22,10 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
     init {
         setupTableListener()
         val name = "Defect"
-        Data.hMap["Table.Reload.${name}"] = { _ -> this.reloadTable() }
-        Data.hMap["Table.Add.${name}"] = { _ -> this.onButtonClickAdd() }
-        Data.hMap["Table.Edit.${name}"] = { _ -> this.onButtonClickEdit() }
-        Data.hMap["Table.Delete.${name}"] = { _ -> this.onButtonClickDelete() }
+        Data.methodMap["Table.Reload.${name}"] = { _ -> this.reloadTable() }
+        Data.methodMap["Table.Add.${name}"] = { _ -> this.onButtonClickAdd() }
+        Data.methodMap["Table.Edit.${name}"] = { _ -> this.onButtonClickEdit() }
+        Data.methodMap["Table.Delete.${name}"] = { _ -> this.onButtonClickDelete() }
     }
 
     override fun reloadTable() {
@@ -60,13 +60,13 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
     }
 
     override fun onButtonClickAdd() {
-        showModal("/db/defect/Add.fxml", "Создание записи дефект") {
+        showModal("/db/defect/Add.fxml", "Создание записи (Дефект)") {
             boxHardwareApply(Data.dbDefectController.formAddController.boxHardware)
         }
     }
 
     override fun onButtonClickEdit() {
-        showModal("/db/defect/Edit.fxml", "Редактирование записи модель") {
+        showModal("/db/defect/Edit.fxml", "Редактирование записи (Дефект)") {
             boxHardwareApply(Data.dbDefectController.formEditController.boxHardware)
             Data.updateDB()
             val result = Data.dbDefect
@@ -93,7 +93,7 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
     }
 
     override fun onButtonClickDelete() {
-        showModal("/db/defect/Delete.fxml", "Удаление записи дефект") {
+        showModal("/db/defect/Delete.fxml", "Удаление записи (Дефект)") {
             Data.updateDB()
             val result = Data.dbDefect
                 .where { Defects.id eq selectId }

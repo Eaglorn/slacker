@@ -1,6 +1,7 @@
 package ru.fku.slacker
 
 import javafx.scene.Scene
+import org.controlsfx.control.Notifications
 import org.ktorm.dsl.Query
 import org.ktorm.dsl.from
 import org.ktorm.dsl.select
@@ -35,7 +36,8 @@ class Data {
         lateinit var dbModel : Query
         lateinit var dbUser : Query
         lateinit var dbDefect : Query
-        val hMap : MutableMap<String, (Any) -> Any> = HashMap()
+        val methodMap : MutableMap<String, (Any) -> Any> = HashMap()
+        val messageMap: MutableMap<String, String> = HashMap()
 
         fun updateDB() {
             SqliteDatabase.connect(Config.pathDBLocal).let {
@@ -50,17 +52,26 @@ class Data {
         fun reloadTable(vararg names: String) {
             if(names.isNotEmpty()) {
                 names.forEach {
-                    hMap["Table.Reload.${it}"]?.invoke("")
+                    methodMap["Table.Reload.${it}"]?.invoke("")
                 }
             } else {
-                hMap
+                methodMap
                     .filter { it.component1().contains("Table.Reload.") }
                     .forEach { it.value.invoke("") }
             }
         }
 
         fun onButtonClickTable(controller: String, button: String) {
-            hMap["Table.${button}.${controller}"]?.invoke("")
+            methodMap["Table.${button}.${controller}"]?.invoke("")
+        }
+
+        fun showMessage(level: String, message: String) {
+            var notification = Notifications.create()
+            when (level) {
+                "Warning" -> notification.title("Предупреждение").showWarning()
+                "Error" -> notification.title("Ошибка").showError()
+                else -> notification.title("Сообщение").showInformation()
+            }
         }
     }
 }

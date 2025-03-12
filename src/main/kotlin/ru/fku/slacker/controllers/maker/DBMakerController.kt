@@ -20,10 +20,10 @@ class DBMakerController(table : TableView2<MakerTable>, buttonEdit : Button, but
     init {
         setupTableListener()
         val name = "Maker"
-        Data.hMap["Table.Reload.${name}"] = { _ -> this.reloadTable() }
-        Data.hMap["Table.Add.${name}"] = { _ -> this.onButtonClickAdd() }
-        Data.hMap["Table.Edit.${name}"] = { _ -> this.onButtonClickEdit() }
-        Data.hMap["Table.Delete.${name}"] = { _ -> this.onButtonClickDelete() }
+        Data.methodMap["Table.Reload.${name}"] = { _ -> this.reloadTable() }
+        Data.methodMap["Table.Add.${name}"] = { _ -> this.onButtonClickAdd() }
+        Data.methodMap["Table.Edit.${name}"] = { _ -> this.onButtonClickEdit() }
+        Data.methodMap["Table.Delete.${name}"] = { _ -> this.onButtonClickDelete() }
     }
 
     override fun reloadTable() {
@@ -34,11 +34,11 @@ class DBMakerController(table : TableView2<MakerTable>, buttonEdit : Button, but
     }
 
     override fun onButtonClickAdd() {
-        showModal("/db/maker/Add.fxml", "Создание записи производитель") {}
+        showModal("/db/maker/Add.fxml", "Создание записи (Производитель)") {}
     }
 
     override fun onButtonClickEdit() {
-        showModal("/db/maker/Edit.fxml", "Редактирование записи производитель") { controller ->
+        showModal("/db/maker/Edit.fxml", "Редактирование записи (Производитель)") { controller ->
             val result = Data.dbMaker
                 .where { (Makers.id eq selectId) }
                 .map { row -> Maker(row[Makers.id], row[Makers.name]) }
@@ -50,7 +50,7 @@ class DBMakerController(table : TableView2<MakerTable>, buttonEdit : Button, but
     }
 
     override fun onButtonClickDelete() {
-        showModal("/db/maker/Delete.fxml", "Удаление записи производитель") { controller ->
+        showModal("/db/maker/Delete.fxml", "Удаление записи (Производитель)") { controller ->
             val result = Data.dbMaker
                 .where { (Makers.id eq selectId) }
                 .map { row -> Maker(row[Makers.id], row[Makers.name]) }

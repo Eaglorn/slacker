@@ -31,27 +31,28 @@ class DBMakerFormAddController {
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
-                Data.updateDB()
-                val result = Data.dbMaker
-                    .where { (Makers.name eq fieldName.text) }
-                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-                    .firstOrNull()
-                if (result == null) {
-                    val database = SqliteDatabase.connect(Data.config.pathDB)
-                    database.insert(Makers) {
-                        set(it.name, fieldName.text)
-                    }
-                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.run {
-                        updateDB()
-                        reloadTable("Maker", "Model")
-                        dbMakerController.formStage.close()
+                if (fieldName.text.isNotEmpty()) {
+                    Data.updateDB()
+                    val result = Data.dbMaker
+                        .where { (Makers.name eq fieldName.text) }
+                        .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                        .firstOrNull()
+                    if (result == null) {
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
+                        database.insert(Makers) {
+                            set(it.name, fieldName.text)
+                        }
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
+                            updateDB()
+                            reloadTable("Maker", "Model")
+                            dbMakerController.formStage.close()
+                        }
+                    } else {
+                        Data.showMessage("Warning", "Запись с введённым наименованием уже существует.")
                     }
                 } else {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("Запись с введённым наименованием уже существует.")
-                        .showWarning()
+                    Data.showMessage("Warning", "У записи присутсвуют незаполненные поля.")
                 }
             }
         }

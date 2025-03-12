@@ -51,49 +51,58 @@ class DBDefectFormEditController {
         }
         runBlocking {
             launch {
-                Data.updateDB()
-                val result = Data.dbDefect
-                    .where { (Defects.id eq Data.dbDefectController.selectId) }
-                    .map { row ->
-                        Defect(
-                            row[Defects.id],
-                            row[Defects.hardware],
-                            row[Defects.result_view],
-                            row[Defects.detect],
-                            row[Defects.reason]
-                        )
-                    }
-                    .firstOrNull()
-                if (result == null) {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("Запись с выбранным id в базе отсуствует.")
-                        .showWarning()
-                } else {
-                    if (result.hardware.equals(boxHardware.selectionModel.selectedItem) && result.equals(areaResultView.text) && result.equals(
-                            areaDetect.text
-                        ) && result.equals(areaReason.text)
-                    ) {
+                if (areaResultView.text.isNotEmpty() && areaDetect.text.isNotEmpty() && areaReason.text.isNotEmpty() && boxHardware.selectionModel.selectedItem.isNotEmpty()) {
+                    Data.updateDB()
+                    val result = Data.dbDefect
+                        .where { (Defects.id eq Data.dbDefectController.selectId) }
+                        .map { row ->
+                            Defect(
+                                row[Defects.id],
+                                row[Defects.hardware],
+                                row[Defects.result_view],
+                                row[Defects.detect],
+                                row[Defects.reason]
+                            )
+                        }
+                        .firstOrNull()
+                    if (result == null) {
                         Notifications.create()
                             .title("Предупреждение!")
-                            .text("Запись модель с введёнными значениями уже существует.")
+                            .text("Запись с выбранным id в базе отсуствует.")
                             .showWarning()
                     } else {
-                        val database = SqliteDatabase.connect(Data.config.pathDB)
-                        database.update(Defects) {
-                            set(it.hardware, boxHardware.selectionModel.selectedItem)
-                            set(it.result_view, areaResultView.text)
-                            set(it.detect, areaDetect.text)
-                            set(it.reason, areaReason.text)
-                            where { it.id eq result.id !! }
-                        }
-                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                        Data.run {
-                            updateDB()
-                            reloadTable("Defect")
-                            dbDefectController.formStage.close()
+                        if (result.hardware.equals(boxHardware.selectionModel.selectedItem) && result.equals(
+                                areaResultView.text
+                            ) && result.equals(
+                                areaDetect.text
+                            ) && result.equals(areaReason.text)
+                        ) {
+                            Notifications.create()
+                                .title("Предупреждение!")
+                                .text("Запись с введёнными значениями уже существует.")
+                                .showWarning()
+                        } else {
+                            val database = SqliteDatabase.connect(Data.config.pathDB)
+                            database.update(Defects) {
+                                set(it.hardware, boxHardware.selectionModel.selectedItem)
+                                set(it.result_view, areaResultView.text)
+                                set(it.detect, areaDetect.text)
+                                set(it.reason, areaReason.text)
+                                where { it.id eq result.id !! }
+                            }
+                            FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                            Data.run {
+                                updateDB()
+                                reloadTable("Defect")
+                                dbDefectController.formStage.close()
+                            }
                         }
                     }
+                } else {
+                    Notifications.create()
+                        .title("Предупреждение!")
+                        .text("У записи присутсвуют незаполненные поля.")
+                        .showWarning()
                 }
             }
         }
