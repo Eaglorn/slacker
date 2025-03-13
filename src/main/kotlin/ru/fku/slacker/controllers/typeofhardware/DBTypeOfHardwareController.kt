@@ -18,12 +18,8 @@ class DBTypeOfHardwareController(table : TableView2<TypeOfHardwareTable>, button
     lateinit var formDeleteController : DBTypeOfHardwareFormDeleteController
 
     init {
+        createMethods("TypeOfHardware")
         setupTableListener()
-        val name = "TypeOfHardware"
-        Data.methodMap["Table.Reload.${name}"] = { _ -> this.reloadTable() }
-        Data.methodMap["Table.Add.${name}"] = { _ -> this.onButtonClickAdd() }
-        Data.methodMap["Table.Edit.${name}"] = { _ -> this.onButtonClickEdit() }
-        Data.methodMap["Table.Delete.${name}"] = { _ -> this.onButtonClickDelete() }
     }
 
     override fun reloadTable() {

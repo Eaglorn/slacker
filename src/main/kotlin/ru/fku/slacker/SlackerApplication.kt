@@ -14,6 +14,13 @@ open class SlackerApplication {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
+    init {
+        Data.run {
+
+        }
+
+    }
+
     companion object {
         var templateCreate : Boolean = false
         var databaseCreate : Boolean = true

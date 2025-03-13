@@ -17,12 +17,8 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
     lateinit var formDeleteController : DBModelFormDeleteController
 
     init {
+        createMethods("Model")
         setupTableListener()
-        val name = "Model"
-        Data.methodMap["Table.Reload.${name}"] = { _ -> this.reloadTable() }
-        Data.methodMap["Table.Add.${name}"] = { _ -> this.onButtonClickAdd() }
-        Data.methodMap["Table.Edit.${name}"] = { _ -> this.onButtonClickEdit() }
-        Data.methodMap["Table.Delete.${name}"] = { _ -> this.onButtonClickDelete() }
     }
 
     override fun reloadTable() {

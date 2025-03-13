@@ -20,12 +20,8 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
     lateinit var formDeleteController : DBDefectFormDeleteController
 
     init {
+        createMethods("Defect")
         setupTableListener()
-        val name = "Defect"
-        Data.methodMap["Table.Reload.${name}"] = { _ -> this.reloadTable() }
-        Data.methodMap["Table.Add.${name}"] = { _ -> this.onButtonClickAdd() }
-        Data.methodMap["Table.Edit.${name}"] = { _ -> this.onButtonClickEdit() }
-        Data.methodMap["Table.Delete.${name}"] = { _ -> this.onButtonClickDelete() }
     }
 
     override fun reloadTable() {

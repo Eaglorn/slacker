@@ -8,6 +8,7 @@ import javafx.stage.Stage
 import org.controlsfx.control.tableview2.TableView2
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import ru.fku.slacker.Data
 import ru.fku.slacker.utils.Identifiable
 
 abstract class BaseController<T : Identifiable>(
@@ -22,6 +23,15 @@ abstract class BaseController<T : Identifiable>(
 
     init {
         setButtonsDisable(true)
+    }
+
+    fun createMethods(name : String) {
+        Data.run {
+            metMap["Table.Add.${name}"] = { _ -> onButtonClickAdd() }
+            metMap["Table.Edit.${name}"] = { _ -> onButtonClickEdit() }
+            metMap["Table.Delete.${name}"] = { _ -> onButtonClickDelete() }
+        }
+        Data.metMap["Table.Reload.${name}"] = { _ -> reloadTable() }
     }
 
     fun setButtonsDisable(value : Boolean) {

@@ -18,12 +18,8 @@ class DBMakerController(table : TableView2<MakerTable>, buttonEdit : Button, but
     lateinit var formDeleteController : DBMakerFormDeleteController
 
     init {
+        createMethods("Maker")
         setupTableListener()
-        val name = "Maker"
-        Data.methodMap["Table.Reload.${name}"] = { _ -> this.reloadTable() }
-        Data.methodMap["Table.Add.${name}"] = { _ -> this.onButtonClickAdd() }
-        Data.methodMap["Table.Edit.${name}"] = { _ -> this.onButtonClickEdit() }
-        Data.methodMap["Table.Delete.${name}"] = { _ -> this.onButtonClickDelete() }
     }
 
     override fun reloadTable() {

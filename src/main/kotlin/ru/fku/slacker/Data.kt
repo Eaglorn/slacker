@@ -36,8 +36,8 @@ class Data {
         lateinit var dbModel : Query
         lateinit var dbUser : Query
         lateinit var dbDefect : Query
-        val methodMap : MutableMap<String, (Any) -> Any> = HashMap()
-        val messageMap: MutableMap<String, String> = HashMap()
+        val metMap : MutableMap<String, (Any) -> Any> = HashMap()
+        val dictMap: MutableMap<String, String> = HashMap()
 
         fun updateDB() {
             SqliteDatabase.connect(Config.pathDBLocal).let {
@@ -52,17 +52,17 @@ class Data {
         fun reloadTable(vararg names: String) {
             if(names.isNotEmpty()) {
                 names.forEach {
-                    methodMap["Table.Reload.${it}"]?.invoke("")
+                    metMap["Table.Reload.${it}"]?.invoke("")
                 }
             } else {
-                methodMap
+                metMap
                     .filter { it.component1().contains("Table.Reload.") }
                     .forEach { it.value.invoke("") }
             }
         }
 
         fun onButtonClickTable(controller: String, button: String) {
-            methodMap["Table.${button}.${controller}"]?.invoke("")
+            metMap["Table.${button}.${controller}"]?.invoke("")
         }
 
         fun showMessage(level: String, message: String) {
