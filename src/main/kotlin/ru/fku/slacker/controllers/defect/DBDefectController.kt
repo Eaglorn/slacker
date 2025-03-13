@@ -27,15 +27,7 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
     override fun reloadTable() {
         table.items.clear()
         Data.dbDefect
-            .map { row ->
-                Defect(
-                    row[Defects.id],
-                    row[Defects.hardware],
-                    row[Defects.result_view],
-                    row[Defects.detect],
-                    row[Defects.reason]
-                )
-            }
+            .map { row -> Defect.getRows(row) }
             .forEach { table.items.add(DefectTable(it.id, it.hardware, it.result_view, it.detect, it.reason)) }
     }
 
@@ -67,15 +59,7 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
             Data.updateDB()
             val result = Data.dbDefect
                 .where { Defects.id eq selectId }
-                .map { row ->
-                    Defect(
-                        row[Defects.id],
-                        row[Defects.hardware],
-                        row[Defects.result_view],
-                        row[Defects.detect],
-                        row[Defects.reason]
-                    )
-                }
+                .map { row -> Defect.getRows(row) }
                 .firstOrNull()
             result?.let {
                 formEditController.run {

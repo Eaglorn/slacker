@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.property.StringProperty
+import org.apache.poi.ss.formula.functions.T
 import org.ktorm.dsl.QueryRowSet
 import org.ktorm.schema.BaseTable
 import org.ktorm.schema.int
@@ -26,6 +27,18 @@ class Defect(
 ) {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
+
+    companion object {
+        fun getRows(row: QueryRowSet) : Defect {
+            return Defect(
+                row[Defects.id],
+                row[Defects.hardware],
+                row[Defects.result_view],
+                row[Defects.detect],
+                row[Defects.reason]
+            )
+        }
+    }
 
     @Suppress("unused")
     @Bean(name = ["DB.Create.Defect"])
