@@ -37,7 +37,17 @@ class Data {
         lateinit var dbUser : Query
         lateinit var dbDefect : Query
         val metMap : MutableMap<String, (Any) -> Any> = HashMap()
-        val dictMap: MutableMap<String, String> = HashMap()
+        val dictMap : MutableMap<String, String> = HashMap()
+
+        fun textDict(name : String, vararg par : String) : String? {
+            var str: String? = dictMap[name]
+            par.forEach {
+                par.forEachIndexed { index, value ->
+                    str = str?.replace("{par${index}}", par[index])
+                }
+            }
+            return str
+        }
 
         fun updateDB() {
             SqliteDatabase.connect(Config.pathDBLocal).let {
@@ -49,8 +59,8 @@ class Data {
             }
         }
 
-        fun reloadTable(vararg names: String) {
-            if(names.isNotEmpty()) {
+        fun reloadTable(vararg names : String) {
+            if (names.isNotEmpty()) {
                 names.forEach {
                     metMap["Table.Reload.${it}"]?.invoke("")
                 }
@@ -61,16 +71,16 @@ class Data {
             }
         }
 
-        fun onButtonClickTable(controller: String, button: String) {
+        fun onButtonClickTable(controller : String, button : String) {
             metMap["Table.${button}.${controller}"]?.invoke("")
         }
 
-        fun showMessage(level: String, message: String) {
+        fun showMessage(level : String, message : String?) {
             var notification = Notifications.create()
             when (level) {
-                "Warning" -> notification.title("Предупреждение").showWarning()
-                "Error" -> notification.title("Ошибка").showError()
-                else -> notification.title("Сообщение").showInformation()
+                "Warning" -> notification.title("Предупреждение").text(message).showWarning()
+                "Error" -> notification.title("Ошибка").text(message).showError()
+                else -> notification.title("Сообщение").text(message).showInformation()
             }
         }
     }

@@ -20,6 +20,7 @@ abstract class BaseController<T : Identifiable>(
 
     lateinit var formStage : Stage
     var selectId : Int = - 1
+    var tableName: String = ""
 
     init {
         setButtonsDisable(true)
@@ -51,7 +52,7 @@ abstract class BaseController<T : Identifiable>(
         }
     }
 
-    protected fun showModal(fxmlPath : String, title : String, setupController : (Any) -> Unit) {
+    protected fun showModal(fxmlPath : String, title : String?, setupController : (Any) -> Unit) {
         val fxmlLoader = FXMLLoader(javaClass.getResource(fxmlPath))
         val formScene = Scene(fxmlLoader.load())
         formStage = Stage()

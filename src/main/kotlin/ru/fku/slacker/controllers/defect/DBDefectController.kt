@@ -20,7 +20,8 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
     lateinit var formDeleteController : DBDefectFormDeleteController
 
     init {
-        createMethods("Defect")
+        tableName = "Defect"
+        createMethods(tableName)
         setupTableListener()
     }
 
@@ -48,13 +49,13 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
     }
 
     override fun onButtonClickAdd() {
-        showModal("/db/defect/Add.fxml", "Создание записи (Дефект)") {
+        showModal("/db/defect/Add.fxml", Data.textDict("DB.Create", tableName)) {
             boxHardwareApply(Data.dbDefectController.formAddController.boxHardware)
         }
     }
 
     override fun onButtonClickEdit() {
-        showModal("/db/defect/Edit.fxml", "Редактирование записи (Дефект)") {
+        showModal("/db/defect/Edit.fxml", Data.textDict("DB.Edit", tableName)) {
             boxHardwareApply(Data.dbDefectController.formEditController.boxHardware)
             Data.updateDB()
             val result = Data.dbDefect
@@ -73,19 +74,11 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
     }
 
     override fun onButtonClickDelete() {
-        showModal("/db/defect/Delete.fxml", "Удаление записи (Дефект)") {
+        showModal("/db/defect/Delete.fxml", Data.textDict("DB.Delete", tableName)) {
             Data.updateDB()
             val result = Data.dbDefect
                 .where { Defects.id eq selectId }
-                .map { row ->
-                    Defect(
-                        row[Defects.id],
-                        row[Defects.hardware],
-                        row[Defects.result_view],
-                        row[Defects.detect],
-                        row[Defects.reason]
-                    )
-                }
+                .map { row -> Defect.getRows(row) }
                 .firstOrNull()
             result?.let {
                 formDeleteController.run {

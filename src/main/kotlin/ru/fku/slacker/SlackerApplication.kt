@@ -16,9 +16,14 @@ open class SlackerApplication {
 
     init {
         Data.run {
-
+            dictMap.put("DB.Create", "Создание записи ({par0}).")
+            dictMap.put("DB.Edit", "Редактирование записи ({par0}).")
+            dictMap.put("DB.Delete", "Удаление записи ({par0}).")
+            dictMap.put("DB.IsIndentFields", "В ({par0}) базе данных найдена запись с идентичными значениями полей.")
+            dictMap.put("DB.IsEmptyFields", "Все поля должны быть заполнены.")
+            dictMap.put("DB.IsSelectRecord", "Отсутсвует выбор записи в таблице.")
+            dictMap.put("DB.IsSelectId", "В базе не существует записи с указанным идентификатором.")
         }
-
     }
 
     companion object {
