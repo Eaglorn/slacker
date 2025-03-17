@@ -36,11 +36,11 @@ class Data {
         lateinit var dbModel : Query
         lateinit var dbUser : Query
         lateinit var dbDefect : Query
-        val metMap : MutableMap<String, (Any) -> Any> = HashMap()
-        val dictMap : MutableMap<String, String> = HashMap()
+        val metMap : MutableMap<String, (Any) -> Any> = HashMap<String, (Any) -> Any>()
+        val dictMap : MutableMap<String, String> = HashMap<String, String>()
 
         fun textDict(name : String, vararg par : String) : String? {
-            var str: String? = dictMap[name]
+            var str : String? = dictMap[name]
             par.forEach {
                 par.forEachIndexed { index, value ->
                     str = str?.replace("{par${index}}", par[index])
