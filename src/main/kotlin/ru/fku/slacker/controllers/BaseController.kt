@@ -28,11 +28,11 @@ abstract class BaseController<T : Identifiable>(
 
     fun createMethods(name : String) {
         Data.run {
-            metMap["Table.Add.${name}"] = { _ -> onButtonClickAdd() }
-            metMap["Table.Edit.${name}"] = { _ -> onButtonClickEdit() }
-            metMap["Table.Delete.${name}"] = { _ -> onButtonClickDelete() }
+            metMap["Table.Add.$name"] = { _ -> onButtonClickAdd() }
+            metMap["Table.Edit.$name"] = { _ -> onButtonClickEdit() }
+            metMap["Table.Delete.$name"] = { _ -> onButtonClickDelete() }
         }
-        Data.metMap["Table.Reload.${name}"] = { _ -> reloadTable() }
+        Data.metMap["Table.Reload.$name"] = { _ -> reloadTable() }
     }
 
     fun setButtonsDisable(value : Boolean) {

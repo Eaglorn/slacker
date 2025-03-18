@@ -18,26 +18,27 @@ class DBMakerController(table : TableView2<MakerTable>, buttonEdit : Button, but
     lateinit var formDeleteController : DBMakerFormDeleteController
 
     init {
-        createMethods("Maker")
+        tableName = "Maker"
+        createMethods(tableName)
         setupTableListener()
     }
 
     override fun reloadTable() {
         table.items.clear()
         Data.dbMaker
-            .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+            .map { Maker.getRows(it) }
             .forEach { table.items.add(MakerTable(it.id, it.name)) }
     }
 
     override fun onButtonClickAdd() {
-        showModal("/db/maker/Add.fxml", "Создание записи (Производитель)") {}
+        showModal("/db/maker/Add.fxml", Data.textDict("DB.Create", tableName)) {}
     }
 
     override fun onButtonClickEdit() {
-        showModal("/db/maker/Edit.fxml", "Редактирование записи (Производитель)") { controller ->
+        showModal("/db/maker/Edit.fxml", Data.textDict("DB.Edit", tableName)) { controller ->
             val result = Data.dbMaker
                 .where { (Makers.id eq selectId) }
-                .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                .map { Maker.getRows(it) }
                 .firstOrNull()
             result?.let {
                 formEditController.fieldName.text = it.name
@@ -46,10 +47,10 @@ class DBMakerController(table : TableView2<MakerTable>, buttonEdit : Button, but
     }
 
     override fun onButtonClickDelete() {
-        showModal("/db/maker/Delete.fxml", "Удаление записи (Производитель)") { controller ->
+        showModal("/db/maker/Delete.fxml", Data.textDict("DB.Delete", tableName)) { controller ->
             val result = Data.dbMaker
                 .where { (Makers.id eq selectId) }
-                .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                .map { Maker.getRows(it) }
                 .firstOrNull()
             result?.let {
                 formDeleteController.fieldName.text = it.name

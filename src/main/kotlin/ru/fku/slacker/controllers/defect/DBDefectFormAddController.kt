@@ -49,7 +49,7 @@ class DBDefectFormAddController : BaseFormController() {
             Data.updateDB()
             val result = Data.dbDefect
                 .where { ((Defects.result_view eq hardware) and (Defects.detect eq resultView) and (Defects.reason eq detect)) and (Defects.hardware eq reason) }
-                .map { row -> Defect.getRows(row) }
+                .map { Defect.getRows(it) }
                 .firstOrNull()
             if (result == null) {
                 val database = SqliteDatabase.connect(Data.config.pathDB)

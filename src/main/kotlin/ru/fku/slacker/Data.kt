@@ -43,7 +43,7 @@ class Data {
             var str : String? = dictMap[name]
             par.forEach {
                 par.forEachIndexed { index, value ->
-                    str = str?.replace("{par${index}}", par[index])
+                    str = str?.replace("{par$index}", par[index])
                 }
             }
             return str
@@ -62,7 +62,7 @@ class Data {
         fun reloadTable(vararg names : String) {
             if (names.isNotEmpty()) {
                 names.forEach {
-                    metMap["Table.Reload.${it}"]?.invoke("")
+                    metMap["Table.Reload.$it"]?.invoke("")
                 }
             } else {
                 metMap
@@ -72,7 +72,7 @@ class Data {
         }
 
         fun onButtonClickTable(controller : String, button : String) {
-            metMap["Table.${button}.${controller}"]?.invoke("")
+            metMap["Table.$button.$controller"]?.invoke("")
         }
 
         fun showMessage(level : String, message : String?) {

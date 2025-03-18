@@ -21,6 +21,12 @@ data class Maker(val id : Int?, val name : String?) {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
+    companion object {
+        fun getRows(row: QueryRowSet) : Maker {
+            return Maker(row[Makers.id], row[Makers.name])
+        }
+    }
+
     @Suppress("unused")
     @Bean(name = ["DB.Create.Maker"])
     fun createDatabase() : Boolean {

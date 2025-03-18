@@ -49,7 +49,7 @@ class DBDefectFormDeleteController : BaseFormController() {
             Data.updateDB()
             val result = Data.dbDefect
                 .where { (Defects.id eq selectId) }
-                .map { row -> Defect.getRows(row) }
+                .map { Defect.getRows(it) }
                 .firstOrNull()
             if (result == null) {
                 Data.showMessage("Warning", Data.textDict("DB.IsSelectId"))

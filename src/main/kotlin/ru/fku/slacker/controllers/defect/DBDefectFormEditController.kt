@@ -55,7 +55,7 @@ class DBDefectFormEditController : BaseFormController() {
                 Data.updateDB()
                 val result = Data.dbDefect
                     .where { (Defects.id eq selectId) }
-                    .map { row -> Defect.getRows(row) }
+                    .map { Defect.getRows(it) }
                     .firstOrNull()
                 if (result == null) {
                     Data.showMessage("Warning", Data.textDict("DB.IsSelectId"))
@@ -66,10 +66,10 @@ class DBDefectFormEditController : BaseFormController() {
                     } else {
                         val database = SqliteDatabase.connect(Data.config.pathDB)
                         database.update(Defects) {
-                            set(it.hardware, boxHardware.selectionModel.selectedItem)
-                            set(it.result_view, areaResultView.text)
-                            set(it.detect, areaDetect.text)
-                            set(it.reason, areaReason.text)
+                            set(it.hardware, hardware)
+                            set(it.result_view, resultView)
+                            set(it.detect, detect)
+                            set(it.reason, reason)
                             where { it.id eq result.id !! }
                         }
                         FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
