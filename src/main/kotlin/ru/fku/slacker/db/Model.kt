@@ -21,6 +21,17 @@ data class Model(val id : Int?, val name : String?, val maker_id : Int?, val typ
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
+    companion object {
+        fun getRows(row : QueryRowSet) : Model {
+            return Model(
+                row[Models.id],
+                row[Models.name],
+                row[Models.maker_id],
+                row[Models.type_of_hardware_id]
+            )
+        }
+    }
+
     @Suppress("unused")
     @Bean(name = ["DB.Create.Model"])
     fun createDatabase() : Boolean {

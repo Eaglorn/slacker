@@ -21,6 +21,12 @@ data class TypeOfHardware(val id : Int?, val name : String?) {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
+    companion object {
+        fun getRows(row : QueryRowSet) : TypeOfHardware {
+            return TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name])
+        }
+    }
+
     @Suppress("unused")
     @Bean(name = ["DB.Create.TypeOfHardware"])
     fun createDatabase() : Boolean {

@@ -26,16 +26,17 @@ class DBMakerFormAddController {
     @Suppress("unused")
     @FXML
     private fun onButtonClickAdd() {
-        if (fieldName.text.isNotEmpty()) {
+        val name = fieldName.text
+        if (name.isNotEmpty()) {
             Data.updateDB()
             val result = Data.dbMaker
-                .where { (Makers.name eq fieldName.text) }
+                .where { (Makers.name eq name) }
                 .map { row -> Maker(row[Makers.id], row[Makers.name]) }
                 .firstOrNull()
             if (result == null) {
                 val database = SqliteDatabase.connect(Data.config.pathDB)
                 database.insert(Makers) {
-                    set(it.name, fieldName.text)
+                    set(it.name, name)
                 }
                 FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                 Data.run {

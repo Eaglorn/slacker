@@ -35,33 +35,38 @@ class DBMakerFormEditController : BaseFormController() {
         if (Data.dbMakerController.selectId < 0) {
             Data.showMessage("Warning", Data.textDict("DB.IsSelectRecord"))
         } else {
-            Data.updateDB()
-            val result = Data.dbMaker
-                .where { (Makers.id eq Data.dbMakerController.selectId) }
-                .map { Maker.getRows(it) }
-                .firstOrNull()
-            if (result == null) {
-                Data.showMessage("Warning", Data.textDict("DB.IsSelectId"))
-            } else {
-                val result1 = Data.dbMaker
-                    .where { (Makers.name eq fieldName.text) }
+            val name = fieldName.text
+            if(name.isNotEmpty()) {
+                Data.updateDB()
+                val result = Data.dbMaker
+                    .where { (Makers.id eq Data.dbMakerController.selectId) }
                     .map { Maker.getRows(it) }
                     .firstOrNull()
-                if (result1 == null) {
-                    val database = SqliteDatabase.connect(Data.config.pathDB)
-                    database.update(Makers) {
-                        set(it.name, fieldName.text)
-                        where { it.id eq result.id !! }
-                    }
-                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.run {
-                        updateDB()
-                        reloadTable("Maker", "Model")
-                        dbMakerController.formStage.close()
-                    }
+                if (result == null) {
+                    Data.showMessage("Warning", Data.textDict("DB.IsSelectId"))
                 } else {
-                    Data.showMessage("Warning", Data.textDict("DB.IsIndentFields"))
+                    val result1 = Data.dbMaker
+                        .where { (Makers.name eq name) }
+                        .map { Maker.getRows(it) }
+                        .firstOrNull()
+                    if (result1 == null) {
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
+                        database.update(Makers) {
+                            set(it.name, name)
+                            where { it.id eq result.id !! }
+                        }
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
+                            updateDB()
+                            reloadTable("Maker", "Model")
+                            dbMakerController.formStage.close()
+                        }
+                    } else {
+                        Data.showMessage("Warning", Data.textDict("DB.IsIndentFields"))
+                    }
                 }
+            } else {
+                Data.showMessage("Warning", Data.textDict("DB.IsEmptyFields"))
             }
         }
     }

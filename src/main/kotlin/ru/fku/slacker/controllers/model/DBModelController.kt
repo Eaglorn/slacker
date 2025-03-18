@@ -17,29 +17,23 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
     lateinit var formDeleteController : DBModelFormDeleteController
 
     init {
-        createMethods("Model")
+        tableName = "Model"
+        createMethods(tableName)
         setupTableListener()
     }
 
     override fun reloadTable() {
         table.items.clear()
         Data.dbModel
-            .map { row ->
-                Model(
-                    row[Models.id],
-                    row[Models.name],
-                    row[Models.maker_id],
-                    row[Models.type_of_hardware_id]
-                )
-            }
+            .map { Model.getRows(it) }
             .forEach {
                 val maker = Data.dbMaker
                     .where { (Makers.id eq it.maker_id !!) }
-                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                    .map { Maker.getRows(it) }
                     .firstOrNull()
                 val typeOfHardware = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.id eq it.type_of_hardware_id !!) }
-                    .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                    .map { TypeOfHardware.getRows(it) }
                     .firstOrNull()
                 table.items.add(ModelTable(it.id, it.name, maker?.name, typeOfHardware?.name))
             }
@@ -49,10 +43,10 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
         showModal("/db/model/Add.fxml", "Создание записи модель") {
             Data.updateDB()
             Data.dbMaker
-                .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                .map { Maker.getRows(it) }
                 .forEach { Data.dbModelController.formAddController.boxMaker.items.add(it.name) }
             Data.dbTypeOfHardware
-                .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                .map { TypeOfHardware.getRows(it) }
                 .forEach { Data.dbModelController.formAddController.boxTypeOfHardware.items.add(it.name) }
         }
     }
@@ -62,30 +56,23 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
             Data.updateDB()
             val result = Data.dbModel
                 .where { (Models.id eq selectId) }
-                .map { row ->
-                    Model(
-                        row[Models.id],
-                        row[Models.name],
-                        row[Models.maker_id],
-                        row[Models.type_of_hardware_id]
-                    )
-                }
+                .map { Model.getRows(it) }
                 .firstOrNull()
             if (result != null) {
                 formEditController.fieldName.text = result.name
                 Data.dbMaker
-                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                    .map { Maker.getRows(it) }
                     .forEach { formEditController.boxMaker.items.add(it.name) }
                 Data.dbTypeOfHardware
-                    .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                    .map { TypeOfHardware.getRows(it) }
                     .forEach { formEditController.boxTypeOfHardware.items.add(it.name) }
                 val maker = Data.dbMaker
                     .where { (Makers.id eq result.maker_id !!) }
-                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                    .map { Maker.getRows(it) }
                     .firstOrNull()
                 val typeOfHardware = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.id eq result.type_of_hardware_id !!) }
-                    .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                    .map { TypeOfHardware.getRows(it) }
                     .firstOrNull()
                 if (maker != null && typeOfHardware != null) {
                     formEditController.run {
@@ -102,24 +89,17 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
             Data.updateDB()
             val result = Data.dbModel
                 .where { (Models.id eq selectId) }
-                .map { row ->
-                    Model(
-                        row[Models.id],
-                        row[Models.name],
-                        row[Models.maker_id],
-                        row[Models.type_of_hardware_id]
-                    )
-                }
+                .map { Model.getRows(it) }
                 .firstOrNull()
             if (result != null) {
                 formDeleteController.fieldName.text = result.name
                 val maker = Data.dbMaker
                     .where { (Makers.id eq result.maker_id !!) }
-                    .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                    .map { Maker.getRows(it) }
                     .firstOrNull()
                 val typeOfHardware = Data.dbTypeOfHardware
                     .where { (TypeOfHardwares.id eq result.type_of_hardware_id !!) }
-                    .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                    .map { TypeOfHardware.getRows(it) }
                     .firstOrNull()
                 if (maker != null && typeOfHardware != null) {
                     formDeleteController.run {

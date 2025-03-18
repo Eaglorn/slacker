@@ -15,11 +15,12 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ru.fku.slacker.Config
 import ru.fku.slacker.Data
+import ru.fku.slacker.controllers.BaseFormController
 import ru.fku.slacker.db.*
 import ru.fku.slacker.utils.SqliteDatabase
 import java.io.File
 
-class DBModelFormAddController {
+class DBModelFormAddController : BaseFormController() {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -33,60 +34,50 @@ class DBModelFormAddController {
     lateinit var boxTypeOfHardware : SearchableComboBox<String>
 
     init {
+        tableName = "Model"
         Data.dbModelController.formAddController = this
     }
 
     @Suppress("unused")
     @FXML
     private fun onButtonClickAdd() {
-        runBlocking {
-            launch {
-                Data.updateDB()
-                val result = Data.dbModel
-                    .where { (Models.name eq fieldName.text) }
-                    .map { row ->
-                        Model(
-                            row[Models.id],
-                            row[Models.name],
-                            row[Models.maker_id],
-                            row[Models.type_of_hardware_id]
-                        )
-                    }
+        val name = fieldName.text
+        val maker = boxMaker.selectionModel.selectedItem
+        val typeOfHardware = boxTypeOfHardware.selectionModel.selectedItem
+        if(name.isNotEmpty() && maker.isEmpty() && typeOfHardware.isNotEmpty()) {
+            Data.updateDB()
+            val result = Data.dbModel
+                .where { (Models.name eq name) }
+                .map { Model.getRows(it)}
+                .firstOrNull()
+            if (result == null) {
+                val database = SqliteDatabase.connect(Data.config.pathDB)
+                val resultMaker = Data.dbMaker
+                    .where { (Makers.name eq maker) }
+                    .map { Maker.getRows(it) }
                     .firstOrNull()
-                if (result == null) {
-                    if (boxMaker.selectionModel.selectedItem.isNotEmpty() && boxTypeOfHardware.selectionModel.selectedItem.isNotEmpty()) {
-                        val database = SqliteDatabase.connect(Data.config.pathDB)
-                        val maker = Data.dbMaker
-                            .where { (Makers.name eq boxMaker.selectionModel.selectedItem) }
-                            .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-                            .firstOrNull()
-                        val typeOfHardware = Data.dbTypeOfHardware
-                            .where { (TypeOfHardwares.name eq boxTypeOfHardware.selectionModel.selectedItem) }
-                            .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
-                            .firstOrNull()
-                        if (maker != null && typeOfHardware != null) {
-                            database.insert(Models) {
-                                set(it.name, fieldName.text)
-                                set(it.maker_id, maker.id)
-                                set(it.type_of_hardware_id, typeOfHardware.id)
-                            }
-                        }
-                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                        Data.run {
-                            updateDB()
-                            reloadTable("Model")
-                            dbModelController.formStage.close()
-                        }
-                    } else {
-
+                val resultTypeOfHardware = Data.dbTypeOfHardware
+                    .where { (TypeOfHardwares.name eq typeOfHardware) }
+                    .map { TypeOfHardware.getRows(it) }
+                    .firstOrNull()
+                if (resultMaker != null && resultTypeOfHardware != null) {
+                    database.insert(Models) {
+                        set(it.name, name)
+                        set(it.maker_id, resultMaker.id)
+                        set(it.type_of_hardware_id, resultTypeOfHardware.id)
                     }
-                } else {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("Запись с введённым наименованием уже существует.")
-                        .showWarning()
                 }
+                FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                Data.run {
+                    updateDB()
+                    reloadTable(tableName)
+                    dbModelController.formStage.close()
+                }
+            } else {
+                Data.showMessage("Warning", Data.textDict("DB.IsIndentFields", tableName))
             }
+        } else {
+            Data.showMessage("Warning", Data.textDict("DB.IsEmptyFields"))
         }
     }
 

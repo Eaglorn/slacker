@@ -36,8 +36,8 @@ class Data {
         lateinit var dbModel : Query
         lateinit var dbUser : Query
         lateinit var dbDefect : Query
-        val metMap : MutableMap<String, (Any) -> Any> = HashMap<String, (Any) -> Any>()
-        val dictMap : MutableMap<String, String> = HashMap<String, String>()
+        val metMap : MutableMap<String, (Any) -> Any> = HashMap<String, (Any) -> Any>(100, 0.95f)
+        val dictMap : MutableMap<String, String> = HashMap<String, String>(100, 0.95f)
 
         fun textDict(name : String, vararg par : String) : String? {
             var str : String? = dictMap[name]
@@ -78,9 +78,9 @@ class Data {
         fun showMessage(level : String, message : String?) {
             var notification = Notifications.create()
             when (level) {
-                "Warning" -> notification.title("Предупреждение").text(message).showWarning()
-                "Error" -> notification.title("Ошибка").text(message).showError()
-                else -> notification.title("Сообщение").text(message).showInformation()
+                "Warning" -> notification.title("Warning").text(message).showWarning()
+                "Error" -> notification.title("Error").text(message).showError()
+                else -> notification.title("Message").text(message).showInformation()
             }
         }
     }

@@ -15,11 +15,12 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ru.fku.slacker.Config
 import ru.fku.slacker.Data
+import ru.fku.slacker.controllers.BaseFormController
 import ru.fku.slacker.db.*
 import ru.fku.slacker.utils.SqliteDatabase
 import java.io.File
 
-class DBModelFormEditController {
+class DBModelFormEditController : BaseFormController() {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -33,6 +34,7 @@ class DBModelFormEditController {
     lateinit var boxTypeOfHardware : SearchableComboBox<String>
 
     init {
+        tableName = "Defect"
         Data.dbModelController.formEditController = this
     }
 
@@ -40,71 +42,58 @@ class DBModelFormEditController {
     @FXML
     private fun onButtonClickEdit() {
         if (Data.dbModelController.selectId < 0) {
-            Notifications.create()
-                .title("Предупреждение!")
-                .text("Отсутсвует выбор записи в таблице.")
-                .showWarning()
+            Data.showMessage("Warning", Data.textDict("DB.IsSelectRecord"))
         } else {
-            runBlocking {
-                launch {
-                    Data.updateDB()
-                    val result = Data.dbModel
-                        .where { (Models.id eq Data.dbModelController.selectId) }
-                        .map { row ->
-                            Model(
-                                row[Models.id],
-                                row[Models.name],
-                                row[Models.maker_id],
-                                row[Models.type_of_hardware_id]
-                            )
-                        }
+            val name = fieldName.text
+            val maker = boxMaker.selectionModel.selectedItem
+            val typeOfHardware = boxTypeOfHardware.selectionModel.selectedItem
+            if(name.isNotEmpty() && maker.isNotEmpty() && typeOfHardware.isNotEmpty()) {
+                Data.updateDB()
+                val result = Data.dbModel
+                    .where { (Models.id eq Data.dbModelController.selectId) }
+                    .map { Model.getRows(it) }
+                    .firstOrNull()
+                if (result == null) {
+                    Data.showMessage("Warning", Data.textDict("DB.IsSelectRecord"))
+                } else {
+                    var resultMaker = Data.dbMaker
+                        .where { Makers.name eq maker }
+                        .map { Maker.getRows(it) }
                         .firstOrNull()
-                    if (result == null) {
-                        Notifications.create()
-                            .title("Предупреждение!")
-                            .text("Запись с выбранным id в базе отсуствует.")
-                            .showWarning()
+                    var resultTypeOfHardware = Data.dbTypeOfHardware
+                        .where { TypeOfHardwares.name eq typeOfHardware }
+                        .map { TypeOfHardware.getRows(it) }
+                        .firstOrNull()
+                    if (result.name.equals(name) && result.maker_id == resultMaker?.id && result.type_of_hardware_id == resultTypeOfHardware?.id) {
+                        Data.showMessage("Warning", Data.textDict("DB.IsIndentFields"))
                     } else {
-                        var maker = Data.dbMaker
-                            .where { (Makers.name eq boxMaker.selectionModel.selectedItem) }
-                            .map { row -> Maker(row[Makers.id], row[Makers.name]) }
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
+                        resultMaker = Data.dbMaker
+                            .where { Makers.name eq maker }
+                            .map { Maker.getRows(it) }
                             .firstOrNull()
-                        var typeOfHardware = Data.dbTypeOfHardware
-                            .where { (TypeOfHardwares.name eq boxTypeOfHardware.selectionModel.selectedItem) }
-                            .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
+                        resultTypeOfHardware = Data.dbTypeOfHardware
+                            .where { TypeOfHardwares.name eq typeOfHardware }
+                            .map { TypeOfHardware.getRows(it) }
                             .firstOrNull()
-                        if (result.name.equals(fieldName.text) && result.maker_id == maker?.id && result.type_of_hardware_id == typeOfHardware?.id) {
-                            Notifications.create()
-                                .title("Предупреждение!")
-                                .text("Запись модель с введёнными значениями уже существует.")
-                                .showWarning()
-                        } else {
-                            val database = SqliteDatabase.connect(Data.config.pathDB)
-                            maker = Data.dbMaker
-                                .where { (Makers.name eq boxMaker.selectionModel.selectedItem) }
-                                .map { row -> Maker(row[Makers.id], row[Makers.name]) }
-                                .firstOrNull()
-                            typeOfHardware = Data.dbTypeOfHardware
-                                .where { (TypeOfHardwares.name eq boxTypeOfHardware.selectionModel.selectedItem) }
-                                .map { row -> TypeOfHardware(row[TypeOfHardwares.id], row[TypeOfHardwares.name]) }
-                                .firstOrNull()
-                            if (maker != null && typeOfHardware != null) {
-                                database.update(Models) {
-                                    set(it.name, fieldName.text)
-                                    set(it.maker_id, maker.id)
-                                    set(it.type_of_hardware_id, typeOfHardware.id)
-                                    where { it.id eq result.id !! }
-                                }
+                        if (maker != null && typeOfHardware != null) {
+                            database.update(Models) {
+                                set(it.name, name)
+                                set(it.maker_id, resultMaker?.id)
+                                set(it.type_of_hardware_id, resultTypeOfHardware?.id)
+                                where { it.id eq result.id !! }
                             }
-                            FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                            Data.run {
-                                updateDB()
-                                reloadTable("Model")
-                                dbModelController.formStage.close()
-                            }
+                        }
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
+                            updateDB()
+                            reloadTable(tableName)
+                            dbModelController.formStage.close()
                         }
                     }
                 }
+            } else {
+                Data.showMessage("Warning", Data.textDict("DB.IsEmptyFields"))
             }
         }
     }

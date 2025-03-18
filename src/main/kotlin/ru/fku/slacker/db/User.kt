@@ -21,6 +21,12 @@ data class User(val id : Int?, val name : String?, val post : String?, val addre
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
+    companion object {
+        fun getRows(row : QueryRowSet) : User {
+            return User(row[Users.id], row[Users.name], row[Users.post], row[Users.address])
+        }
+    }
+
     @Suppress("unused")
     @Bean(name = ["DB.Create.User"])
     fun createDatabase() : Boolean {
