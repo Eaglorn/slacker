@@ -22,7 +22,7 @@ data class Maker(val id : Int?, val name : String?) {
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
     companion object {
-        fun getRows(row: QueryRowSet) : Maker {
+        fun getRows(row : QueryRowSet) : Maker {
             return Maker(row[Makers.id], row[Makers.name])
         }
     }

@@ -25,25 +25,25 @@ class SlackerFX : Application() {
             "{name}" to "Алексей",
             "{date}" to "1 июня 1994 года"
         )
-        if(SlackerApplication.templateCreate)
-        FileInputStream(templatePath).use { fis ->
-            XWPFDocument(fis).use { document ->
-                for (paragraph in document.paragraphs) {
-                    for (run in paragraph.runs) {
-                        var text = run.getText(0)
-                        if (text != null) {
-                            for ((key, value) in variables) {
-                                text = text.replace(key, value)
+        if (SlackerApplication.templateCreate)
+            FileInputStream(templatePath).use { fis ->
+                XWPFDocument(fis).use { document ->
+                    for (paragraph in document.paragraphs) {
+                        for (run in paragraph.runs) {
+                            var text = run.getText(0)
+                            if (text != null) {
+                                for ((key, value) in variables) {
+                                    text = text.replace(key, value)
+                                }
+                                run.setText(text, 0)
                             }
-                            run.setText(text, 0)
                         }
                     }
-                }
-                FileOutputStream(outputPath).use { fos ->
-                    document.write(fos)
+                    FileOutputStream(outputPath).use { fos ->
+                        document.write(fos)
+                    }
                 }
             }
-        }
     }
 
     override fun start(stage : Stage) {

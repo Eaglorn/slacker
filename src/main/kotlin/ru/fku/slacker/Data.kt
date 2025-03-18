@@ -16,6 +16,7 @@ import ru.fku.slacker.controllers.typeofhardware.DBTypeOfHardwareController
 import ru.fku.slacker.controllers.user.DBUserController
 import ru.fku.slacker.db.*
 import ru.fku.slacker.utils.SqliteDatabase
+import ru.fku.slacker.utils.SwissTable
 
 class Data {
     @Suppress("unused")
@@ -36,8 +37,8 @@ class Data {
         lateinit var dbModel : Query
         lateinit var dbUser : Query
         lateinit var dbDefect : Query
-        val metMap : MutableMap<String, (Any) -> Any> = HashMap<String, (Any) -> Any>()
-        val dictMap : MutableMap<String, String> = HashMap<String, String>()
+        val metMap : SwissTable<String, (Any) -> Any> = SwissTable<String, (Any) -> Any>()
+        val dictMap : SwissTable<String, String> = SwissTable<String, String>()
 
         fun textDict(name : String, vararg par : String) : String? {
             var str : String? = dictMap[name]
@@ -67,7 +68,7 @@ class Data {
             } else {
                 metMap
                     .filter { it.component1().contains("Table.Reload.") }
-                    .forEach { it.value.invoke("") }
+                    .forEach { it.second.invoke("") }
             }
         }
 

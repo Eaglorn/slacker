@@ -54,7 +54,7 @@ class DBModelFormAddController {
                     }
                     .firstOrNull()
                 if (result == null) {
-                    if(boxMaker.selectionModel.selectedItem.isNotEmpty() && boxTypeOfHardware.selectionModel.selectedItem.isNotEmpty()) {
+                    if (boxMaker.selectionModel.selectedItem.isNotEmpty() && boxTypeOfHardware.selectionModel.selectedItem.isNotEmpty()) {
                         val database = SqliteDatabase.connect(Data.config.pathDB)
                         val maker = Data.dbMaker
                             .where { (Makers.name eq boxMaker.selectionModel.selectedItem) }

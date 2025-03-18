@@ -3,7 +3,6 @@ package ru.fku.slacker.controllers.defect
 import javafx.fxml.FXML
 import javafx.scene.control.TextArea
 import org.apache.commons.io.FileUtils
-import org.controlsfx.control.Notifications
 import org.controlsfx.control.SearchableComboBox
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.map
@@ -60,7 +59,9 @@ class DBDefectFormEditController : BaseFormController() {
                 if (result == null) {
                     Data.showMessage("Warning", Data.textDict("DB.IsSelectId"))
                 } else {
-                    if (result.hardware.equals(hardware) && result.equals(resultView) && result.equals(detect) && result.equals(reason)
+                    if (result.hardware.equals(hardware) && result.equals(resultView) && result.equals(detect) && result.equals(
+                            reason
+                        )
                     ) {
                         Data.showMessage("Warning", Data.textDict("DB.IsIndentFields"))
                     } else {

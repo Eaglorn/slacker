@@ -2,8 +2,6 @@ package ru.fku.slacker.controllers.defect
 
 import javafx.fxml.FXML
 import javafx.scene.control.TextArea
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.apache.commons.io.FileUtils
 import org.controlsfx.control.SearchableComboBox
 import org.ktorm.dsl.*

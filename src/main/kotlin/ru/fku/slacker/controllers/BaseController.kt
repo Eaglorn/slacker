@@ -20,7 +20,7 @@ abstract class BaseController<T : Identifiable>(
 
     lateinit var formStage : Stage
     var selectId : Int = - 1
-    var tableName: String = ""
+    var tableName : String = ""
 
     init {
         setButtonsDisable(true)
