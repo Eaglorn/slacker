@@ -50,7 +50,7 @@ class SlackerFX : Application() {
         runBlocking {
             launch {
                 val fxmlLoader =
-                    FXMLLoader(SlackerApplication::class.java.getResource("../../../SlackerApplication.fxml"))
+                    FXMLLoader(SlackerApplication::class.java.getResource("SlackerApplication.fxml"))
                 val scene = Scene(fxmlLoader.load())
                 stage.title = "Slacker"
                 stage.scene = scene

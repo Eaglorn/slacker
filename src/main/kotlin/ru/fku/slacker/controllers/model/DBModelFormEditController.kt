@@ -34,7 +34,7 @@ class DBModelFormEditController : BaseFormController() {
     lateinit var boxTypeOfHardware : SearchableComboBox<String>
 
     init {
-        tableName = "Defect"
+        tableName = "Model"
         Data.dbModelController.formEditController = this
     }
 

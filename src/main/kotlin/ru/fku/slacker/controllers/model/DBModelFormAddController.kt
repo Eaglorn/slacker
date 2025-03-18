@@ -44,7 +44,7 @@ class DBModelFormAddController : BaseFormController() {
         val name = fieldName.text
         val maker = boxMaker.selectionModel.selectedItem
         val typeOfHardware = boxTypeOfHardware.selectionModel.selectedItem
-        if(name.isNotEmpty() && maker.isEmpty() && typeOfHardware.isNotEmpty()) {
+        if(name.isNotEmpty() && maker.isNotEmpty() && typeOfHardware.isNotEmpty()) {
             Data.updateDB()
             val result = Data.dbModel
                 .where { (Models.name eq name) }
