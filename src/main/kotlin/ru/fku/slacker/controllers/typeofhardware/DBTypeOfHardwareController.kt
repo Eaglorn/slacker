@@ -30,11 +30,11 @@ class DBTypeOfHardwareController(table : TableView2<TypeOfHardwareTable>, button
     }
 
     override fun onButtonClickAdd() {
-        showModal("/db/typeofhardware/Add.fxml", "Создание записи тип оборудования") {}
+        showModal("/ru/fku/slacker/db/typeofhardware/Add.fxml", "Создание записи тип оборудования") {}
     }
 
     override fun onButtonClickEdit() {
-        showModal("/db/typeofhardware/Edit.fxml", "Редактирование записи тип оборудования") { controller ->
+        showModal("/ru/fku/slacker/db/typeofhardware/Edit.fxml", "Редактирование записи тип оборудования") { controller ->
             Data.updateDB()
             val result = Data.dbTypeOfHardware
                 .where { (TypeOfHardwares.id eq selectId) }
@@ -47,7 +47,7 @@ class DBTypeOfHardwareController(table : TableView2<TypeOfHardwareTable>, button
     }
 
     override fun onButtonClickDelete() {
-        showModal("/db/typeofhardware/Delete.fxml", "Удаление записи тип оборудования") { controller ->
+        showModal("/ru/fku/slacker/db/typeofhardware/Delete.fxml", "Удаление записи тип оборудования") { controller ->
             Data.updateDB()
             val result = Data.dbTypeOfHardware
                 .where { (TypeOfHardwares.id eq selectId) }

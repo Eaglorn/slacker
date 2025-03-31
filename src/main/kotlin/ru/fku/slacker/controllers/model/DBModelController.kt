@@ -40,7 +40,7 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
     }
 
     override fun onButtonClickAdd() {
-        showModal("/db/model/Add.fxml", "Создание записи модель") {
+        showModal("/ru/fku/slacker/db/model/Add.fxml", "Создание записи модель") {
             Data.updateDB()
             Data.dbMaker
                 .map { Maker.getRows(it) }
@@ -52,7 +52,7 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
     }
 
     override fun onButtonClickEdit() {
-        showModal("/db/model/Edit.fxml", "Редактирование записи модель") {
+        showModal("/ru/fku/slacker/db/model/Edit.fxml", "Редактирование записи модель") {
             Data.updateDB()
             val result = Data.dbModel
                 .where { (Models.id eq selectId) }
@@ -85,7 +85,7 @@ class DBModelController(table : TableView2<ModelTable>, buttonEdit : Button, but
     }
 
     override fun onButtonClickDelete() {
-        showModal("/db/model/Delete.fxml", "Удаление записи модель") {
+        showModal("/ru/fku/slacker/db/model/Delete.fxml", "Удаление записи модель") {
             Data.updateDB()
             val result = Data.dbModel
                 .where { (Models.id eq selectId) }

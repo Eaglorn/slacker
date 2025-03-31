@@ -49,13 +49,13 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
     }
 
     override fun onButtonClickAdd() {
-        showModal("/db/defect/Add.fxml", Data.textDict("DB.Create", tableName)) {
+        showModal("/ru/fku/slacker/db/defect/Add.fxml", Data.textDict("DB.Create", tableName)) {
             boxHardwareApply(Data.dbDefectController.formAddController.boxHardware)
         }
     }
 
     override fun onButtonClickEdit() {
-        showModal("/db/defect/Edit.fxml", Data.textDict("DB.Edit", tableName)) {
+        showModal("/ru/fku/slacker/db/defect/Edit.fxml", Data.textDict("DB.Edit", tableName)) {
             boxHardwareApply(Data.dbDefectController.formEditController.boxHardware)
             Data.updateDB()
             val result = Data.dbDefect
@@ -74,7 +74,7 @@ class DBDefectController(table : TableView2<DefectTable>, buttonEdit : Button, b
     }
 
     override fun onButtonClickDelete() {
-        showModal("/db/defect/Delete.fxml", Data.textDict("DB.Delete", tableName)) {
+        showModal("/ru/fku/slacker/db/defect/Delete.fxml", Data.textDict("DB.Delete", tableName)) {
             Data.updateDB()
             val result = Data.dbDefect
                 .where { Defects.id eq selectId }

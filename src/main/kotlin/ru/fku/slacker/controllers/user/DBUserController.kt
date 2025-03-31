@@ -30,11 +30,11 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
     }
 
     override fun onButtonClickAdd() {
-        showModal("/db/user/Add.fxml", "Создание записи составитель") {}
+        showModal("/ru/fku/slacker/db/user/Add.fxml", "Создание записи составитель") {}
     }
 
     override fun onButtonClickEdit() {
-        showModal("/db/user/Edit.fxml", "Редактирование записи составитель") {
+        showModal("/ru/fku/slacker/db/user/Edit.fxml", "Редактирование записи составитель") {
             Data.updateDB()
             val result = Data.dbUser
                 .where { (Users.id eq selectId) }
@@ -51,7 +51,7 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
     }
 
     override fun onButtonClickDelete() {
-        showModal("/db/user/Delete.fxml", "Удаление записи составитель") {
+        showModal("/ru/fku/slacker/db/user/Delete.fxml", "Удаление записи составитель") {
             Data.updateDB()
             val result = Data.dbUser
                 .where { Users.id eq selectId }

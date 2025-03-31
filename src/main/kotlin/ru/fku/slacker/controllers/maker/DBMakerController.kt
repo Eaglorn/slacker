@@ -31,11 +31,11 @@ class DBMakerController(table : TableView2<MakerTable>, buttonEdit : Button, but
     }
 
     override fun onButtonClickAdd() {
-        showModal("/db/maker/Add.fxml", Data.textDict("DB.Create", tableName)) {}
+        showModal("/ru/fku/slacker/db/maker/Add.fxml", Data.textDict("DB.Create", tableName)) {}
     }
 
     override fun onButtonClickEdit() {
-        showModal("/db/maker/Edit.fxml", Data.textDict("DB.Edit", tableName)) { controller ->
+        showModal("/ru/fku/slacker/db/maker/Edit.fxml", Data.textDict("DB.Edit", tableName)) { controller ->
             val result = Data.dbMaker
                 .where { (Makers.id eq selectId) }
                 .map { Maker.getRows(it) }
@@ -47,7 +47,7 @@ class DBMakerController(table : TableView2<MakerTable>, buttonEdit : Button, but
     }
 
     override fun onButtonClickDelete() {
-        showModal("/db/maker/Delete.fxml", Data.textDict("DB.Delete", tableName)) { controller ->
+        showModal("/ru/fku/slacker/db/maker/Delete.fxml", Data.textDict("DB.Delete", tableName)) { controller ->
             val result = Data.dbMaker
                 .where { (Makers.id eq selectId) }
                 .map { Maker.getRows(it) }

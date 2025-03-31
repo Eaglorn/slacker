@@ -2,6 +2,8 @@ package ru.fku.slacker
 
 import javafx.scene.Scene
 import org.controlsfx.control.Notifications
+import org.eclipse.collections.api.factory.Maps
+import org.eclipse.collections.api.map.MutableMap
 import org.ktorm.dsl.Query
 import org.ktorm.dsl.from
 import org.ktorm.dsl.select
@@ -36,8 +38,9 @@ class Data {
         lateinit var dbModel : Query
         lateinit var dbUser : Query
         lateinit var dbDefect : Query
-        val metMap : MutableMap<String, (Any) -> Any> = HashMap<String, (Any) -> Any>(100, 0.95f)
-        val dictMap : MutableMap<String, String> = HashMap<String, String>(100, 0.95f)
+
+        val metMap : MutableMap<String, (Any) -> Any> = Maps.mutable.empty<String, (Any) -> Any>()
+        val dictMap : MutableMap<String, String> = Maps.mutable.empty<String, String>()
 
         fun textDict(name : String, vararg par : String) : String? {
             var str : String? = dictMap[name]
@@ -65,9 +68,15 @@ class Data {
                     metMap["Table.Reload.$it"]?.invoke("")
                 }
             } else {
-                metMap
-                    .filter { it.component1().contains("Table.Reload.") }
-                    .forEach { it.value.invoke("") }
+                metMap.entries
+                .filter { (key, _) -> key.contains("Table.Reload.") }
+                    .forEach { (_, value) ->
+                        try {
+                            value.invoke("")
+                        } catch (e: Exception) {
+                            logger.error(e.message)
+                        }
+                    }
             }
         }
 
