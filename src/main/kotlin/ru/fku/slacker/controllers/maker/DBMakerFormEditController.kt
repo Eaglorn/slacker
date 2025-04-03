@@ -36,7 +36,7 @@ class DBMakerFormEditController : BaseFormController() {
             Data.showMessage("Warning", Data.textDict("DB.IsSelectRecord"))
         } else {
             val name = fieldName.text
-            if(name.isNotEmpty()) {
+            if (name.isNotEmpty()) {
                 Data.updateDB()
                 val result = Data.dbMaker
                     .where { (Makers.id eq Data.dbMakerController.selectId) }

@@ -69,11 +69,11 @@ class Data {
                 }
             } else {
                 metMap.entries
-                .filter { (key, _) -> key.contains("Table.Reload.") }
+                    .filter { (key, _) -> key.contains("Table.Reload.") }
                     .forEach { (_, value) ->
                         try {
                             value.invoke("")
-                        } catch (e: Exception) {
+                        } catch (e : Exception) {
                             logger.error(e.message)
                         }
                     }

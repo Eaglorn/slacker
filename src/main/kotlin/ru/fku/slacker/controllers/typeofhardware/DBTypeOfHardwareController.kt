@@ -34,7 +34,10 @@ class DBTypeOfHardwareController(table : TableView2<TypeOfHardwareTable>, button
     }
 
     override fun onButtonClickEdit() {
-        showModal("/ru/fku/slacker/db/typeofhardware/Edit.fxml", "Редактирование записи тип оборудования") { controller ->
+        showModal(
+            "/ru/fku/slacker/db/typeofhardware/Edit.fxml",
+            "Редактирование записи тип оборудования"
+        ) { controller ->
             Data.updateDB()
             val result = Data.dbTypeOfHardware
                 .where { (TypeOfHardwares.id eq selectId) }

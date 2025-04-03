@@ -2,10 +2,7 @@ package ru.fku.slacker.controllers.model
 
 import javafx.fxml.FXML
 import javafx.scene.control.TextField
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.apache.commons.io.FileUtils
-import org.controlsfx.control.Notifications
 import org.controlsfx.control.SearchableComboBox
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.map
@@ -47,7 +44,7 @@ class DBModelFormEditController : BaseFormController() {
             val name = fieldName.text
             val maker = boxMaker.selectionModel.selectedItem
             val typeOfHardware = boxTypeOfHardware.selectionModel.selectedItem
-            if(name.isNotEmpty() && maker.isNotEmpty() && typeOfHardware.isNotEmpty()) {
+            if (name.isNotEmpty() && maker.isNotEmpty() && typeOfHardware.isNotEmpty()) {
                 Data.updateDB()
                 val result = Data.dbModel
                     .where { (Models.id eq Data.dbModelController.selectId) }

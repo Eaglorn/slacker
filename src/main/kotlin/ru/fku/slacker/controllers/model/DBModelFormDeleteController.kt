@@ -2,10 +2,7 @@ package ru.fku.slacker.controllers.model
 
 import javafx.fxml.FXML
 import javafx.scene.control.TextField
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.apache.commons.io.FileUtils
-import org.controlsfx.control.Notifications
 import org.ktorm.dsl.delete
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.map

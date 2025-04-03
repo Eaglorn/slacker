@@ -1,7 +1,7 @@
 plugins {
     id("java")
     id("application")
-    id("org.jetbrains.kotlin.jvm") version "2.1.10"
+    id("org.jetbrains.kotlin.jvm") version "2.1.20"
     id("org.openjfx.javafxplugin") version "0.1.0"
     id("org.beryx.runtime") version "1.13.1"
     id("org.springframework.boot") version "3.4.3"
@@ -24,52 +24,40 @@ kotlin {
     jvmToolchain(23)
 }
 
-val kotlin_version = "2.1.10"
-val kotlinx_coroutines_version = "1.10.1"
-val ktorm_version = "4.1.1"
-val sqlite_jdbc_version = "3.49.1.0"
-val controls_fx_version = "11.2.2"
-val tiles_fx_version = "21.0.9"
-val log4j_version = "2.24.3"
-val disruptor_version = "4.0.0"
-val gson_vesrion = "2.12.1"
-val commons_io_version = "2.18.0"
-val apache_poi_ooxml_version = "5.4.0"
-val reflections_version = "4.16.0.Final"
-val spring_version = "3.4.3"
-val kotlin_reflect_version = "2.1.10"
-val korge_version = "5.1.0"
-val eclipse_collections = "11.1.0"
+val kotlinVersion = "2.1.20"
+val kotlinxCoroutinesVersion = "1.10.1"
+val ktormVersion = "4.1.1"
+val sqliteJdbcVersion = "3.49.1.0"
+val controlsFxVersion = "11.2.2"
+val log4jVersion = "2.24.3"
+val gsonVersion = "2.12.1"
+val commonsIoVersion = "2.18.0"
+val apachePoiOoxmlVersion = "5.4.0"
+val springVersion = "3.4.4"
+val eclipseCollections = "11.1.0"
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
-    implementation("org.controlsfx:controlsfx:$controls_fx_version")
-    implementation("eu.hansolo:tilesfx:$tiles_fx_version")
-    implementation("org.ktorm:ktorm-core:$ktorm_version")
-    implementation("org.ktorm:ktorm-support-sqlite:$ktorm_version")
-    implementation("org.xerial:sqlite-jdbc:$sqlite_jdbc_version")
-    implementation("org.apache.logging.log4j:log4j-api:$log4j_version")
-    implementation("org.apache.logging.log4j:log4j-core:$log4j_version")
-    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4j_version")
-    implementation("com.lmax:disruptor:$disruptor_version")
-    implementation("com.google.code.gson:gson:$gson_vesrion")
-    implementation("commons-io:commons-io:$commons_io_version")
-    implementation("org.apache.poi:poi-ooxml:$apache_poi_ooxml_version")
-    implementation("org.jboss.errai.reflections:reflections:$reflections_version")
-    implementation("org.springframework.boot:spring-boot-starter:$spring_version") {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+    implementation("org.controlsfx:controlsfx:$controlsFxVersion")
+    implementation("org.ktorm:ktorm-core:$ktormVersion")
+    implementation("org.ktorm:ktorm-support-sqlite:$ktormVersion")
+    implementation("org.xerial:sqlite-jdbc:$sqliteJdbcVersion")
+    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+    implementation("com.google.code.gson:gson:$gsonVersion")
+    implementation("commons-io:commons-io:$commonsIoVersion")
+    implementation("org.apache.poi:poi-ooxml:$apachePoiOoxmlVersion")
+    implementation("org.springframework.boot:spring-boot-starter:$springVersion") {
         exclude("org.springframework.boot","spring-boot-starter-logging")
     }
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_reflect_version")
-    implementation("com.soywiz.korge:korge-foundation:$korge_version")
-    implementation("com.soywiz.korge:korge-core:$korge_version")
-    implementation("org.eclipse.collections:eclipse-collections-api:$eclipse_collections")
-    implementation("org.eclipse.collections:eclipse-collections:$eclipse_collections")
+    implementation("org.eclipse.collections:eclipse-collections-api:$eclipseCollections")
+    implementation("org.eclipse.collections:eclipse-collections:$eclipseCollections")
 }
 
 javafx {
     version = "24"
-    //modules("javafx.controls", "javafx.fxml", "javafx.web", "javafx.swing")
     modules = listOf("javafx.controls", "javafx.fxml")
 }
 
