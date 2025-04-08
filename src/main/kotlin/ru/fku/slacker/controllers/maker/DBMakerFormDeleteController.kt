@@ -54,7 +54,7 @@ class DBMakerFormDeleteController : BaseFormController() {
                 FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                 Data.run {
                     updateDB()
-                    reloadTable("Maker", "Model")
+                    reloadTable(tableName, "Model")
                     dbMakerController.formStage.close()
                 }
             }

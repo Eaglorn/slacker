@@ -25,19 +25,19 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
     override fun reloadTable() {
         table.items.clear()
         Data.dbUser
-            .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
+            .map { User.getRows(it) }
             .forEach { table.items.add(UserTable(it.id, it.name, it.post, it.address)) }
     }
 
     override fun onButtonClickAdd() {
-        showModal("/ru/fku/slacker/db/user/Add.fxml", "Создание записи составитель") {}
+        showModal("/ru/fku/slacker/db/user/Add.fxml", Data.textDict("DB.Create", tableName)) {}
     }
 
     override fun onButtonClickEdit() {
-        showModal("/ru/fku/slacker/db/user/Edit.fxml", "Редактирование записи составитель") {
+        showModal("/ru/fku/slacker/db/user/Edit.fxml", Data.textDict("DB.Edit", tableName)) {
             Data.updateDB()
             val result = Data.dbUser
-                .where { (Users.id eq selectId) }
+                .where { Users.id eq selectId }
                 .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
                 .firstOrNull()
             result?.let {
@@ -51,7 +51,7 @@ class DBUserController(table : TableView2<UserTable>, buttonEdit : Button, butto
     }
 
     override fun onButtonClickDelete() {
-        showModal("/ru/fku/slacker/db/user/Delete.fxml", "Удаление записи составитель") {
+        showModal("/ru/fku/slacker/db/user/Delete.fxml", Data.textDict("DB.Delete", tableName)) {
             Data.updateDB()
             val result = Data.dbUser
                 .where { Users.id eq selectId }

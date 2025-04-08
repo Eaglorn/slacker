@@ -46,7 +46,7 @@ class DBMakerFormEditController : BaseFormController() {
                     Data.showMessage("Warning", Data.textDict("DB.IsSelectId"))
                 } else {
                     val result1 = Data.dbMaker
-                        .where { (Makers.name eq name) }
+                        .where { Makers.name eq name }
                         .map { Maker.getRows(it) }
                         .firstOrNull()
                     if (result1 == null) {
@@ -58,7 +58,7 @@ class DBMakerFormEditController : BaseFormController() {
                         FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
                         Data.run {
                             updateDB()
-                            reloadTable("Maker", "Model")
+                            reloadTable(tableName, "Model")
                             dbMakerController.formStage.close()
                         }
                     } else {

@@ -13,6 +13,7 @@ import ru.fku.slacker.controllers.SettingController
 import ru.fku.slacker.controllers.SlackerController
 import ru.fku.slacker.controllers.defect.DBDefectController
 import ru.fku.slacker.controllers.maker.DBMakerController
+import ru.fku.slacker.controllers.manager.DBManagerController
 import ru.fku.slacker.controllers.model.DBModelController
 import ru.fku.slacker.controllers.typeofhardware.DBTypeOfHardwareController
 import ru.fku.slacker.controllers.user.DBUserController
@@ -31,12 +32,14 @@ class Data {
         lateinit var dbTypeOfHardwareController : DBTypeOfHardwareController
         lateinit var dbModelController : DBModelController
         lateinit var dbUserController : DBUserController
+        lateinit var dbManagerController : DBManagerController
         lateinit var dbDefectController : DBDefectController
         lateinit var scene : Scene
         lateinit var dbMaker : Query
         lateinit var dbTypeOfHardware : Query
         lateinit var dbModel : Query
         lateinit var dbUser : Query
+        lateinit var dbManager : Query
         lateinit var dbDefect : Query
 
         val metMap : MutableMap<String, (Any) -> Any> = Maps.mutable.empty<String, (Any) -> Any>()
@@ -58,6 +61,7 @@ class Data {
                 dbTypeOfHardware = it.from(TypeOfHardwares).select()
                 dbModel = it.from(Models).select()
                 dbUser = it.from(Users).select()
+                dbManager = it.from(Managers).select()
                 dbDefect = it.from(Defects).select()
             }
         }

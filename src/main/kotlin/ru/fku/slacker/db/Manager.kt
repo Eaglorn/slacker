@@ -16,32 +16,31 @@ import ru.fku.slacker.Data
 import ru.fku.slacker.utils.Identifiable
 import ru.fku.slacker.utils.SqliteDatabase
 
-@Component("DB.Class.User")
-data class User(val id : Int?, val name : String?, val post : String?, val address : String?) {
+@Component("DB.Class.Manager")
+data class Manager(val id : Int?, val name : String?, val post : String?) {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
     companion object {
-        fun getRows(row : QueryRowSet) : User {
-            return User(row[Users.id], row[Users.name], row[Users.post], row[Users.address])
+        fun getRows(row : QueryRowSet) : Manager {
+            return Manager(row[Managers.id], row[Managers.name], row[Managers.post])
         }
     }
 
     @Suppress("unused")
-    @Bean(name = ["DB.Create.User"])
+    @Bean(name = ["DB.Create.Manager"])
     fun createDatabase() : Boolean {
         if (Data.config.pathDB.isNotEmpty()) {
             val database = SqliteDatabase.connect(Data.config.pathDB)
             database.useConnection { conn ->
                 val tableExists = conn.createStatement()
-                    .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='user'").next()
+                    .executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='manager'").next()
                 if (! tableExists) {
                     val sql = """
-                            CREATE TABLE user (
+                            CREATE TABLE manager (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 name TEXT NOT NULL,
-                                post TEXT NOT NULL,
-                                address TEXT NOT NULL
+                                post TEXT NOT NULL
                             );
                         """
                     conn.createStatement().executeUpdate(sql.trimIndent())
@@ -52,21 +51,19 @@ data class User(val id : Int?, val name : String?, val post : String?, val addre
     }
 }
 
-object Users : BaseTable<User>("user") {
+object Managers : BaseTable<Manager>("manager") {
     val id = int("id").primaryKey()
     val name = text("name")
     val post = text("post")
-    val address = text("address")
 
-    override fun doCreateEntity(row : QueryRowSet, withReferences : Boolean) = User(
+    override fun doCreateEntity(row : QueryRowSet, withReferences : Boolean) = Manager(
         id = row[id] ?: 0,
         name = row[name].orEmpty(),
         post = row[post].orEmpty(),
-        address = row[address].orEmpty(),
     )
 }
 
-class UserTable(id : Int?, name : String?, post : String?, address : String?) : Identifiable {
+class ManagerTable(id : Int?, name : String?, post : String?) : Identifiable {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -100,16 +97,6 @@ class UserTable(id : Int?, name : String?, post : String?, address : String?) : 
         return post.get()
     }
 
-    private var address : StringProperty = SimpleStringProperty(this, "address", "")
-
-    private fun setAddress(value : String) {
-        address.set(value)
-    }
-
-    fun getAddress() : String {
-        return address.get()
-    }
-
     init {
         id?.let {
             this.setId(it)
@@ -119,9 +106,6 @@ class UserTable(id : Int?, name : String?, post : String?, address : String?) : 
         }
         post?.let {
             this.setPost(it)
-        }
-        address?.let {
-            this.setAddress(it)
         }
     }
 }

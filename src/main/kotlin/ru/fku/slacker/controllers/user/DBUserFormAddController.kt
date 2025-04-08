@@ -6,7 +6,6 @@ import javafx.scene.control.TextField
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.apache.commons.io.FileUtils
-import org.controlsfx.control.Notifications
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.insert
 import org.ktorm.dsl.map
@@ -15,12 +14,13 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ru.fku.slacker.Config
 import ru.fku.slacker.Data
+import ru.fku.slacker.controllers.BaseFormController
 import ru.fku.slacker.db.User
 import ru.fku.slacker.db.Users
 import ru.fku.slacker.utils.SqliteDatabase
 import java.io.File
 
-class DBUserFormAddController {
+class DBUserFormAddController : BaseFormController() {
     @Suppress("unused")
     private val logger : Logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -33,34 +33,42 @@ class DBUserFormAddController {
     @FXML
     private lateinit var areaAddress : TextArea
 
+    init {
+        tableName = "Defect"
+    }
+
     @Suppress("unused")
     @FXML
     private fun onButtonClickAdd() {
         runBlocking {
             launch {
-                Data.updateDB()
-                val result = Data.dbUser
-                    .where { (Users.name eq fieldName.text) }
-                    .map { row -> User(row[Users.id], row[Users.name], row[Users.post], row[Users.address]) }
-                    .firstOrNull()
-                if (result == null) {
-                    val database = SqliteDatabase.connect(Data.config.pathDB)
-                    database.insert(Users) {
-                        set(it.name, fieldName.text)
-                        set(it.post, fieldPost.text)
-                        set(it.address, areaAddress.text)
-                    }
-                    FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
-                    Data.run {
-                        updateDB()
-                        reloadTable("User")
-                        dbUserController.formStage.close()
+                val name = fieldName.text
+                val post = fieldPost.text
+                val address = areaAddress.text
+                if (name.isNotEmpty() && post.isNotEmpty() && address.isNotEmpty()) {
+                    Data.updateDB()
+                    val result = Data.dbUser
+                        .where { Users.name eq name }
+                        .map { User.getRows(it) }
+                        .firstOrNull()
+                    if (result == null) {
+                        val database = SqliteDatabase.connect(Data.config.pathDB)
+                        database.insert(Users) {
+                            set(it.name, name)
+                            set(it.post, post)
+                            set(it.address, address)
+                        }
+                        FileUtils.copyFile(File(Data.config.pathDB), File(Config.pathDBLocal))
+                        Data.run {
+                            updateDB()
+                            reloadTable(tableName)
+                            dbUserController.formStage.close()
+                        }
+                    } else {
+                        Data.showMessage("Warning", Data.textDict("DB.IsIndentFields", tableName))
                     }
                 } else {
-                    Notifications.create()
-                        .title("Предупреждение!")
-                        .text("Запись с введённым ФИО уже существует.")
-                        .showWarning()
+                    Data.showMessage("Warning", Data.textDict("DB.IsEmptyFields"))
                 }
             }
         }
